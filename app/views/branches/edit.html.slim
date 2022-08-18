@@ -1,0 +1,14 @@
+div.row
+  div.col-md-12
+    div class="card"
+      div class="card-header text-white bg-secondary mb-3" 
+        h4  = t('activerecord.attributes.branch.edit')
+      div class="card-body"
+        == render 'shared/errors', obj: @branch
+        = form_for @branch, url: branch_path do |f|
+          == render 'branches/form', f: f
+          = f.submit  t('activerecord.attributes.link.update'), class:"btn btn-success button-margin"
+br
+br
+= link_to :back do 
+  button class="btn btn-secondary button-margin" = t("activerecord.attributes.link.back")

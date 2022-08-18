@@ -1,0 +1,19 @@
+div
+    
+= link_to t('activerecord.attributes.link.back'), branches_path, class:"btn btn-secondary btn-sm"
+
+javascript:
+  jQuery(function(){
+    var params = (new URL(document.location)).searchParams;
+    var target = params.get('target');
+    if (target == "user") {
+      $(`.staff`).css('background-color', '#DDDDDD');
+      $(`.room`).css('background-color', '#DDDDDD');
+    } else if ( target == "staff") {
+      $(`.user`).css('background-color', "#DDDDDD" );
+      $(`.room`).css('background-color', '#DDDDDD');
+    } else if ( target == "room"){
+      $(`.user`).css('background-color', "#DDDDDD" );
+      $(`.staff`).css('background-color', '#DDDDDD');
+    }
+  }) 

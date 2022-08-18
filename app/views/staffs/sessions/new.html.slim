@@ -1,0 +1,22 @@
+div.container
+  div.row
+    div.col-md-6
+      div class="card button-margin"
+        h5 class="card-header staff-title-color mb-3" = t('activerecord.attributes.staff.login')
+        div class="card-body"
+          = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+            div.form-group
+              label = t('activerecord.attributes.staff.email')
+              = f.text_field :email, autofocus: true, class:"form-control"
+            br
+            div.form-group
+              label = t('activerecord.attributes.common.password')
+              = f.password_field :password, autocomplete: "off", class:"form-control"
+
+            - if devise_mapping.rememberable?
+                div.form-group
+                  = f.check_box :remember_me
+                  span = t('activerecord.attributes.link.remember_login')
+            div.actions
+              = f.submit t('activerecord.attributes.link.login'), class:"btn btn-success button-margin"
+        = render "staffs/shared/links"

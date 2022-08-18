@@ -1,0 +1,165 @@
+en:
+  app_name: Yotech
+  will_paginate:
+    previous_label: Previous
+    next_label: Next
+    page_gap: _
+  enum:
+    staff:
+      status:
+        general: General
+        admin: Admin
+
+  activerecord:
+    errors:
+      messages:
+        blank: "can't be blank"
+        invalid: "is invalid data"
+        confirmation: "doesn't match"
+        too_short: "is too short"
+      models:
+        student:
+          attributes:
+            email:
+              taken: "is used by other students"
+      timeframe:
+        color:
+          red: レッド
+          dodgerblue: ブルー
+          orange: オレンジ
+          blueviolet: パープル
+          brown: ブラウン
+          forestgreen: グリーン
+          gray: グレー
+          deepskyblue: スカイブルー
+          pink: ピンク
+
+    attributes:
+      company:
+        new_registration: New Company Registration
+        edit_registration: Edit Company Information
+        login: Company Login
+        signin: Company Registration
+        name: name
+        address: Address
+        phone: Phone Number
+        create: Create Company's information
+        email: Email Address
+
+      link:
+        dashboard: Dashboard
+        edit: Edit
+        create: Create
+        update: Update
+        updated: The information has been updated
+        register: Register
+        login: Log in
+        delete: Delete
+        create: Create
+        failed_to_create: Failed to create
+        created: The information has been created
+        edit_information: Update my information
+        logout: Logout
+        admin: Manager
+        finance: Finance
+        free_registration: Free student Registration
+        forgot_password: Forgot your password?
+        reset_password: Send reset password instructions to the email
+        back: Go Back
+        edit_other_info: Edit Other Information
+        update_shift: Update shift
+        whole: All schools
+        your_school: Your school
+        save: Save
+        remember_login: Remember login information?
+        detail: Detail
+        delete: Delete
+        deleted: Deleted
+        are_you_sure: Are you sure to delete this?
+        add: Add
+        send: Send
+        delete: Delete
+        account: Account
+
+
+      common:
+        password: Password
+        password_confirmation: Password Confirmation
+        to_login: Go to Login Page
+        password_length: More than 6 letters
+        japanese: Japanese
+        english: English
+
+      company:
+        name: Name
+        address: Address
+        phone: Phone Number
+        create: Create Company
+        id: Company's ID
+        secret_code: Company's code
+        edit_information: Change registration information
+        user_page: User Page
+        staff_page: Staff Page
+
+      user:
+        title: User
+        new_registration: New User Registration
+        edit_registration: Edit User Information
+        login: User Login
+        signin: User Registration
+        name: Name
+        email: Email Address
+        phone: Phone Nunmber
+        go_to_registration_page: Go to user creation page
+
+      staff:
+        title: Staff
+        new_registration: New Staff Registration
+        edit_registration: Edit Staff Information
+        login: Staff Login
+        signin: Staff Registration
+        name: Name
+        email: Email Address
+        phone: Phone Nunmber
+        status: Position
+        go_to_registration_page: Go to staff creation page
+      
+      branch:
+       title: Branch
+       name: Branch Name
+       address: Address
+       phone: Phone NUmber
+       create: Create Branch
+       edit: Edit Branch Information
+
+      room:
+        title: Reservation Space
+        name: Name
+        create: Create Reservation Space
+      
+      timeframe:
+        title: Time frame
+        name: Name
+        target_date: Target date
+        start_time: Starting time
+        end_time: Ending time
+        capacity: Capacity
+        color: Color
+        create: Create Timeframe
+        room: Reservation Space
+        opening_time: Opening Time
+
+
+      language:
+        setting: Language Setting
+        japanese: Japanese
+        english: English
+
+      date:
+        mon: Monday
+        tue: Tuesday
+        wed: Wednesday
+        thu: Thursday
+        fri: Friday
+        sat: Saturday
+        sun: Sunday

@@ -1,0 +1,21 @@
+div
+  = link_to t('activerecord.attributes.branch.create'), new_branch_path, class:"btn btn-primary button-margin"
+
+table class="table table-bordered"
+  thead class="thead-dark table-active "
+    tr
+      th = t('activerecord.attributes.branch.name')
+      th = t('activerecord.attributes.branch.address')
+      th = t('activerecord.attributes.branch.phone')
+      th
+
+  tbody
+    - @branches.each do |b| 
+      tr
+        td = b.name
+        td = b.address
+        td = b.phone
+        td = link_to t('activerecord.attributes.link.edit'), edit_branch_path(id: b.id), class:"btn btn-success"
+
+
+

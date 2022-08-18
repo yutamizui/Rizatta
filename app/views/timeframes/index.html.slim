@@ -1,0 +1,66 @@
+div
+  = link_to t('activerecord.attributes.timeframe.create'), new_timeframe_path(branch_id: params[:branch_id]), class:"btn btn-primary button-margin"
+
+br
+- if @branches.count > 0
+  - @branches.each do |b|
+    span#branch-button
+      = link_to b.name, timeframes_path(branch_id: b.id, style: params[:style]), class:"btn btn-secondary button-margin", name:"#{b.id}"
+  div.row.nondisplay-print
+    div.col-md-10.nondisplay-print.text-right
+      = link_to '一覧表示', timeframes_path(branch_id: params[:branch_id], style: "list_view"), class:"btn btn-default button-margin-sm"
+      = link_to 'カレンダー表示', timeframes_path(branch_id: params[:branch_id], style: "calendar_view"), class:"btn btn-default button-margin-sm"
+
+- if params[:style] == "list_view"
+  table class="table table-bordered"
+    thead class="thead-dark table-active "
+      tr
+        th = t('activerecord.attributes.timeframe.name')
+        th = t('activerecord.attributes.timeframe.target_date')
+        th = t('activerecord.attributes.timeframe.opening_time')
+        th = t('activerecord.attributes.timeframe.capacity')
+        th 
+    tbody
+      - @timeframes.each do |t| 
+        tr
+          td = t.name
+          td = t.target_date.strftime("%m/%d (#{%w(日 月 火 水 木 金 土)[t.target_date.wday]})")
+          td 
+            = t.start_time.strftime("%H:%M")
+            = " ~ "
+            = t.end_time.strftime("%H:%M")
+          td 
+            = t.capacity
+            = "名"
+          td = link_to t('activerecord.attributes.link.edit'), edit_timeframe_path(id: t.id), class:"btn btn-success"
+
+
+  javascript:
+    jQuery(function(){
+      var params = (new URL(document.location)).searchParams;
+      var branch_id = params.get('branch_id');
+      $('#branch-button a').each(function(){
+        var buttontype = $(this).attr('name');
+        if( buttontype == branch_id ){
+          $( $(this)).addClass("btn-company");
+        }
+      });
+    }) 
+- else 
+  div.col-md-12
+    ul.nav.nav-tabs#reservation_tab
+      - @days.each do |day|
+        li
+          = link_to day.strftime("%m/%d (#{%w(日 月 火 水 木 金 土)[day.wday]})"), timeframes_path(day: day, week: @week, branch_id: params[:branch_id]), class:"btn btn-info"
+
+    div.tab-content
+      div#home
+        div.calendar_title_sm
+          span = @day.strftime("%m/%d (#{%w(日 月 火 水 木 金 土)[@day.wday]})")
+          span のレッスン予定
+        div.col-md-12
+          = render 'calendar', start_day: @day, branch_id: params[:branch_id]
+          br
+          = link_to "前の週", timeframes_path(branch_id: params[:branch_id], week: @week - 1, room: @rooms, day: @day-7), class:"btn btn-danger btn-sm" if @week >= 1
+          = link_to "次の週", timeframes_path(branch_id: params[:branch_id], week: @week + 1, room: @rooms, day: @day+7), class:"btn btn-danger btn-sm pull-right"
+

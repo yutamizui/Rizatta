@@ -1,0 +1,164 @@
+@import "bootstrap-sprockets";
+@import "toastr";
+@import "dropzone/dropzone";
+@import 'bootstrap';
+@import 'bootstrap-datepicker';
+@import "lightbox-bootstrap";
+@import "toastr";
+@import "font-awesome-sprockets";
+@import "font-awesome";
+
+.app-title {
+  font-size: 3rem!important;
+  margin: 20px 0px 0px 0px!important;
+}
+
+body {
+  font-size: 1.5rem!important;
+}
+
+.btn {
+  font-size: 1.5rem!important;
+  padding: 0.5rem 1rem!important ;
+}
+
+.form-control {
+  font-size: 1.5rem!important;
+}
+
+.navbar {
+  padding-top: 0!important;
+  padding-bottom: 0!important;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  font-size: 1.5rem!important;
+}
+
+.button-color {
+  color: bisque;
+  font-family: 'Cormorant Garamond', serif;
+}
+ 
+.button-margin {
+  margin: 10px;
+}
+ 
+.user-title-color {
+  background-color: rgb(28, 160, 241)!important;
+  color: floralwhite;
+}
+ 
+.staff-title-color {
+  background-color: rgb(30, 187, 156)!important;
+  color: floralwhite;
+}
+
+.company-title-color {
+  background-color: rgb(233, 81, 16)!important;
+  color: floralwhite;
+}
+
+.btn-company { 
+  background-color: rgb(250, 81, 16)!important;
+  color: white!important;
+}
+ 
+.button-underline a {
+  text-decoration: none;
+}
+ 
+.no-underline {
+  text-decoration:none !important;
+}
+
+.used-button-background {
+  background-color: rgb(229, 131, 19)!important;
+}
+
+.unused-button-background {
+  background-color: rgb(180, 185, 189)!important;
+}
+
+.button-right {
+  float: right;
+}
+
+
+/*######################################### dashboardvertical_navbar start ############################################### */
+
+@media (min-width: 768px) {
+  .sidebar-nav.dashboard .navbar .navbar-collapse {
+    padding: 0;
+    max-height: none;
+  }
+  .sidebar-nav.dashboard .navbar ul {
+    float: none;
+  }
+  .sidebar-nav.dashboard .navbar ul:not {
+    display: block;
+  }
+  .sidebar-nav.dashboard .navbar li {
+    float: none;
+    display: block;
+  }
+  .sidebar-nav.dashboard .navbar li a {
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+}
+
+.sidebar-nav.dashboard .navbar-default .navbar-nav > li  {
+    color: #222;
+    font-size: 14px;
+}
+
+.sidebar-nav.dashboard .navbar-default .navbar-nav > li{
+    border-right: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    background-color: #fff;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.text {
+  display: teble-cell;
+}
+.navbar-nav a {
+  text-decoration: none;
+  color: black;
+}
+
+.sidebar-nav.dashboard .navbar-default .navbar-nav > li:first-child {
+    border-top: 1px solid #ddd;
+}
+
+.sidebar-nav.dashboard .navbar-toggle {
+    background-color: #337ab7;
+}
+
+.active {
+  background-color: #DDDDDD!important;
+}
+
+.navbar-default .navbar-nav > .active > a, 
+.navbar-default .navbar-nav > .active > a:hover, 
+.navbar-default .navbar-nav > .active > a:focus {
+  color: #555555;
+  background-color: #DDDDDD;
+}
+
+
+
+
+
+/*######################################### dashboardvertical_navbar end ############################################### */
+
+
+#output {
+  width:50px; height:50px;
+  margin:10px; padding:5px; border:1px solid black;
+}
+
+

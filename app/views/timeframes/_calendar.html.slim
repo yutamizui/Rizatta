@@ -1,0 +1,154 @@
+- skip_counter = Array.new(7){Array.new(Room.count,0)}
+- display_rooms = @room ? [@room] : @rooms
+div.row
+  .col-md-12#table-container
+    table#lesson_table
+      tr#lesson_day
+        th
+        - @days.each do |day|
+          th[colspan="#{display_rooms.count} "]
+            = day.strftime("%m/%d (#{%w(日 月 火 水 木 金 土)[day.wday]})")
+      tr#classroom_name
+        td
+        - @days.each do |day|
+          - display_rooms.each do |room|
+            td#classroom_name_title[style="font-size: 70%;"]
+              = room.name
+        - tr_counter = 0
+        - (@school.calendar_start_time.to_i...@school.calendar_end_time.to_i).step(Lesson::LESSON_SPAN * 60) do |time|
+/         - tr_counter += 1
+/         tr class=((tr_counter - 1) % 12 == 0 ? 'time_schedule border' : 'time_schedule')
+/           - if Time.at(time).min == 0
+/             th [rowspan="#{60/Lesson::LESSON_SPAN}"]
+/               = Time.at(time).strftime("%H:%M")
+
+/           - wdays_num = (0..6)
+/           - wdays_num.each do |wday|
+/             - display_rooms.each_with_index do |classroom, index|
+/               - if skip_counter[wday][index] > 0
+/                 - skip_counter[wday][index] -= 1
+/               - else
+/                 - available_lesson = nil
+
+/                 - lessons.each do |lesson|
+/                   - if lesson.start_time.strftime('%H:%M') == Time.at(time).strftime('%H:%M') && lesson.date.strftime('%m/%d (%a)') == @days[wday].strftime('%m/%d (%a)') && lesson.classroom_id == classroom.id
+/                     - available_lesson = lesson
+
+/                 - if available_lesson.present?
+/                   - lesson_length = (available_lesson.end_time - available_lesson.start_time)/60/Lesson::LESSON_SPAN
+/                   td.lesson_chart[class="#{available_lesson.color}"rowspan="#{lesson_length}" ]
+/                     div
+/                       - capacity = available_lesson.capacity - (available_lesson.student_lessons.count + available_lesson.user_lessons.count)
+/                       - if current_user.present? && current_user.school.present? && controller.controller_name == "lessons" && controller.action_name == "admin_calendar"
+/                         = link_to available_lesson.name, attendance_lessons_path(lesson_id: available_lesson.id)
+/                         br
+/                         = available_lesson.start_time.strftime('%H:%M')
+/                         br
+/                         - if capacity.to_i > 0
+/                           | 残り
+/                           = capacity
+/                           | 枠
+/                         - else
+/                           | 満員
+/                         br
+/                         div class="collapse" class="collapseExample"
+/                           div class="card card-body"
+/                             - available_lesson.student_lessons.each do |student_lesson|
+/                               span.name_size = student_lesson.student.last_name + student_lesson.student.first_name
+/                               br
+/                             - available_lesson.user_lessons.each do |user_lesson|
+/                               span.name_size.trial_student_name = user_lesson.name
+/                               br
+
+/                       - elsif current_user.present? && current_user.school.present? && controller.controller_name == "lessons" && controller.action_name == "index"
+/                         = link_to available_lesson.name, admin_list_lessons_path(available_lesson)
+/                         br
+/                         = available_lesson.start_time.strftime('%H:%M')
+/                         br
+/                         - if capacity.to_i > 0
+/                           | 残り
+/                           = capacity
+/                           | 枠
+/                         - else
+/                           | 満員
+/                         br
+/                         div class="collapse" class="collapseExample"
+/                           div class="card card-body"
+/                             - available_lesson.student_lessons.each do |student_lesson|
+/                               span.name_size = student_lesson.student.last_name + student_lesson.student.first_name
+/                               br
+/                             - available_lesson.user_lessons.each do |user_lesson|
+/                               span.name_size.trial_student_name = user_lesson.name
+/                               br
+
+/                       - elsif current_user.present? && current_user.school.present?
+/                         = link_to available_lesson.name, edit_lesson_path(available_lesson)
+/                         br
+/                         = available_lesson.start_time.strftime('%H:%M')
+/                         br
+/                         - if capacity.to_i > 0
+/                           | 残り
+/                           = capacity
+/                           | 枠
+/                         - else
+/                           | 満員
+/                         br
+/                         = link_to lesson_path(available_lesson), method: :delete, data: {confirm: "本当に削除しますか？"} do
+/                           <i class="fa fa-trash" aria-hidden="true"></i>
+/                         br
+/                         div class="collapse" class="collapseExample"
+/                           div class="card card-body"
+/                             - available_lesson.student_lessons.each do |student_lesson|
+/                               span.name_size = student_lesson.student.last_name + student_lesson.student.first_name
+/                               br
+/                             - available_lesson.user_lessons.each do |user_lesson|
+/                               span.name_size.trial_student_name = user_lesson.name
+/                               br
+
+/                       - elsif current_user.present? && current_user.school.blank? && current_student.blank?
+/                         = link_to available_lesson.name, new_user_lesson_path(lesson_id: available_lesson.id, school_id: available_lesson.school_id)
+/                         br
+/                         = available_lesson.start_time.strftime('%H:%M')
+/                         br
+/                         - if capacity.to_i > 0
+/                           | 残り
+/                           = capacity
+/                           | 枠
+/                         - else
+/                           | 満員
+/                         br
+/                         div class="collapse" class="collapseExample"
+/                           div class="card card-body"
+/                             - available_lesson.student_lessons.each do |student_lesson|
+/                               span.name_size = student_lesson.student.last_name + student_lesson.student.first_name
+/                               br
+/                             - available_lesson.user_lessons.each do |user_lesson|
+/                               span.name_size.trial_student_name = user_lesson.name
+/                               br
+/                       - elsif current_user.blank? && current_student.blank?
+/                         = link_to available_lesson.name,  new_user_session_path, data: {confirm:"認証できませんでした。ログインしてから再度お試しください。。無料ユーザー登録がお済みでない場合はご登録を先に行ってください。"}
+/                         br
+/                         = available_lesson.start_time.strftime('%H:%M')
+/                         br
+/                         - if capacity.to_i > 0
+/                           | 残り
+/                           = capacity
+/                           | 枠
+/                         - else
+/                           | 満員
+/                         br
+/                       - elsif current_user.blank? && current_student.present?
+/                         = link_to available_lesson.name, new_general_student_lesson_path(lesson_id: available_lesson.id, school_id: current_student.school_id)
+/                         br
+/                         = available_lesson.start_time.strftime('%H:%M')
+/                         br
+/                         - if capacity.to_i > 0
+/                           | 残り
+/                           = capacity
+/                           | 枠
+/                         - else
+/                           | 満員
+
+/                     - skip_counter[wday][index] = lesson_length-1
+/                 - else
+/                   td

@@ -1,0 +1,39 @@
+- @page_title = "ユーザー情報変更"
+div.container
+  div.row
+    div.col-md-6
+      div class="card button-margin"
+        h4 class="card-header user-title-color" = t('activerecord.attributes.staff.edit_registration')
+        div class="card-body"
+          = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
+            = devise_error_messages
+            div.form-group
+              = f.label t('activerecord.attributes.staff.name')
+              = f.text_field :name, autofocus: true, class:"form-control"
+            div.form-group
+              = f.label t('activerecord.attributes.staff.email')
+              = f.text_field :email, autofocus: true, class:"form-control"
+            div.form-group
+              = f.label t('activerecord.attributes.staff.phone')
+              = f.email_field :phone, autofocus: true, class:"form-control"
+            div.form-group
+              = f.label t('activerecord.attributes.common.password')
+              = f.password_field :password, placeholder: t('activerecord.attributes.student.password_length'), autocomplete: "off", class:"form-control"
+            div.form-group
+              = f.label t('activerecord.attributes.common.password_confirmation')
+              = f.password_field :password_confirmation, autocomplete: "off", class:"form-control"
+            div.actions
+              = f.submit t('activerecord.attributes.link.register'), class:"btn btn-primary button-margin"
+              br
+              = render "staffs/shared/links" 
+  
+  = link_to t('activerecord.attributes.link.back'), root_path, class:"btn btn-secondary button-margin-sm"
+
+
+
+
+/ <h3>Cancel my account</h3>
+
+/ <p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
+
+/ <%= link_to "Back", :back %>

@@ -1,0 +1,11 @@
+//= require jquery
+//= require jquery_ujs
+//= require dropzone
+//= require bootstrap-sprockets
+//= require moment
+//= require moment/ja
+//= require Chart.min
+//= require bootstrap-datepicker
+//= require lightbox-bootstrap
+//= require toastr
+//= require_tree .

@@ -1,0 +1,38 @@
+= link_to t('activerecord.attributes.staff.signin'), new_staff_registration_path(branch_id: params[:branch_id]), class:"btn btn-success button-margin"
+br
+- if @branches.count > 0
+  - @branches.each do |b|
+    span#branch-button
+      = link_to b.name, staffs_path(branch_id: b.id), class:"btn btn-secondary button-margin", name:"#{b.id}"
+
+table class="table table-bordered"
+  thead class="thead-dark table-active "
+    tr
+      th.text-center = "#"
+      th = t('activerecord.attributes.staff.name')
+      th = t('activerecord.attributes.staff.status')
+      th = t('activerecord.attributes.staff.email')
+      th = t('activerecord.attributes.staff.phone')
+      
+
+  tbody
+    - @staffs.each_with_index do |s,i| 
+      tr 
+        td.text-center = i + 1
+        td = s.name
+        td = s.status
+        td = s.email
+        td = s.phone
+        
+javascript:
+  jQuery(function(){
+    var params = (new URL(document.location)).searchParams;
+    var branch_id = params.get('branch_id');
+    $('#branch-button a').each(function(){
+      var buttontype = $(this).attr('name');
+      if( buttontype == branch_id ){
+        $( $(this)).addClass("btn-company");
+      }
+    });
+    //var branches = #{raw @branches.to_json};
+  }) 

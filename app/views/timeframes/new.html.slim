@@ -1,0 +1,10 @@
+div.col-md-12
+  div class="card"
+    div class="card-header text-white bg-secondary text-center" 
+      h4 = t('activerecord.attributes.timeframe.create')
+    div class="card-body"
+      == render 'shared/errors', obj: @timeframe
+      = form_for @timeframe do |f|
+        = f.hidden_field :branch_id, value: params[:branch_id]
+        == render 'timeframes/form', f: f
+        = f.submit  t('activerecord.attributes.link.create'), class:"btn btn-primary button-margin"

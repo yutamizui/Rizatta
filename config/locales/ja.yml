@@ -1,0 +1,189 @@
+ja:
+  app_name: ヨーテック
+  will_paginate:
+    previous_label: 前
+    next_label: 次
+    page_gap: _
+  enum:
+    staff:
+      status:
+        general: 一般
+        admin: 管理者
+
+  activerecord:
+    errors:
+      messages:
+        accepted: を受諾してください
+        blank: を入力してください
+        present: は入力しないでください
+        confirmation: と%{attribute}の入力が一致しません
+        empty: を入力してください
+        equal_to: は%{count}にしてください
+        even: は偶数にしてください
+        exclusion: は予約されています
+        greater_than: は%{count}より大きい値にしてください
+        greater_than_or_equal_to: は%{count}以上の値にしてください
+        inclusion: は一覧にありません
+        invalid: は不正な値です
+        less_than: は%{count}より小さい値にしてください
+        less_than_or_equal_to: は%{count}以下の値にしてください
+        model_invalid: "バリデーションに失敗しました: %{errors}"
+        not_a_number: は数値で入力してください
+        not_an_integer: は整数で入力してください
+        odd: は奇数にしてください
+        required: を入力してください
+        taken: はすでに存在します
+        too_long: は%{count}文字以内で入力してください
+        too_short: は%{count}文字以上で入力してください
+        wrong_length: は%{count}文字で入力してください
+        other_than: は%{count}以外の値にしてください
+        lesson_start_time_should_be_within_calendar_start_time: レッスン開始時間はカレンダー表示時間内で設定して下さい。
+        lesson_end_time_should_be_within_calendar_start_time: レッスン開始時間はカレンダー表示時間内で設定して下さい。
+        lesson_start_time_should_be_smaller_than_end_time: レッスンの開始時間は終了時間よりも前にして下さい。
+        blank: "が記入されていません。"
+        invalid: "が不正な値です。"
+        confirmation: "が一致しません。"
+        too_short: "が短すぎます。"
+        carrierwave_processing_error: 処理できませんでした
+        carrierwave_integrity_error: は許可されていないファイルタイプです
+        carrierwave_download_error: はダウンロードできません
+        extension_whitelist_error: "%{extension}ファイルのアップロードは許可されていません。アップロードできるファイルタイプ: %{allowed_types}"
+        extension_blacklist_error: "%{extension}ファイルのアップロードは許可されていません。アップロードできないファイルタイプ: %{prohibited_types}"
+        content_type_whitelist_error: "%{content_type}ファイルのアップロードは許可されていません"
+        content_type_blacklist_error: "%{content_type}ファイルのアップロードは許可されていません"
+        rmagick_processing_error: "rmagickがファイルを処理できませんでした。画像を確認してください。エラーメッセージ: %{e}"
+        mini_magick_processing_error: "MiniMagickがファイルを処理できませんでした。画像を確認してください。エラーメッセージ: %{e}"
+        min_size_error: "ファイルを%{min_size}バイト以上のサイズにしてください"
+        max_size_error: "ファイルを%{max_size}バイト以下のサイズにしてください"
+
+
+
+      models:
+        student:
+          attributes:
+            email:
+              taken: "はすでに他のユーザーによって使用されています"
+        
+
+    attributes:
+      language:
+        japanese: 日本語
+        english: 英語
+
+      link:
+        dashboard: ダッシュボード
+        edit: 編集する
+        update: 更新する
+        updated: 情報を更新しました
+        register: 登録する
+        login: ログイン
+        create: 作成する
+        created: 情報を作成しました
+        failed_to_create: 作成できませんでした。
+        edit_information: 情報を変更する
+        logout: ログアウト
+        admin: 管理者
+        finance: 勤怠管理
+        free_registration: 無料ユーザー登録はこちら
+        forgot_password: パスワードをお忘れですか？
+        reset_password: パスワードの再設定方法をメールに送信する
+        remember_login: ログイン情報を記憶させますか？
+        back: 戻る
+        edit_other_info: その他情報を編集
+        update_shift: シフトを更新する
+        whole: すべての学校
+        your_school: あなたの学校
+        save: 保存する
+        detail: 詳細
+        deleted: 削除しました
+        are_you_sure: 本当に削除しますか？
+        add: 追加する
+        send: 送信する
+        delete: 削除する
+        account: アカウント
+      
+      common:
+        password: パスワード
+        password_confirmation: パスワード確認
+        to_login: ログインページへ移動
+        password_length: ６文字以上
+
+      company:
+        new_registration: 新規企業登録
+        edit_registration: 企業情報変更
+        login: 企業ログイン
+        signin: 企業登録
+        name: 名前
+        address: 住所
+        phone: 電話番号
+        create: 企業情報を作成する
+        id: 会社ID
+        secret_code: 会社コード
+        email: メールアドレス
+        edit_information: 登録情報変更
+        user_page: ユーザーページ
+        staff_page: スタッフページ
+
+      user:
+        title: ユーザー
+        new_registration: 新規ユーザー登録
+        edit_registration: ユーザー情報変更
+        login: ユーザーログイン
+        signin: ユーザー登録
+        name: 名前
+        email: メールアドレス
+        phone: 電話番号
+        status: ポジション
+        go_to_registration_page: ユーザー登録ページに移動する
+
+      staff:
+        title: スタッフ
+        new_registration: 新規スタッフ登録
+        edit_registration: スタッフ情報変更
+        login: スタッフログイン
+        signin: スタッフ登録
+        name: 名前
+        email: メールアドレス
+        phone: 電話番号
+        status: ポジション
+        go_to_registration_page: スタッフ登録ページに移動する
+      
+      branch:
+       title: 店舗
+       name: 店舗名
+       address: 住所
+       phone: 電話番号
+       create: 店舗情報の作成
+       edit: 店舗情報の編集
+      
+      room:
+       title: 予約スペース
+       name: 名前
+       create: 予約スペースの作成
+      
+      timeframe:
+        title: 時間枠
+        name: 名前
+        target_date: 開講日
+        start_time: 開始時間
+        end_time: 終了時間
+        capacity: 定員
+        color: 色
+        create: 時間枠を作成する
+        room: 予約スペース
+        opening_time: 開催時間
+
+
+      language:
+        setting: 言語設定
+        japanese: 日本語
+        english: 英語
+
+      date:
+        mon: 月曜日
+        tue: 火曜日
+        wed: 水曜日
+        thu: 木曜日
+        fri: 金曜日
+        sat: 土曜日
+        sun: 日曜日

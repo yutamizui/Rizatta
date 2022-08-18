@@ -1,0 +1,61 @@
+<div class="sidebar-nav dashboard">
+  <div class="navbar navbar-default" role="navigation">
+    <div class="navbar-header d-block d-sm-none">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="sidebar-navbar-collapse" onclick="addAnswer()">
+        <label style="color: white;"><%= t('activerecord.attributes.link.dashboard') %></label>
+      </button>
+    </div>
+    
+    <% if current_company.present? || current_staff.present? %>
+      <div class="navbar-collapse collapse sidebar-navbar-collapse" id="judge-collape">
+        <ul class="nav navbar-nav">
+          <li class="<%= 'active' if controller_name == "branches" && action_name == "index" %>">
+            <%= link_to t('activerecord.attributes.branch.title'), branches_path, class:"text" %>
+          </li>
+          <li class="<%= 'active' if controller_name == "users" && action_name == "index" %>">
+            <%= link_to t('activerecord.attributes.user.title'), users_path(branch_id:current_company.branches.first.id), class:"text" %>
+          </li>
+          <li class="<%= 'active' if controller_name == "staffs" && action_name == "index" %>">
+            <%= link_to t('activerecord.attributes.staff.title'), staffs_path(branch_id:current_company.branches.first.id), class:"text"%>
+          </li>
+          <li class="<%= 'active' if controller_name == "rooms" && action_name == "index" %>">
+            <%= link_to t('activerecord.attributes.room.title'), rooms_path(branch_id:current_company.branches.first.id), class:"text"%>
+          </li>
+          <li class="<%= 'active' if controller_name == "timeframes" && action_name == "index" %>">
+            <%= link_to t('activerecord.attributes.timeframe.title'), timeframes_path(branch_id:current_company.branches.first.id, style: "list_view"), class:"text"%>
+          </li>
+          <li class="<%= 'active' if controller_name == "registrations" && action_name == "edit" %>">
+            <%= link_to t('activerecord.attributes.company.edit_registration'), edit_company_registration_path, class:"text" %></li>
+          </li>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    // $('.navbar-collapse').addClass('show')
+  });
+
+  var judge = document.getElementById("judge-collape");
+  function addAnswer() {
+    if( !judge.classList.contains("show") ) {
+      judge.classList.add('show');
+    } else {
+      judge.classList.remove('show');
+      judge.classList.add('hide');
+    }
+  }
+  
+  var trigger = document.querySelectorAll(".text");
+
+  trigger.forEach(function(target) {
+
+  target.addEventListener('click', function() {
+     judge.classList.remove('show');
+     judge.classList.add('hide');
+  });
+});
+
+</script>

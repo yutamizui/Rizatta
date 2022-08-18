@@ -1,0 +1,91 @@
+div.row
+  div class="col-md-4 select"
+    div class="form-group"
+      label = t('activerecord.attributes.timeframe.name')
+      = f.text_field :name, autofocus: 'true', class:"form-control"
+
+  div class="col-md-2 select"
+    div class="form-group"
+      label = t('activerecord.attributes.timeframe.target_date')
+      div class='form-group'
+        = f.text_field :target_date, default: "#{@timeframe.target_date}", class:"form-control datepicker"
+
+  div class="col-md-2 select"
+    div class="form-group"
+      label = t('activerecord.attributes.timeframe.start_time')
+      br
+      = f.time_select :start_time, start_hour: 7, end_hour: 23, minute_step: 5, autofocus: 'true', class:"form-control"
+
+  div class="col-md-2 select"
+    div class="form-group"
+      label = t('activerecord.attributes.timeframe.end_time')
+      br
+      = f.time_select :end_time, start_hour: 7, end_hour: 23, minute_step: 5, autofocus: 'true', class:"form-control"
+br
+div class="row"
+  div class="col-md-3 select"
+    div class="form-group"
+      label = t('activerecord.attributes.timeframe.room')
+      p = f.collection_select :room_id, @rooms, :id, :name,  {prompt: 1}, {class: "form-control input-sm"}
+
+  div class="col-md-2 select"
+    div class="form-group"
+      label = t('activerecord.attributes.timeframe.capacity')
+      div class='input-group'
+        = f.number_field :capacity, autofocus: 'true', class:"form-control"
+        span class="input-group-addon" 
+
+  div class="col-md-5"
+    div class="form-group"
+      label = t('activerecord.attributes.timeframe.color')
+      = f.select :color, (Colorlist.all.map {|c| [c.name, c.id, {'code' => c.code }]}), {}, {id: 'color_select', class: "form-control input-sm"}
+  div class="col-md-2"
+    div#output
+
+
+javascript:
+  jQuery(function(){
+    $(`#output`).css('background-color', '#B22222');
+    $('#color_select').change(function(){
+      var r = $('#color_select option:selected').val();
+      if (r == 1){
+        var bg = "#B22222"
+      } else if (r == 2){
+        var bg = "#1E90FF"
+      } else if (r == 3){
+        var bg = "#228B22"
+      } else if (r == 4) {
+        var bg = "#FFD700" // Yellow
+      } else if (r == 5) {
+        var bg = "#FFA500"
+      } else if (r == 6) {
+        var bg = "#EE82EE"
+      } else if (r == 7) {
+        var bg = "#808080"
+      } else if (r == 8) {
+        var bg = "#A0522D"
+      }
+      $(`#output`).css('background-color', bg);
+    })
+  })
+
+  $('.datepicker').datepicker({
+    format: 'yyyy/mm/dd',
+  });
+
+  var page_type = #{raw @page_type.to_json};
+  if (page_type == "new") {
+    var today = new Date();
+    var year = today.getFullYear();
+    var month = today.getMonth() + 1;
+    var day = today.getDate();
+    $('.datepicker').datepicker('update', '&{year}/$(month)/&{day}');
+  } else if (page_type == "edit") {
+    var d = #{raw @timeframe.target_date.to_json};
+    t = (new Date(d));
+    var e_year = t.getFullYear();
+    var e_month = t.getMonth() + 1;
+    var e_day = t.getDate();
+    var date = e_year + "/" + e_month + "/" + e_day
+    $('.datepicker').datepicker('update', date);
+  }

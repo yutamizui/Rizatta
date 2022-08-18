@@ -1,0 +1,35 @@
+- @page_title = "企業アカウント作成"
+div.container
+  div.row
+    div.col-md-6
+      div class="card button-margin"
+        h4 class="card-header company-title-color" = t('activerecord.attributes.company.new_registration')
+        div class="card-body"
+          = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+            = devise_error_messages
+            div.form-group
+              = f.label t('activerecord.attributes.company.name')
+              = f.text_field :name, autofocus: true, class:"form-control"
+            div.form-group
+              = f.label t('activerecord.attributes.company.email')
+              = f.text_field :email, autofocus: true, class:"form-control"
+            div.form-group
+              = f.label t('activerecord.attributes.company.address')
+              = f.text_field :address, autofocus: true, class:"form-control"
+            div.form-group
+              = f.label t('activerecord.attributes.company.phone')
+              = f.text_field :phone, autofocus: true, class:"form-control"
+            div.form-group
+              = f.label t('activerecord.attributes.company.secret_code')
+              = f.text_field :secret_code, autofocus: true, class:"form-control"
+            div.form-group
+              = f.label t('activerecord.attributes.common.password')
+              = f.password_field :password, placeholder: t('activerecord.attributes.common.password_length'), autocomplete: "off", class:"form-control"
+            div.form-group
+              = f.label t('activerecord.attributes.common.password_confirmation')
+              = f.password_field :password_confirmation, autocomplete: "off", class:"form-control"
+              
+            div.actions
+              = f.submit t('activerecord.attributes.link.register'), class:"btn btn-company  button-margin"
+              br
+              
