@@ -5,7 +5,7 @@ div.row
         h4  = t('activerecord.attributes.branch.edit')
       div class="card-body"
         == render 'shared/errors', obj: @room
-        = form_for @room, url: event_path do |f|
+        = form_for @room, url: room_path do |f|
           == render 'rooms/form', f: f
           = f.submit  t('activerecord.attributes.link.update'), class:"btn btn-info"
 br

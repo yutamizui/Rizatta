@@ -155,6 +155,11 @@ ja:
        phone: 電話番号
        create: 店舗情報の作成
        edit: 店舗情報の編集
+       before_end_time: 時間前まで
+       time_on_calendar: 予約カレンダーに表示する時間帯を選択してください。
+       reservation_limit: 予約制限時間
+       cancelation_limit: キャンセル制限時間
+       phone_comment: ハイフンは不要
       
       room:
        title: 予約スペース

@@ -7,9 +7,10 @@ br
     span#branch-button
       = link_to b.name, timeframes_path(branch_id: b.id, style: params[:style]), class:"btn btn-secondary button-margin", name:"#{b.id}"
   div.row.nondisplay-print
-    div.col-md-10.nondisplay-print.text-right
-      = link_to '一覧表示', timeframes_path(branch_id: params[:branch_id], style: "list_view"), class:"btn btn-default button-margin-sm"
-      = link_to 'カレンダー表示', timeframes_path(branch_id: params[:branch_id], style: "calendar_view"), class:"btn btn-default button-margin-sm"
+    div.col-md-12.nondisplay-print.text-right
+      = link_to '一覧表示', timeframes_path(branch_id: params[:branch_id], style: "list_view"), class:"btn btn-secondary button-margin"
+      = link_to 'カレンダー表示', timeframes_path(branch_id: params[:branch_id], style: "calendar_view"), class:"btn btn-secondary button-margin"
+  
 
 - if params[:style] == "list_view"
   table class="table table-bordered"
@@ -18,6 +19,7 @@ br
         th = t('activerecord.attributes.timeframe.name')
         th = t('activerecord.attributes.timeframe.target_date')
         th = t('activerecord.attributes.timeframe.opening_time')
+        th = t('activerecord.attributes.timeframe.room')
         th = t('activerecord.attributes.timeframe.capacity')
         th 
     tbody
@@ -29,13 +31,42 @@ br
             = t.start_time.strftime("%H:%M")
             = " ~ "
             = t.end_time.strftime("%H:%M")
+          td = Room.find(t.room_id).name
           td 
             = t.capacity
             = "名"
-          td = link_to t('activerecord.attributes.link.edit'), edit_timeframe_path(id: t.id), class:"btn btn-success"
-
-
-  javascript:
+          td = link_to t('activerecord.attributes.link.edit'), edit_timeframe_path(id: t.id), class:"btn btn-success btn-sm"
+  
+- else 
+  div.col-md-12
+    ul.nav.nav-tabs
+      li
+        = link_to 'すべて', timeframes_path(week: @week, branch_id: @branch.id), class:"btn btn-success btn-sm button-margin-sm"
+      - @rooms.each_with_index do |room, i|
+        li  
+          = link_to room.name, timeframes_path(week: @week, room: room.name, branch_id: @branch.id), class:"btn btn-success btn-sm button-margin-sm"
+    div.tab-content
+      div#home
+        - if @room.present?
+          div
+            span = @room.name
+            span のレッスン予定
+          div.col-md-12
+            = render 'calendar', timeframes: @timeframes
+            br
+            = link_to "前の週", timeframes_path(branch_id: @branch.id, week: @week - 1, room: @room.try(:name)), class:"btn btn-danger btn-sm nondisplay-print" if @week >= 1
+            = link_to "次の週", timeframes_path(branch_id: @branch.id, week: @week + 1, room: @room.try(:name)), class:"btn btn-danger btn-sm nondisplay-print pull-right"
+        - else
+          h3
+            | 全教室のレッスン予定
+          div.col-md-12
+            = render 'calendar', timeframes: @timeframes
+            br
+            = link_to "前の週", timeframes_path(branch_id: @branch.id, week: @week - 1, room: @room.try(:name)), class:"btn btn-danger btn-sm nondisplay-print" if @week >= 1
+            = link_to "次の週", timeframes_path(branch_id: @branch.id, week: @week + 1, room: @room.try(:name)), class:"btn btn-danger btn-sm nondisplay-print pull-right"
+  
+x
+javascript:
     jQuery(function(){
       var params = (new URL(document.location)).searchParams;
       var branch_id = params.get('branch_id');
@@ -46,21 +77,3 @@ br
         }
       });
     }) 
-- else 
-  div.col-md-12
-    ul.nav.nav-tabs#reservation_tab
-      - @days.each do |day|
-        li
-          = link_to day.strftime("%m/%d (#{%w(日 月 火 水 木 金 土)[day.wday]})"), timeframes_path(day: day, week: @week, branch_id: params[:branch_id]), class:"btn btn-info"
-
-    div.tab-content
-      div#home
-        div.calendar_title_sm
-          span = @day.strftime("%m/%d (#{%w(日 月 火 水 木 金 土)[@day.wday]})")
-          span のレッスン予定
-        div.col-md-12
-          = render 'calendar', start_day: @day, branch_id: params[:branch_id]
-          br
-          = link_to "前の週", timeframes_path(branch_id: params[:branch_id], week: @week - 1, room: @rooms, day: @day-7), class:"btn btn-danger btn-sm" if @week >= 1
-          = link_to "次の週", timeframes_path(branch_id: params[:branch_id], week: @week + 1, room: @rooms, day: @day+7), class:"btn btn-danger btn-sm pull-right"
-

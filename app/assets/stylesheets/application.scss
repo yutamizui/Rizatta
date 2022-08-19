@@ -162,3 +162,150 @@ body {
 }
 
 
+/*#########################################　レッスン表 start ############################################### */
+
+#table-container {
+  overflow: scroll;
+}
+
+table#time_table {
+  width: 100%;
+  border: 1px solid #cccccc;
+}
+
+table#time_table #lesson_day th {
+  padding: 10px 0;
+  text-align: center;
+}
+
+table#time_table #lesson_day th:nth-child(7) {
+  background-color: #E6FFE9;
+}
+
+table#time_table #lesson_day th:nth-child(8) {
+  background-color: #fbeae0;
+}
+
+table#time_table #classroom_name td {
+  padding: 10px 0;
+  text-align: center;
+}
+
+table#time_table #classroom_name td#classroom_name_title {
+  background-color: #F5F5F5;
+}
+
+table#time_table .time_schedule th {
+  height: 72px;
+  padding: 10px 0;
+  text-align: center;
+}
+
+table#time_table .time_schedule td {
+  min-width: 70px;
+}
+
+
+table#time_table tr {
+  height: 4px;
+}
+
+table#time_table tr th {
+  border: 1px solid #cccccc;
+}
+
+table#time_table tr td {
+  border-right: 1px solid #cccccc;
+}
+
+table#time_table tr.border td {
+  border-top: 1px solid #cccccc;
+}
+
+table#time_table tr.border th {
+ text-align: center;
+}
+
+
+table#time_table .lesson_chart a {
+  color: white;
+  text-decoration: underline;
+}
+
+table#time_table .lesson_chart .no_name {
+  display: none;
+}
+
+table#time_table #user_name {
+  color: #f44336;
+}
+
+.title-position th {
+  text-align: center;
+}
+
+table#time_table .lesson_chart {
+    vertical-align: top;
+    position: relative;
+}
+
+table#time_table .lesson_chart > div {
+    color: #FFF;
+    font-size: 12px;
+    text-align: left;
+    padding: 25px 8px;
+    margin: 1px;
+    position: relative;
+    z-index: 2;
+    border-radius: 9px;
+}
+
+table#time_table .lesson_chart::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    right: 3px;
+    bottom: 3px;
+    z-index: 1;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+    border-radius: 9px;
+    
+}
+
+table#time_table .name_size {
+  font-size: 4px;
+}
+
+table#time_table .lesson_chart.red::before{
+    background-color: red;
+}
+
+table#time_table .lesson_chart.forestgreen::before{
+    background-color: forestgreen;
+}
+
+table#time_table .lesson_chart.dodgerblue::before{
+    background-color: dodgerblue;
+}
+
+table#time_table .lesson_chart.orange::before{
+    background-color: orange;
+}
+
+table#time_table .lesson_chart.blueviolet::before{
+    background-color: blueviolet;
+}
+
+table#time_table .lesson_chart.sienna::before{
+    background-color: sienna;
+}
+
+table#time_table .lesson_chart.gray::before{
+    background-color: gray;
+}
+
+
+
+/* #########################################　レッスン表 end ########################################### */

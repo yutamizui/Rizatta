@@ -131,6 +131,10 @@ en:
        phone: Phone NUmber
        create: Create Branch
        edit: Edit Branch Information
+       before_end_time: mins before the end time
+       reservation_limit: Reservation Time Limit
+       cancelation_limit: Cancel Time Limit
+       phone_comment: Hyphen is not required
 
       room:
         title: Reservation Space
@@ -148,7 +152,7 @@ en:
         create: Create Timeframe
         room: Reservation Space
         opening_time: Opening Time
-
+        time_on_calendar: Select the time slots you would like to see on your reservation calendar.
 
       language:
         setting: Language Setting

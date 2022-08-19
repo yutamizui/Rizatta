@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_10_081405) do
+ActiveRecord::Schema.define(version: 2022_08_18_051355) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,10 @@ ActiveRecord::Schema.define(version: 2022_08_10_081405) do
     t.bigint "company_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "makable_reservation_hour_span", default: 24, null: false
+    t.integer "cancelable_reservation_hour_span", default: 24, null: false
+    t.datetime "calendar_start_time", default: "2000-01-01 10:00:00"
+    t.datetime "calendar_end_time", default: "2000-01-01 20:00:00"
     t.index ["company_id"], name: "index_branches_on_company_id"
   end
 

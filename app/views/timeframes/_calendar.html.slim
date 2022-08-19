@@ -2,7 +2,7 @@
 - display_rooms = @room ? [@room] : @rooms
 div.row
   .col-md-12#table-container
-    table#lesson_table
+    table#time_table
       tr#lesson_day
         th
         - @days.each do |day|
@@ -14,141 +14,161 @@ div.row
           - display_rooms.each do |room|
             td#classroom_name_title[style="font-size: 70%;"]
               = room.name
-        - tr_counter = 0
-        - (@school.calendar_start_time.to_i...@school.calendar_end_time.to_i).step(Lesson::LESSON_SPAN * 60) do |time|
-/         - tr_counter += 1
-/         tr class=((tr_counter - 1) % 12 == 0 ? 'time_schedule border' : 'time_schedule')
-/           - if Time.at(time).min == 0
-/             th [rowspan="#{60/Lesson::LESSON_SPAN}"]
-/               = Time.at(time).strftime("%H:%M")
+      - tr_counter = 0
+      - (@branch.calendar_start_time.to_i...@branch.calendar_end_time.to_i).step(Timeframe::TIME_SPAN * 60) do |time|
+        - tr_counter += 1
+        tr class=((tr_counter - 1) % 12 == 0 ? 'time_schedule border' : 'time_schedule')
+          - if Time.at(time).min == 0
+            th [rowspan="#{60/Timeframe::TIME_SPAN}"]
+              = Time.at(time).strftime("%H:%M")
 
-/           - wdays_num = (0..6)
-/           - wdays_num.each do |wday|
-/             - display_rooms.each_with_index do |classroom, index|
-/               - if skip_counter[wday][index] > 0
-/                 - skip_counter[wday][index] -= 1
-/               - else
-/                 - available_lesson = nil
+          - wdays_num = (0..6)
+          - wdays_num.each do |wday|
+            - display_rooms.each_with_index do |room, index|
+              - if skip_counter[wday][index] > 0
+                - skip_counter[wday][index] -= 1
+              - else
+                - available_timeframe = nil
 
-/                 - lessons.each do |lesson|
-/                   - if lesson.start_time.strftime('%H:%M') == Time.at(time).strftime('%H:%M') && lesson.date.strftime('%m/%d (%a)') == @days[wday].strftime('%m/%d (%a)') && lesson.classroom_id == classroom.id
-/                     - available_lesson = lesson
+                - timeframes.each do |timeframe|
+                  - if timeframe.start_time.strftime('%H:%M') == Time.at(time).strftime('%H:%M') && timeframe.target_date.strftime('%m/%d (%a)') == @days[wday].strftime('%m/%d (%a)') && timeframe.room_id == room.id
+                    - available_timeframe = timeframe
+                - if available_timeframe.present?
+                  - timeframe_length = (available_timeframe.end_time - available_timeframe.start_time)/60/Timeframe::TIME_SPAN
+                  td.lesson_chart[ rowspan="#{timeframe_length}" ]
+                    div style="background-color:#{Colorlist.find(available_timeframe.color).code};" 
+                      = link_to available_timeframe.name, timeframes_path(timeframe_id: available_timeframe.id)
+                    - skip_counter[wday][index] = timeframe_length-1
+                - else
+                  td
 
-/                 - if available_lesson.present?
-/                   - lesson_length = (available_lesson.end_time - available_lesson.start_time)/60/Lesson::LESSON_SPAN
-/                   td.lesson_chart[class="#{available_lesson.color}"rowspan="#{lesson_length}" ]
-/                     div
-/                       - capacity = available_lesson.capacity - (available_lesson.student_lessons.count + available_lesson.user_lessons.count)
-/                       - if current_user.present? && current_user.school.present? && controller.controller_name == "lessons" && controller.action_name == "admin_calendar"
-/                         = link_to available_lesson.name, attendance_lessons_path(lesson_id: available_lesson.id)
-/                         br
-/                         = available_lesson.start_time.strftime('%H:%M')
-/                         br
-/                         - if capacity.to_i > 0
-/                           | 残り
-/                           = capacity
-/                           | 枠
-/                         - else
-/                           | 満員
-/                         br
-/                         div class="collapse" class="collapseExample"
-/                           div class="card card-body"
-/                             - available_lesson.student_lessons.each do |student_lesson|
-/                               span.name_size = student_lesson.student.last_name + student_lesson.student.first_name
-/                               br
-/                             - available_lesson.user_lessons.each do |user_lesson|
-/                               span.name_size.trial_student_name = user_lesson.name
-/                               br
 
-/                       - elsif current_user.present? && current_user.school.present? && controller.controller_name == "lessons" && controller.action_name == "index"
-/                         = link_to available_lesson.name, admin_list_lessons_path(available_lesson)
-/                         br
-/                         = available_lesson.start_time.strftime('%H:%M')
-/                         br
-/                         - if capacity.to_i > 0
-/                           | 残り
-/                           = capacity
-/                           | 枠
-/                         - else
-/                           | 満員
-/                         br
-/                         div class="collapse" class="collapseExample"
-/                           div class="card card-body"
-/                             - available_lesson.student_lessons.each do |student_lesson|
-/                               span.name_size = student_lesson.student.last_name + student_lesson.student.first_name
-/                               br
-/                             - available_lesson.user_lessons.each do |user_lesson|
-/                               span.name_size.trial_student_name = user_lesson.name
-/                               br
+/ - content_for :head_contents do
+/   sass:
+/     @media print
+/       body
+/         -webkit-print-color-adjust: exact
+/       #table-container
+/         overflow: scroll
 
-/                       - elsif current_user.present? && current_user.school.present?
-/                         = link_to available_lesson.name, edit_lesson_path(available_lesson)
-/                         br
-/                         = available_lesson.start_time.strftime('%H:%M')
-/                         br
-/                         - if capacity.to_i > 0
-/                           | 残り
-/                           = capacity
-/                           | 枠
-/                         - else
-/                           | 満員
-/                         br
-/                         = link_to lesson_path(available_lesson), method: :delete, data: {confirm: "本当に削除しますか？"} do
-/                           <i class="fa fa-trash" aria-hidden="true"></i>
-/                         br
-/                         div class="collapse" class="collapseExample"
-/                           div class="card card-body"
-/                             - available_lesson.student_lessons.each do |student_lesson|
-/                               span.name_size = student_lesson.student.last_name + student_lesson.student.first_name
-/                               br
-/                             - available_lesson.user_lessons.each do |user_lesson|
-/                               span.name_size.trial_student_name = user_lesson.name
-/                               br
+/       table#time_table
+/         width: 100%
+/         border: 1px solid #cccccc
 
-/                       - elsif current_user.present? && current_user.school.blank? && current_student.blank?
-/                         = link_to available_lesson.name, new_user_lesson_path(lesson_id: available_lesson.id, school_id: available_lesson.school_id)
-/                         br
-/                         = available_lesson.start_time.strftime('%H:%M')
-/                         br
-/                         - if capacity.to_i > 0
-/                           | 残り
-/                           = capacity
-/                           | 枠
-/                         - else
-/                           | 満員
-/                         br
-/                         div class="collapse" class="collapseExample"
-/                           div class="card card-body"
-/                             - available_lesson.student_lessons.each do |student_lesson|
-/                               span.name_size = student_lesson.student.last_name + student_lesson.student.first_name
-/                               br
-/                             - available_lesson.user_lessons.each do |user_lesson|
-/                               span.name_size.trial_student_name = user_lesson.name
-/                               br
-/                       - elsif current_user.blank? && current_student.blank?
-/                         = link_to available_lesson.name,  new_user_session_path, data: {confirm:"認証できませんでした。ログインしてから再度お試しください。。無料ユーザー登録がお済みでない場合はご登録を先に行ってください。"}
-/                         br
-/                         = available_lesson.start_time.strftime('%H:%M')
-/                         br
-/                         - if capacity.to_i > 0
-/                           | 残り
-/                           = capacity
-/                           | 枠
-/                         - else
-/                           | 満員
-/                         br
-/                       - elsif current_user.blank? && current_student.present?
-/                         = link_to available_lesson.name, new_general_student_lesson_path(lesson_id: available_lesson.id, school_id: current_student.school_id)
-/                         br
-/                         = available_lesson.start_time.strftime('%H:%M')
-/                         br
-/                         - if capacity.to_i > 0
-/                           | 残り
-/                           = capacity
-/                           | 枠
-/                         - else
-/                           | 満員
+/       table#time_table #lesson_day th
+/         padding: 10px 0
+/         text-align: center
 
-/                     - skip_counter[wday][index] = lesson_length-1
-/                 - else
-/                   td
+
+/       table#time_table #lesson_day th:nth-child(7)
+/         background-color: #E6FFE9
+
+
+/       table#time_table #lesson_day th:nth-child(8)
+/         background-color: #fbeae0
+
+
+/       table#time_table #classroom_name td
+/         padding: 10px 0
+/         text-align: center
+
+
+/       table#time_table #classroom_name td#classroom_name_title
+/         background-color: #F5F5F5
+
+
+/       table#time_table .time_schedule th
+/         height: 72px
+/         padding: 10px 0
+/         text-align: center
+
+
+/       table#time_table .time_schedule td
+/         min-width: inherit
+
+
+/       table#time_table tr
+/         height: 4px
+
+
+/       table#time_table tr th
+/         border: 1px solid #cccccc
+
+
+/       table#time_table tr td
+/         border-right: 1px solid #cccccc
+
+
+/       table#time_table tr.border td
+/         border-top: 1px solid #cccccc
+
+/       table#time_table .lesson_chart a
+/         color: white
+/         text-decoration: none
+
+
+/       table#time_table #user_name
+/         color: #f44336
+
+/       table#time_table .lesson_chart
+/           vertical-align: top
+/           position: relative
+
+/       table#time_table .lesson_chart > div
+/           color: #FFF
+/           font-size: 12px
+/           text-align: left
+/           padding: 10px 8px
+/           position: relative
+/           z-index: 2
+
+
+/       table#time_table .lesson_chart::before
+/           content: ""
+/           display: block
+/           position: absolute
+/           top: 3px
+/           left: 3px
+/           right: 3px
+/           bottom: 3px
+/           z-index: 1
+/           box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25)
+/           border-radius: 9px
+/           background-color: #000
+
+/       table#time_table .lesson_chart.red::before
+/           background-color: red
+
+
+/       table#time_table .lesson_chart.springgreen::before
+/           background-color: springgreen
+
+
+/       table#time_table .lesson_chart.deepskyblue::before
+/           background-color: deepskyblue
+
+
+/       table#time_table .lesson_chart.orange::before
+/           background-color: orange
+
+
+/       table#time_table .lesson_chart.purple::before
+/           background-color: purple
+
+
+/       table#time_table .lesson_chart.sienna::before
+/           background-color: sienna
+
+
+/       table#time_table .lesson_chart.gray::before
+/           background-color: gray
+
+
+/       table#time_table .lesson_chart.magenta::before
+/           background-color: magenta
+
+/       .title-position th
+/         text-align: center
+
+/       .nondisplay-print
+/         display: none

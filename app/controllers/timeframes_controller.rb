@@ -1,13 +1,15 @@
 class TimeframesController < ApplicationController
   before_action :find_timeframe, only: [:edit, :update, :delete]
-  before_action :set_week, only: [:index, :new, :edit, :create]
-  before_action :set_this_week, only: [:index, :new, :edit, :create]
+  before_action :set_week
+  before_action :set_this_week
   before_action :set_day
 
   def index
     @branches = current_company.branches
-    @timeframes = Timeframe.where(branch_id: params[:branch_id]).order(:target_date).order(:start_time)
+    @branch = Branch.find(params[:branch_id])
+    @timeframes = Timeframe.where(branch_id: params[:branch_id]).order(target_date: :asc)
     @rooms = Room.where(branch_id: params[:branch_id])
+    @room = Room.find_by(name: params[:room])
   end
 
   def new
@@ -20,7 +22,7 @@ class TimeframesController < ApplicationController
     @timeframe = Timeframe.new(timeframe_params)
     @timeframe.color = params[:timeframe][:color].to_i
     if @timeframe.save
-      redirect_to timeframes_path(), notice: t('activerecord.attributes.link.created')
+      redirect_to timeframes_path(branch_id: @timeframe.branch_id), notice: t('activerecord.attributes.link.created')
     else
       flash.now[:alert] = t('activerecord.attributes.link.failed_to_create')
       render 'timeframes/new'
@@ -76,6 +78,6 @@ class TimeframesController < ApplicationController
   end
 
   def timeframe_params
-    params.require(:timeframe).permit(:name, :target_date, :start_time, :end_time, :capacity, :branch_id, :room_id)
+    params.require(:timeframe).permit(:name, :target_date, :start_time, :end_time, :capacity, :color, :branch_id, :room_id)
   end
 end
