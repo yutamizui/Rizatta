@@ -12,18 +12,20 @@
           <li class="<%= 'active' if controller_name == "branches" && action_name == "index" %>">
             <%= link_to t('activerecord.attributes.branch.title'), branches_path, class:"text" %>
           </li>
-          <li class="<%= 'active' if controller_name == "users" && action_name == "index" %>">
-            <%= link_to t('activerecord.attributes.user.title'), users_path(branch_id:current_company.branches.first.id), class:"text" %>
-          </li>
-          <li class="<%= 'active' if controller_name == "staffs" && action_name == "index" %>">
-            <%= link_to t('activerecord.attributes.staff.title'), staffs_path(branch_id:current_company.branches.first.id), class:"text"%>
-          </li>
-          <li class="<%= 'active' if controller_name == "rooms" && action_name == "index" %>">
-            <%= link_to t('activerecord.attributes.room.title'), rooms_path(branch_id:current_company.branches.first.id), class:"text"%>
-          </li>
-          <li class="<%= 'active' if controller_name == "timeframes" && action_name == "index" %>">
-            <%= link_to t('activerecord.attributes.timeframe.title'), timeframes_path(branch_id:current_company.branches.first.id, style: "list_view"), class:"text"%>
-          </li>
+          <% if current_company.present? && current_company.branches.count > 0 || current_staff.present? && current_staff.company.branches.count > 0 %>
+            <li class="<%= 'active' if controller_name == "users" && action_name == "index" %>">
+              <%= link_to t('activerecord.attributes.user.title'), users_path(branch_id:current_company.branches.first.id), class:"text" %>
+            </li>
+            <li class="<%= 'active' if controller_name == "staffs" && action_name == "index" %>">
+              <%= link_to t('activerecord.attributes.staff.title'), staffs_path(branch_id:current_company.branches.first.id), class:"text"%>
+            </li>
+            <li class="<%= 'active' if controller_name == "rooms" && action_name == "index" %>">
+              <%= link_to t('activerecord.attributes.room.title'), rooms_path(branch_id:current_company.branches.first.id), class:"text"%>
+            </li>
+            <li class="<%= 'active' if controller_name == "timeframes" && action_name == "index" %>">
+              <%= link_to t('activerecord.attributes.timeframe.title'), timeframes_path(branch_id:current_company.branches.first.id, style: "list_view"), class:"text"%>
+            </li>
+          <% end %>
           <li class="<%= 'active' if controller_name == "registrations" && action_name == "edit" %>">
             <%= link_to t('activerecord.attributes.company.edit_registration'), edit_company_registration_path, class:"text" %></li>
           </li>

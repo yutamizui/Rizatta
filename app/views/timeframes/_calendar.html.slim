@@ -37,7 +37,7 @@ div.row
                   - timeframe_length = (available_timeframe.end_time - available_timeframe.start_time)/60/Timeframe::TIME_SPAN
                   td.lesson_chart[ rowspan="#{timeframe_length}" ]
                     div style="background-color:#{Colorlist.find(available_timeframe.color).code};" 
-                      = link_to available_timeframe.name, timeframes_path(timeframe_id: available_timeframe.id)
+                      = link_to available_timeframe.name, reservations_path(timeframe_id: available_timeframe.id)
                     - skip_counter[wday][index] = timeframe_length-1
                 - else
                   td

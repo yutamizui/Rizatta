@@ -11,7 +11,7 @@
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <div class="navbar-left">
         <ul class="navbar-nav">
-        　<!-- 企業がログインしている時　-->
+          <!-- 企業がログインしている時　-->
           <% if current_company.present? %>
            <li class="nav-item"><%= link_to t('activerecord.attributes.link.logout'),destroy_company_session_path, method: :delete, class:"nav-link" %></li>
 
@@ -20,16 +20,9 @@
             <li class="nav-item"> <%= link_to t('activerecord.attributes.link.logout'),destroy_staff_session_path, method: :delete, class:"nav-link" %></li>
             <li class="nav-item"><%= link_to t('activerecord.attributes.company.user_page'), users_path, class:"nav-link" %></li>
             <li class="nav-item"><%= link_to t('activerecord.attributes.company.staff_page'), staffs_path, class:"nav-link" %></li>
-            
-         
          <!-- ユーザーがログインシている時　-->
           <% elsif current_user.present? %>
             <li class="nav-item"> <%= link_to t('activerecord.attributes.link.logout'),destroy_user_session_path, method: :delete, class:"nav-link" %></li>
-          
-          <% else %>
-            <li class="nav-item"><%= link_to t("activerecord.attributes.company.signin"), new_company_registration_path, class:"nav-link" %></li>
-
-            <li class="nav-item"><%= link_to t('activerecord.attributes.link.login'), new_user_session_path, class:"nav-link" %></li>
           <% end %>
         </ul>
       </div>

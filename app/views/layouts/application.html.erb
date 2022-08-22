@@ -13,7 +13,11 @@
   </head>
 
   <body>
-    <%= render 'shared/navbar' %>
+    <div class="row">
+      <div class="col-md-12">
+        <%= render 'shared/navbar' %>
+      </div>
+    </div>
     <% if flash[:notice] %>
       <div class="alert alert-success">
         <%= flash[:notice] %>
@@ -28,12 +32,19 @@
     <br>
     <div class="container">
       <div class="row">
-        <div class="col-md-2">
-          <%= render 'shared/dashboard_verticalnavbar' %>
-        </div>
-        <div class="col-md-10">
-          <%= yield %>
-        </div>
+        <% if current_company.present? %>
+          <div class="col-md-2">
+            <%= render 'shared/dashboard_verticalnavbar' %>
+          </div>
+          <div class="col-md-10">
+            <%= yield %>
+          </div>
+        <% else %>
+          <div class="col-md-12">
+            <%= yield %>
+          </div>
+        <% end %>
+
       </div>  
     </div>
     <%= render 'shared/footer' %>

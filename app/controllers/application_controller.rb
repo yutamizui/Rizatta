@@ -12,7 +12,11 @@ class ApplicationController < ActionController::Base
     def locale
         if %w(ja en).include?(params[:locale])
           cookies[:locale] = params[:locale]
-          redirect_to controller: :branches, action: :index
+          if current_company.present?
+            redirect_to controller: :branches, action: :index
+          else
+            redirect_to new_user_session_path
+          end
         end
       end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_18_051355) do
+ActiveRecord::Schema.define(version: 2022_08_19_205303) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,6 +43,15 @@ ActiveRecord::Schema.define(version: 2022_08_18_051355) do
     t.string "secret_code", null: false
     t.index ["email"], name: "index_companies_on_email", unique: true
     t.index ["reset_password_token"], name: "index_companies_on_reset_password_token", unique: true
+  end
+
+  create_table "reservations", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "timeframe_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["timeframe_id"], name: "index_reservations_on_timeframe_id"
+    t.index ["user_id"], name: "index_reservations_on_user_id"
   end
 
   create_table "rooms", force: :cascade do |t|
@@ -107,6 +116,8 @@ ActiveRecord::Schema.define(version: 2022_08_18_051355) do
   end
 
   add_foreign_key "branches", "companies"
+  add_foreign_key "reservations", "timeframes"
+  add_foreign_key "reservations", "users"
   add_foreign_key "rooms", "branches"
   add_foreign_key "staffs", "branches"
   add_foreign_key "staffs", "companies"

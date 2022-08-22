@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  root to: 'branches#index'
+ 
+  devise_scope :user do
+    root :to => "users/sessions#new"
+  end
 
   devise_for :companies, controllers: {
     sessions:      'companies/sessions',
@@ -19,6 +22,7 @@ Rails.application.routes.draw do
 
   resources :companies
   resources :branches
+  resources :reservations
   resources :rooms
   resources :timeframes
   resources :users, only: [:index]

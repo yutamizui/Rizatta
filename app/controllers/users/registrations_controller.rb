@@ -25,7 +25,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
      if resource.save
        # ブロックが与えられたらresource(=User)を呼ぶ
        yield resource if block_given?
-       redirect_to users_path
+       redirect_to users_path(branch_id: @branch_id)
 
      elsif resource.persisted?
   

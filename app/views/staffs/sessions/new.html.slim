@@ -2,7 +2,7 @@ div.container
   div.row
     div.col-md-6
       div class="card button-margin"
-        h5 class="card-header staff-title-color mb-3" = t('activerecord.attributes.staff.login')
+        h2 class="card-header staff-title-color mb-3" = t('activerecord.attributes.staff.login')
         div class="card-body"
           = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
             div.form-group
@@ -19,4 +19,4 @@ div.container
                   span = t('activerecord.attributes.link.remember_login')
             div.actions
               = f.submit t('activerecord.attributes.link.login'), class:"btn btn-success button-margin"
-        = render "staffs/shared/links"
+      = render "staffs/shared/links"
