@@ -1,4 +1,4 @@
-@import "bootstrap-sprockets";
+// @import "bootstrap-sprockets";
 @import "toastr";
 @import "dropzone/dropzone";
 @import 'bootstrap';
@@ -33,6 +33,15 @@ body {
 
 .navbar-dark .navbar-nav .nav-link {
   font-size: 1.5rem!important;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+  font-size: 1.5rem!important;
+  background-color: #28a745!important;
+}
+
+.nav-tabs > li > a:hover {
+  background-color: #35d259!important;
 }
 
 .button-color {
@@ -155,10 +164,6 @@ body {
   background-color: #DDDDDD;
 }
 
-
-
-
-
 /*######################################### dashboardvertical_navbar end ############################################### */
 
 
@@ -259,11 +264,9 @@ table#time_table .lesson_chart > div {
     color: #FFF;
     font-size: 12px;
     text-align: left;
-    padding: 25px 8px;
-    margin: 1px;
+    padding: 10px 8px;
     position: relative;
     z-index: 2;
-    border-radius: 9px;
 }
 
 table#time_table .lesson_chart::before {
@@ -275,8 +278,8 @@ table#time_table .lesson_chart::before {
     right: 3px;
     bottom: 3px;
     z-index: 1;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
-    border-radius: 9px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
     
 }
 
@@ -284,34 +287,32 @@ table#time_table .name_size {
   font-size: 4px;
 }
 
-table#time_table .lesson_chart.red::before{
-    background-color: red;
+.modal-footer{
+  justify-content : center!important;
 }
 
-table#time_table .lesson_chart.forestgreen::before{
-    background-color: forestgreen;
-}
+.select-box{
+  border: 1px medium!important;
+  box-sizing: content-box!important;
+  width: 400px!important;
+  font-size: 16px!important;
+ }
 
-table#time_table .lesson_chart.dodgerblue::before{
-    background-color: dodgerblue;
-}
+ @media (max-width: 400px){
+  .select-box{ 
+    
+    border: 1px medium!important;
+    box-sizing: content-box!important;
+    font-size: 16px!important;
+    width: 290px!important;
+  }
+ }
 
-table#time_table .lesson_chart.orange::before{
-    background-color: orange;
-}
-
-table#time_table .lesson_chart.blueviolet::before{
-    background-color: blueviolet;
-}
-
-table#time_table .lesson_chart.sienna::before{
-    background-color: sienna;
-}
-
-table#time_table .lesson_chart.gray::before{
-    background-color: gray;
-}
-
+ .reserved-box {
+  border: 1px solid;
+  padding: 1px;
+  border-radius: 5%;
+ }
 
 
 /* #########################################　レッスン表 end ########################################### */

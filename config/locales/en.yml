@@ -17,6 +17,9 @@ en:
         invalid: "is invalid data"
         confirmation: "doesn't match"
         too_short: "is too short"
+        timeframe_start_time_should_be_within_calendar_start_time: The start time must be set within the calendar display time.
+        timeframe_end_time_should_be_within_calendar_start_time: The end time must be set within the calendar display time.
+        timeframe_start_time_should_be_smaller_than_end_time: Start time should be before the end time.
       models:
         student:
           attributes:
@@ -80,6 +83,10 @@ en:
         send: Send
         delete: Delete
         account: Account
+        close: Close
+        cancel: Cancel
+        canceled: The reservation has been canceled
+      
 
 
       common:
@@ -111,6 +118,7 @@ en:
         email: Email Address
         phone: Phone Nunmber
         go_to_registration_page: Go to user creation page
+        edit: Edit users information
 
       staff:
         title: Staff
@@ -153,6 +161,11 @@ en:
         room: Reservation Space
         opening_time: Opening Time
         time_on_calendar: Select the time slots you would like to see on your reservation calendar.
+        reserved: Reserved
+      
+      reservation:
+        title: Reservation List
+
 
       language:
         setting: Language Setting

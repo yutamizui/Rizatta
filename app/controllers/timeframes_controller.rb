@@ -1,15 +1,22 @@
 class TimeframesController < ApplicationController
-  before_action :find_timeframe, only: [:edit, :update, :delete]
+  before_action :find_timeframe, only: [:edit, :update, :destroy]
   before_action :set_week
   before_action :set_this_week
   before_action :set_day
 
   def index
-    @branches = current_company.branches
-    @branch = Branch.find(params[:branch_id])
+    if current_company.present?
+      @branches = current_company.branches
+      @branch = Branch.find(params[:branch_id])
+    elsif current_staff.present?
+      @branch = current_staff.branch
+    else
+      @branch = current_user.branch
+    end
     @timeframes = Timeframe.where(branch_id: params[:branch_id]).order(target_date: :asc)
     @rooms = Room.where(branch_id: params[:branch_id])
     @room = Room.find_by(name: params[:room])
+    @reservation = Reservation.new
   end
 
   def new
@@ -43,9 +50,10 @@ class TimeframesController < ApplicationController
     end
   end
 
-  def delete
+  def destroy
+    @branch_id = @timeframe.branch_id
     if @timeframe.destroy
-      redirect_to timeframes_path(), notice: t('activerecord.attributes.link.edited')
+      redirect_to timeframes_path(branch_id: @branch_id), notice: t('activerecord.attributes.link.deleted')
     end
   end
   

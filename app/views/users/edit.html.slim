@@ -1,0 +1,24 @@
+div.row
+  div.col-md-12
+    div class="card"
+      div class="card-header text-white bg-secondary mb-3" 
+        h4  = t('activerecord.attributes.user.edit')
+      div class="card-body"
+        == render 'shared/errors', obj: @user
+        = form_for @user, url: user_path do |f|
+          div.col-md-12
+            div.form-group
+              = f.label :name
+              = f.text_field :name, class:"form-control"
+            div.form-group
+              = f.label :email
+              = f.text_field :email, class:"form-control"
+            div.form-group
+              = f.label :phone
+              = f.text_field :phone, placeholder: t('activerecord.attributes.branch.phone_comment'), class:"form-control"
+
+          = f.submit  t('activerecord.attributes.link.update'), class:"btn btn-success button-margin"
+br
+br
+= link_to :back do 
+  button class="btn btn-secondary button-margin" = t("activerecord.attributes.link.back")

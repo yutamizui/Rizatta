@@ -35,14 +35,47 @@ div.row
                     - available_timeframe = timeframe
                 - if available_timeframe.present?
                   - timeframe_length = (available_timeframe.end_time - available_timeframe.start_time)/60/Timeframe::TIME_SPAN
-                  td.lesson_chart[ rowspan="#{timeframe_length}" ]
-                    div style="background-color:#{Colorlist.find(available_timeframe.color).code};" 
-                      = link_to available_timeframe.name, reservations_path(timeframe_id: available_timeframe.id)
+                  td.lesson_chart[ style="background-color:#{Colorlist.find(available_timeframe.color).code};" rowspan="#{timeframe_length}" ]
+                    div
+                      - if current_user.present? && Reservation.where(timeframe_id: available_timeframe.id).where(user_id: current_user.id).present?
+                        = available_timeframe.name
+                        p
+                        span.reserved-box = t("activerecord.attributes.timeframe.reserved")
+                      - elsif current_user.present?
+                        = link_to available_timeframe.name, new_reservation_path(timeframe_id: available_timeframe.id), data: {toggle: "modal", target: "#reservation_modal#{available_timeframe.id}"} 
+                      - else
+                        = link_to available_timeframe.name, edit_timeframe_path(id: available_timeframe.id)
+                  <!-- Modal -->
+                  div class="modal fade" id="reservation_modal#{available_timeframe.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true"
+                    div class="modal-dialog modal-dialog-centered" role="document"
+                      div class="modal-content"
+                        div class="modal-header"
+                          h5 class="modal-title" id="exampleModalLongTitle" ご予約内容
+                          button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                            span aria-hidden="true" &times;
+
+                        div class="modal-body"
+                          div.row
+                            div.col-md-12
+                              p = available_timeframe.name
+                              p
+                                = available_timeframe.start_time.strftime("%Y年%m月%d日 %H:%M") 
+                                = " ~ "
+                                = available_timeframe.end_time.strftime("%H:%M") 
+                        div class="modal-footer"
+                          = render 'shared/errors', obj: @reservation
+                          = form_for @reservation do |f|
+                            = f.hidden_field :timeframe_id, :value => available_timeframe.id
+                            - if current_user.present?
+                              = f.hidden_field :user_id, :value => current_user.id
+                            div class="actions"
+                              = f.submit "レッスンを予約する", class:"btn btn-success btn-lg"
+
+
                     - skip_counter[wday][index] = timeframe_length-1
                 - else
                   td
-
-
+                  
 / - content_for :head_contents do
 /   sass:
 /     @media print

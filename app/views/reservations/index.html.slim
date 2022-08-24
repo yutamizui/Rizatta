@@ -1,2 +1,49 @@
-h1 Reservations#index
-p Find me in app/views/reservations/index.html.slim
+- if current_company.present?
+  table class="table table-bordered"
+    thead class="thead-dark table-active "
+      tr
+        th = t('activerecord.attributes.timeframe.name')
+        th = t('activerecord.attributes.timeframe.target_date')
+        th = t('activerecord.attributes.timeframe.opening_time')
+        th = t('activerecord.attributes.timeframe.room')
+        th = t('activerecord.attributes.timeframe.capacity')
+        th 
+    tbody
+      - if @reservations.count > 0
+        - @reservations.each do |r|
+          - t = Timeframe.find(r.timeframe_id)
+          tr
+          td = t.name
+          td = t.target_date.strftime("%m/%d (#{%w(日 月 火 水 木 金 土)[t.target_date.wday]})")
+          td 
+              = t.start_time.strftime("%H:%M")
+              = " ~ "
+              = t.end_time.strftime("%H:%M")
+          td = Room.find(t.room_id).name
+          td 
+              = t.capacity
+              = "名"
+          td = link_to t('activerecord.attributes.link.edit'), edit_timeframe_path(id: t.id), class:"btn btn-success btn-sm"
+
+- elsif current_user.present?
+  table class="table table-bordered"
+    thead class="thead-dark table-active "
+      tr
+        th = t('activerecord.attributes.timeframe.name')
+        th = t('activerecord.attributes.timeframe.target_date')
+        th = t('activerecord.attributes.timeframe.opening_time')
+        th = t('activerecord.attributes.timeframe.room')
+        th 
+    tbody
+      - if @reservations.count > 0
+        - @reservations.each do |r|
+          - t = Timeframe.find(r.timeframe_id)
+          tr
+          td = t.name
+          td = t.target_date.strftime("%m/%d (#{%w(日 月 火 水 木 金 土)[t.target_date.wday]})")
+          td 
+              = t.start_time.strftime("%H:%M")
+              = " ~ "
+              = t.end_time.strftime("%H:%M")
+          td = Room.find(t.room_id).name
+          td = link_to t('activerecord.attributes.link.cancel'), reservation_path(id: r.id), method: :delete, data: {confirm: t('activerecord.attributes.link.are_you_sure')}, class:"btn btn-danger btn-sm"

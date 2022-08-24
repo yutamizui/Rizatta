@@ -12,6 +12,7 @@ table class="table table-bordered"
       th = t('activerecord.attributes.user.email')
       th = t('activerecord.attributes.user.phone')
       th
+      th
   tbody
     - @users.each_with_index do |u,i| 
       tr 
@@ -20,6 +21,7 @@ table class="table table-bordered"
         td = u.email
         td = u.phone
         td = "Ticket"
+        td = link_to t('activerecord.attributes.link.edit'), edit_user_path(id: u.id), class:"btn btn-success btn-sm"
 
 javascript:
   jQuery(function(){

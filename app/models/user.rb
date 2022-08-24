@@ -6,4 +6,5 @@ class User < ApplicationRecord
 
   belongs_to :company
   belongs_to :branch
+  has_many :reservations
 end

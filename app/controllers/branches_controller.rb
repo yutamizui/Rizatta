@@ -35,11 +35,11 @@ class BranchesController < ApplicationController
       redirect_to branches_path, notice: t('activerecord.attributes.link.updated')
     else
       flash[:notice] = t('activerecord.attributes.link.failed_to_create')
-      render 'branchess/edit'
+      render 'branches/edit'
     end
   end
 
-  def delete
+  def destroy
   end
 
   private

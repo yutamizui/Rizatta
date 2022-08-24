@@ -1,10 +1,18 @@
 class ReservationsController < ApplicationController
   def index
-    @reservations = Reservation.all
-  end
-
-  def new
-    @reservation = Reservation.new
+    if current_company.present?
+      timeframe_ids = []
+      current_company.branches.each do |b|
+        timeframe_ids << b.timeframes.pluck(:id)
+      end
+      @timeframe_ids = timeframe_ids
+      @reservations = Reservation.where(timeframe_id: @timeframe_ids)
+    elsif current_staff.present?
+      @reservations = Reservation.where(staff_id: current_staff.id)
+    elsif current_user.present?
+      @reservations = Reservation.includes(:timeframe).where(user_id: current_user.id).order("timeframes.target_date ASC").order("timeframes.start_time ASC")
+    end
+    
   end
 
   def create
@@ -17,7 +25,11 @@ class ReservationsController < ApplicationController
     end
   end
 
-  def delete
+  def destroy
+    @reservation = Reservation.find(params[:id])
+    if @reservation.destroy
+      redirect_to reservations_path(), notice: t('activerecord.attributes.link.canceled')
+    end
   end
 
   private

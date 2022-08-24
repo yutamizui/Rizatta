@@ -37,9 +37,9 @@ ja:
         too_short: は%{count}文字以上で入力してください
         wrong_length: は%{count}文字で入力してください
         other_than: は%{count}以外の値にしてください
-        lesson_start_time_should_be_within_calendar_start_time: レッスン開始時間はカレンダー表示時間内で設定して下さい。
-        lesson_end_time_should_be_within_calendar_start_time: レッスン開始時間はカレンダー表示時間内で設定して下さい。
-        lesson_start_time_should_be_smaller_than_end_time: レッスンの開始時間は終了時間よりも前にして下さい。
+        lesson_start_time_should_be_within_calendar_start_time: 開始時間はカレンダー表示時間内で設定して下さい。
+        lesson_end_time_should_be_within_calendar_start_time: 終了時間はカレンダー表示時間内で設定して下さい。
+        lesson_start_time_should_be_smaller_than_end_time: 開始時間は終了時間よりも前にして下さい。
         blank: "が記入されていません。"
         invalid: "が不正な値です。"
         confirmation: "が一致しません。"
@@ -55,6 +55,9 @@ ja:
         mini_magick_processing_error: "MiniMagickがファイルを処理できませんでした。画像を確認してください。エラーメッセージ: %{e}"
         min_size_error: "ファイルを%{min_size}バイト以上のサイズにしてください"
         max_size_error: "ファイルを%{max_size}バイト以下のサイズにしてください"
+        timeframe_start_time_should_be_within_calendar_start_time: 開始時間はカレンダー表示時間内で設定して下さい。
+        timeframe_end_time_should_be_within_calendar_start_time: 開始時間はカレンダー表示時間内で設定して下さい。
+        timeframe_start_time_should_be_smaller_than_end_time: 開始時間は終了時間よりも前にして下さい。
 
 
 
@@ -101,7 +104,9 @@ ja:
         send: 送信する
         delete: 削除する
         account: アカウント
-      
+        close: 閉じる
+        cancel: キャンセルする
+        canceled: 予約がキャンセルされました
       common:
         password: パスワード
         password_confirmation: パスワード確認
@@ -135,6 +140,7 @@ ja:
         phone: 電話番号
         status: ポジション
         go_to_registration_page: ユーザー登録ページに移動する
+        edit: ユーザー情報の編集
 
       staff:
         title: スタッフ
@@ -177,6 +183,10 @@ ja:
         create: 時間枠を作成する
         room: 予約スペース
         opening_time: 開催時間
+        reserved: 予約済み
+      
+      reservation:
+        title: 予約一覧
 
 
       language:

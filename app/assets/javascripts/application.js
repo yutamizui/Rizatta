@@ -1,6 +1,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require dropzone
+//= require popper
+//= require bootstrap
 //= require bootstrap-sprockets
 //= require moment
 //= require moment/ja
