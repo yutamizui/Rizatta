@@ -21,11 +21,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
     @company_id = params[:company_id]
     @branch_id = params[:branch_id]
     build_resource(sign_up_params)
-
+    binding.pry
      if resource.save
        # ブロックが与えられたらresource(=User)を呼ぶ
        yield resource if block_given?
-       redirect_to users_path(branch_id: @branch_id)
+       redirect_to users_path(branch_id: resource.branch_id)
 
      elsif resource.persisted?
   

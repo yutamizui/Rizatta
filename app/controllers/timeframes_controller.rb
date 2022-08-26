@@ -21,7 +21,7 @@ class TimeframesController < ApplicationController
 
   def new
     @timeframe = Timeframe.new
-    @rooms = Room.where(id: current_company.branches.pluck(:id))
+    @rooms = Room.where(branch_id: params[:branch_id])
     @page_type = "new"
     @branch = Branch.find(params[:branch_id])
     @target_dates = @branch.timeframes.pluck(:target_date)

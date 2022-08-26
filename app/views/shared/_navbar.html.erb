@@ -23,7 +23,7 @@
          <!-- ユーザーがログインしている時　-->
           <% elsif current_user.present? %>
             <li class="nav-item"><%= link_to t('activerecord.attributes.timeframe.title'), timeframes_path(branch_id: current_user.branch.id, style: "calendar_view"), class:"nav-link" %>
-            <li class="nav-item"><%= link_to t('activerecord.attributes.reservation.title'), reservations_path, class:"nav-link" %></li>
+            <li class="nav-item"><%= link_to t('activerecord.attributes.reservation.title'), reservations_path(branch_id: current_user.branch.id, style: "list_view"), class:"nav-link" %></li>
             <li class="nav-item"> <%= link_to t('activerecord.attributes.link.logout'),destroy_user_session_path, method: :delete, class:"nav-link" %></li>
           <% end %>
         </ul>

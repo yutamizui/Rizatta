@@ -1,4 +1,8 @@
 - if current_company.present?
+  - if @branches.present?
+    - @branches.each do |b|
+      span#branch-button
+        = link_to b.name, reservations_path(branch_id: b.id, style: params[:style]), class:"btn btn-secondary button-margin", name:"#{b.id}"
   table class="table table-bordered"
     thead class="thead-dark table-active "
       tr
@@ -7,7 +11,6 @@
         th = t('activerecord.attributes.timeframe.opening_time')
         th = t('activerecord.attributes.timeframe.room')
         th = t('activerecord.attributes.timeframe.capacity')
-        th 
     tbody
       - if @reservations.count > 0
         - @reservations.each do |r|
@@ -15,15 +18,16 @@
           tr
           td = t.name
           td = t.target_date.strftime("%m/%d (#{%w(日 月 火 水 木 金 土)[t.target_date.wday]})")
-          td 
-              = t.start_time.strftime("%H:%M")
-              = " ~ "
-              = t.end_time.strftime("%H:%M")
+          td
+            = t.start_time.strftime("%H:%M")
+            = " ~ "
+            = t.end_time.strftime("%H:%M")
           td = Room.find(t.room_id).name
-          td 
-              = t.capacity
-              = "名"
-          td = link_to t('activerecord.attributes.link.edit'), edit_timeframe_path(id: t.id), class:"btn btn-success btn-sm"
+          td
+            = t.reservations.count
+            = " / "
+            = t.capacity
+            = " 名"
 
 - elsif current_user.present?
   table class="table table-bordered"
@@ -47,3 +51,16 @@
               = t.end_time.strftime("%H:%M")
           td = Room.find(t.room_id).name
           td = link_to t('activerecord.attributes.link.cancel'), reservation_path(id: r.id), method: :delete, data: {confirm: t('activerecord.attributes.link.are_you_sure')}, class:"btn btn-danger btn-sm"
+
+javascript:
+  jQuery(function(){
+    var params = (new URL(document.location)).searchParams;
+    var branch_id = params.get('branch_id');
+    $('#branch-button a').each(function(){
+      var buttontype = $(this).attr('name');
+      if( buttontype == branch_id ){
+        $( $(this)).addClass("btn-company");
+      }
+    });
+    //var branches = #{raw @branches.to_json};
+  }) 

@@ -1,12 +1,15 @@
 class ReservationsController < ApplicationController
   def index
     if current_company.present?
-      timeframe_ids = []
-      current_company.branches.each do |b|
-        timeframe_ids << b.timeframes.pluck(:id)
+      if params[:branch_id].present?
+        @branch = Branch.find(params[:branch_id])
+      else
+        @branch = current_company.branches.first
       end
-      @timeframe_ids = timeframe_ids
-      @reservations = Reservation.where(timeframe_id: @timeframe_ids)
+      if current_company.branches.count > 1
+        @branches = current_company.branches
+      end
+      @reservations = Reservation.includes(:timeframe).where(timeframes: {branch_id: @branch.id}).order("timeframes.target_date ASC").order("timeframes.start_time ASC")
     elsif current_staff.present?
       @reservations = Reservation.where(staff_id: current_staff.id)
     elsif current_user.present?
