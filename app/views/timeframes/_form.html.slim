@@ -111,36 +111,67 @@ javascript:
     $('.datepicker').datepicker('update', date);
   }
 
-  var selected_date = "";
-  $('.target_data').change(function(){
-    $('#timeframe_target_date').on({
-      changeDate:
-        function(obj) {
-          var selected_year = obj.date.getFullYear();
-          var selected_month = obj.date.getMonth() + 1;
-          var selected_day = obj.date.getDate();
-          var selected_date = selected_year + "/" + selected_month + "/" + selected_day
-        }
-    });
+  var timeframes = #{raw @target_timeframes.to_json};
+  var current_selected_date= "";
+  var current_start_time = "";
+  var current_end_time = "";
+  var current_room_id = "";
+  var target = $('#timeframe_target_date, #timeframe_start_time_4i, #timeframe_start_time_5i,#timeframe_end_time_4i, #timeframe_end_time_5i, #timeframe_room_id ');
 
-    $('.timeframe_start_time').change(function(){
-      var start_hour = $('#timeframe_start_time_4i').val(); 
-      var start_min = $('#timeframe_start_time_5i') .val();
-      var start_time = start_hour + ":" + start_min;
-    });
 
-    $('.timeframe_end_time').change(function(){
-      var end_hour = $('#timeframe_end_time_4i').val();
-      var end_min = $('#timeframe_end_time_5i') .val();
-      var end_time = end_hour + ":" + end_min;
-      
-    });
-
-    $('#timeframe_room_id').change(function(){
-      num = this.selectedIndex;
-      room_id = this.options[num].value;   //ルームのIDを取得
-      
-    });
-    console.log(selected_date);
+  $('#timeframe_target_date').on({
+    changeDate:
+      function(obj) {
+        var selected_year = obj.date.getFullYear();
+        var selected_month = obj.date.getMonth() + 1;
+        var selected_day = obj.date.getDate();
+        var selected_date = (selected_year + "/" + ('0' + selected_month).slice(-2) + "/" + selected_day);
+        current_selected_date = selected_date;
+        judge();
+      }
   });
 
+  $('.timeframe_start_time').change(function(){
+    var start_hour = $('#timeframe_start_time_4i').val(); 
+    var start_min = $('#timeframe_start_time_5i') .val();
+    var start_time = start_hour + ":" + start_min;
+    current_start_time = start_time;
+    judge();
+  });
+
+  $('.timeframe_end_time').change(function(){
+    var end_hour = $('#timeframe_end_time_4i').val();
+    var end_min = $('#timeframe_end_time_5i') .val();
+    var end_time = end_hour + ":" + end_min;
+    current_end_time = end_time;
+    judge();
+  });
+
+  $('#timeframe_room_id').change(function(){
+    num = this.selectedIndex;
+    room_id = this.options[num].value;   //ルームのIDを取得
+    current_rooom_id = room_id;
+    judge();
+  });
+
+  function judge(){
+    for(var i = 0; i < timeframes.length; ++i) {
+      var prev_timeframe_date = timeframes[i].target_date.split("-")[0] + "-" + timeframes[i].target_date.split("-")[1] + "-" + timeframes[i].target_date.split("-")[2].match(/.{2}/g)[0];
+      var start_hour = new Date(timeframes[i].start_time).getHours();
+      var start_min = ("0" + new Date(timeframes[i].start_time).getMinutes()).slice(-2);
+      var prev_timeframe_start_time = start_hour + ":" + start_min;
+      var end_hour = new Date(timeframes[i].end_time).getHours();
+      var end_min = ("0" + new Date(timeframes[i].end_time).getMinutes()).slice(-2);
+      var prev_timeframe_end_time = end_hour + ":" + end_min;
+
+      if (current_selected_date.replaceAll("/","-") === prev_timeframe_date && prev_timeframe_start_time <  current_end_time &&  prev_timeframe_end_time > current_start_time ){
+        console.log("did");
+        alert("同じ時間帯にすでに枠が存在しています");
+      };
+    }
+  }
+
+  
+    
+
+   //.where("start_time < ?", end_time).where("end_time > ?", start_time).where.not(id: self.id).where(school_id: self.school_id).present?

@@ -17,13 +17,13 @@ div.row
       - tr_counter = 0
       - (@branch.calendar_start_time.to_i...@branch.calendar_end_time.to_i).step(Timeframe::TIME_SPAN * 60) do |time|
         - tr_counter += 1
-        tr class=((tr_counter - 1) % 12 == 0 ? 'time_schedule border' : 'time_schedule')
+        tr class=((tr_counter - 1) % 12 == 0 ? 'time_schedule border-top' : 'time_schedule')
           - if Time.at(time).min == 0
             th [rowspan="#{60/Timeframe::TIME_SPAN}"]
               = Time.at(time).strftime("%H:%M")
 
           - wdays_num = (0..6)
-          - wdays_num.each do |wday|
+          - wdays_num.each do |wday| 
             - display_rooms.each_with_index do |room, index|
               - if skip_counter[wday][index] > 0
                 - skip_counter[wday][index] -= 1
