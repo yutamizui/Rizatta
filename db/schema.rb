@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_19_205303) do
+ActiveRecord::Schema.define(version: 2022_08_29_052350) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,6 +81,15 @@ ActiveRecord::Schema.define(version: 2022_08_19_205303) do
     t.index ["reset_password_token"], name: "index_staffs_on_reset_password_token", unique: true
   end
 
+  create_table "tickets", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "reservation_id"
+    t.datetime "expired_at", default: -> { "CURRENT_TIMESTAMP" }
+    t.boolean "status", default: true, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "timeframes", force: :cascade do |t|
     t.string "name"
     t.datetime "target_date", default: -> { "CURRENT_TIMESTAMP" }
@@ -93,6 +102,7 @@ ActiveRecord::Schema.define(version: 2022_08_19_205303) do
     t.bigint "room_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "required_ticket_number", default: 1, null: false
     t.index ["branch_id"], name: "index_timeframes_on_branch_id"
     t.index ["room_id"], name: "index_timeframes_on_room_id"
   end

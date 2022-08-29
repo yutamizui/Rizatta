@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   resources :rooms
   resources :timeframes
   resources :users
+  resources :tickets
   resources :staffs, only: [:index]
   get "locale" => "application#locale", as: "locale"
 end

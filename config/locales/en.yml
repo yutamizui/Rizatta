@@ -161,7 +161,9 @@ en:
         room: Reservation Space
         opening_time: Opening Time
         time_on_calendar: Select the time slots you would like to see on your reservation calendar.
+        required_ticket_number: Number of tickets required
         reserved: Reserved
+        sheet: sheet
       
       reservation:
         title: Reservation List

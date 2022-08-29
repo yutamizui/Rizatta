@@ -22,6 +22,7 @@ class TimeframesController < ApplicationController
   def new
     @timeframe = Timeframe.new
     @rooms = Room.where(branch_id: params[:branch_id])
+    @room = @rooms.first
     @page_type = "new"
     @branch = Branch.find(params[:branch_id])
     @target_timeframes = @branch.timeframes
@@ -55,7 +56,7 @@ class TimeframesController < ApplicationController
   def destroy
     @branch_id = @timeframe.branch_id
     if @timeframe.destroy
-      redirect_to timeframes_path(branch_id: @branch_id), notice: t('activerecord.attributes.link.deleted')
+      redirect_to timeframes_path(branch_id: @branch_id, style: "list_view" ), notice: t('activerecord.attributes.link.deleted')
     end
   end
   
@@ -88,6 +89,8 @@ class TimeframesController < ApplicationController
   end
 
   def timeframe_params
-    params.require(:timeframe).permit(:name, :target_date, :start_time, :end_time, :capacity, :color, :branch_id, :room_id)
+    params.require(:timeframe).permit(
+      :name, :target_date, :start_time, :end_time, :capacity, :color, :branch_id, :room_id, :required_ticket_number
+    )
   end
 end

@@ -7,7 +7,7 @@ div.row
         == render 'shared/errors', obj: @timeframe
         = form_for @timeframe, url: timeframe_path do |f|
           == render 'timeframes/form', f: f
-          = f.submit  t('activerecord.attributes.link.update'), class:"btn btn-primary "
+          = f.submit  t('activerecord.attributes.link.update'), class:"btn btn-primary", id:"timeframe-create-update-button"
 br
 br
 = link_to :back do 

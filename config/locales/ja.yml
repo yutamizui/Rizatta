@@ -184,9 +184,18 @@ ja:
         room: 予約スペース
         opening_time: 開催時間
         reserved: 予約済み
+        required_ticket_number: 必要チケット数
+        sheet: 枚
       
       reservation:
         title: 予約一覧
+
+      ticket:
+        title: チケット
+        expired_at: 有効期限
+        management: チケット管理
+        create: チケットを作成する
+        delete: チケットを削除する
 
 
       language:

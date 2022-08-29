@@ -11,8 +11,8 @@ table class="table table-bordered"
       th = t('activerecord.attributes.user.name')
       th = t('activerecord.attributes.user.email')
       th = t('activerecord.attributes.user.phone')
-      th
-      th
+      th = t('activerecord.attributes.ticket.title')
+      th  
   tbody
     - @users.each_with_index do |u,i| 
       tr 
@@ -20,7 +20,37 @@ table class="table table-bordered"
         td = u.name
         td = u.email
         td = u.phone
-        td = "Ticket"
+        td 
+          = u.tickets.count
+          = t('activerecord.attributes.timeframe.sheet')
+          = "  "
+          = link_to t('activerecord.attributes.ticket.create'), new_ticket_path, data: {toggle: "modal", target: "#ticket_modal#{u.id}"}, class:"btn btn-primary"
+          div class="modal fade" id="ticket_modal#{u.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true"
+            div class="modal-dialog modal-dialog-centered" role="document"
+              div class="modal-content"
+                div class="modal-header"
+                  h5 class="modal-title" id="exampleModalLongTitle" ご予約内容
+                  button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                    span aria-hidden="true" &times;
+
+                div class="modal-body"
+                  div.row
+                    div.col-md-12
+                      p = Date.today
+
+                div class="modal-footer"
+                  = render 'shared/errors', obj: @ticket
+                  = form_tag({controller: :tickets, action: :create}, { method: :post}) do
+                    div.form-group
+                      = label_tag t('activerecord.attributes.ticket.expired_at')
+                      = text_field_tag :expired_at, Date.today, class:"form-control datepicker"
+                    div.form-group
+                      = number_field_tag :number_of_ticket, 0, min:0, class:"form-control"
+                      = t('activerecord.attributes.timeframe.sheet')
+                    = hidden_field_tag :user_id, :value => u.id
+                    div
+                      = submit_tag t('activerecord.attributes.ticket.create'), class:"btn btn-primary button-margin"
+                     
         td = link_to t('activerecord.attributes.link.edit'), edit_user_path(id: u.id), class:"btn btn-success btn-sm"
 
 javascript:
@@ -35,4 +65,14 @@ javascript:
     });
     //var branches = #{raw @branches.to_json};
   }) 
+
+  $('.datepicker').datepicker({
+    format: 'yyyy/mm/dd',
+  });
+  var today = new Date();
+  var year = today.getFullYear();
+  var month = today.getMonth() + 1;
+  var day = today.getDate();
+  $('.datepicker').datepicker('update', '&{year}/$(month)/&{day}');
+  
 
