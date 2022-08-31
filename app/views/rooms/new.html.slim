@@ -8,3 +8,36 @@ div.col-md-12
         = f.hidden_field :branch_id, value: params[:branch_id]
         == render 'rooms/form', f: f
         = f.submit  t('activerecord.attributes.link.create'), class:"btn btn-primary button-margin"
+
+br
+br
+- if @branches.count > 0
+  - @branches.each do |b|
+    span#branch-button
+      = link_to b.name, new_room_path(branch_id: b.id), class:"btn btn-secondary button-margin", name:"#{b.id}"
+
+table class="table table-bordered"
+  thead class="thead-dark table-active "
+    tr
+      th = t('activerecord.attributes.room.name')
+      th
+
+  tbody
+    - @rooms.each do |r| 
+      tr
+        td = r.name
+        td = link_to t('activerecord.attributes.link.edit'), edit_room_path(id: r.id), class:"btn btn-success"
+
+
+javascript:
+  jQuery(function(){
+    var params = (new URL(document.location)).searchParams;
+    var branch_id = params.get('branch_id');
+    $('#branch-button a').each(function(){
+      var buttontype = $(this).attr('name');
+      if( buttontype == branch_id ){
+        $( $(this)).addClass("btn-company");
+      }
+    });
+    //var branches = #{raw @branches.to_json};
+  }) 

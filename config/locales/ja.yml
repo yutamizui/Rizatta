@@ -100,6 +100,7 @@ ja:
         detail: 詳細
         deleted: 削除しました
         are_you_sure: 本当に削除しますか？
+        are_you_sure_to_cancel: 本当にキャンセルしますか？
         add: 追加する
         send: 送信する
         delete: 削除する
@@ -188,7 +189,9 @@ ja:
         sheet: 枚
       
       reservation:
-        title: 予約一覧
+        title: 予約
+        list: 予約一覧
+        confirmation: 予約確認
 
       ticket:
         title: チケット
@@ -196,6 +199,9 @@ ja:
         management: チケット管理
         create: チケットを作成する
         delete: チケットを削除する
+        currently_owned: 現在所有しているチケット
+        number_to_create: 作成枚数
+        sheet: 枚
 
 
       language:

@@ -78,7 +78,8 @@ en:
         detail: Detail
         delete: Delete
         deleted: Deleted
-        are_you_sure: Are you sure to delete this?
+        are_you_sure: Are you sure to delete?
+        are_you_sure_to_cancel: Are you sure to cancel?
         add: Add
         send: Send
         delete: Delete
@@ -166,7 +167,19 @@ en:
         sheet: sheet
       
       reservation:
-        title: Reservation List
+        title: Reservation
+        list: Reservation List
+        confirmation: Your reservation
+      
+      ticket:
+        title: Ticket
+        expired_at: Expiration date
+        management: Ticket manage
+        create: Create this ticket
+        delete: Delete this ticket
+        currently_owned: Ticket currently owned
+        number_to_create: Number to create
+        sheet: sheets
 
 
       language:

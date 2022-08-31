@@ -1,24 +1,6 @@
 class TimeframesController < ApplicationController
   before_action :find_timeframe, only: [:edit, :update, :destroy]
-  before_action :set_week
-  before_action :set_this_week
-  before_action :set_day
-
-  def index
-    if current_company.present?
-      @branches = current_company.branches
-      @branch = Branch.find(params[:branch_id])
-    elsif current_staff.present?
-      @branch = current_staff.branch
-    else
-      @branch = current_user.branch
-    end
-    @timeframes = Timeframe.where(branch_id: params[:branch_id]).order(target_date: :asc)
-    @rooms = Room.where(branch_id: params[:branch_id])
-    @room = Room.find_by(name: params[:room])
-    @reservation = Reservation.new
-  end
-
+  
   def new
     @timeframe = Timeframe.new
     @rooms = Room.where(branch_id: params[:branch_id])
@@ -32,7 +14,7 @@ class TimeframesController < ApplicationController
     @timeframe = Timeframe.new(timeframe_params)
     @timeframe.color = params[:timeframe][:color].to_i
     if @timeframe.save
-      redirect_to timeframes_path(branch_id: @timeframe.branch_id), notice: t('activerecord.attributes.link.created')
+      redirect_to reservations_path(branch_id: @timeframe.branch_id), notice: t('activerecord.attributes.link.created')
     else
       flash.now[:alert] = t('activerecord.attributes.link.failed_to_create')
       render 'timeframes/new'
@@ -61,28 +43,6 @@ class TimeframesController < ApplicationController
   end
   
   private
-
-  def set_week
-    @week = params[:week].to_i.abs
-    if @week == 0
-      @start_day = Date.today
-    else
-      @start_day = Date.today.since(@week.weeks)
-    end
-  end
-
-  def set_this_week
-    this_monday = @start_day.beginning_of_week
-    @days = (0..6).map {|i| this_monday.since(i.days)}
-  end
-
-  def set_day
-    if params[:day].present?
-      @day = Date.parse(params[:day])
-    else
-      @day = Date.today
-    end
-  end
 
   def find_timeframe
     @timeframe = Timeframe.find(params[:id])

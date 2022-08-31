@@ -1,5 +1,6 @@
 class TicketsController < ApplicationController
   before_action :find_ticket, only: [:show, :edit, :update, :delete]
+  
 
   def show
     @ticket = Ticket.find(params[:id])
@@ -11,13 +12,15 @@ class TicketsController < ApplicationController
   end
 
   def create
-    @ticket = Ticket.new(ticket_params)
-    if @ticket.save
-      redirect_to tickets_path(branch_id: @ticket.branch_id), notice: t('activerecord.attributes.link.created')
-    else
-      flash.now[:alert] = t('activerecord.attributes.link.failed_to_create')
-      render 'new'
+    params[:number_of_ticket].to_i.times do
+      @ticket = Ticket.create(
+        expired_at: params[:expired_at].in_time_zone.end_of_day,
+        user_id: params[:user_id],
+        status: "true",
+      )
+      
     end
+    redirect_to users_path(branch_id: @ticket.user.branch_id), notice: t('activerecord.attributes.link.created')
   end
 
   def edit
@@ -41,7 +44,7 @@ class TicketsController < ApplicationController
       @ticket = Ticket.find(params[:id])
     end
 
-    def ticket_params
-      params.require(:ticket).permit(:user_id, :reservation_id, :expired_at, :status)
-    end
+    # def ticket_params
+    #   params.require(:ticket).permit(:user_id, :reservation_id, :expired_at, :status)
+    # end
 end

@@ -21,7 +21,7 @@ table class="table table-bordered"
         td = u.email
         td = u.phone
         td 
-          = u.tickets.count
+          = u.tickets.where("expired_at >= ?", Date.today.end_of_day).where(status: true).count
           = t('activerecord.attributes.timeframe.sheet')
           = "  "
           = link_to t('activerecord.attributes.ticket.create'), new_ticket_path, data: {toggle: "modal", target: "#ticket_modal#{u.id}"}, class:"btn btn-primary"
@@ -36,18 +36,24 @@ table class="table table-bordered"
                 div class="modal-body"
                   div.row
                     div.col-md-12
-                      p = Date.today
+                      p
+                        = t("activerecord.attributes.ticket.currently_owned") + ":  "
+                        = u.tickets.where("expired_at > ?", Date.today.end_of_day).where(status: true).count
+                        = t("activerecord.attributes.timeframe.sheet")
 
-                div class="modal-footer"
+                div class="modal-footer ticket-footer"
                   = render 'shared/errors', obj: @ticket
                   = form_tag({controller: :tickets, action: :create}, { method: :post}) do
                     div.form-group
                       = label_tag t('activerecord.attributes.ticket.expired_at')
-                      = text_field_tag :expired_at, Date.today, class:"form-control datepicker"
+                      = text_field_tag :expired_at, Date.today.end_of_day, class:"form-control datepicker"
                     div.form-group
-                      = number_field_tag :number_of_ticket, 0, min:0, class:"form-control"
-                      = t('activerecord.attributes.timeframe.sheet')
-                    = hidden_field_tag :user_id, :value => u.id
+                      = t('activerecord.attributes.ticket.number_to_create')
+                      div class='input-group-append'
+                        = number_field_tag :number_of_ticket, 1, min:1, class:"form-control"
+                        span class="input-group-text" 
+                          = t('activerecord.attributes.timeframe.sheet')
+                    = hidden_field_tag :user_id, u.id
                     div
                       = submit_tag t('activerecord.attributes.ticket.create'), class:"btn btn-primary button-margin"
                      

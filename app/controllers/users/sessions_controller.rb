@@ -17,7 +17,7 @@ class Users::SessionsController < Devise::SessionsController
     set_flash_message!(:notice, :signed_in)
     sign_in(resource_name, resource)
     yield resource if block_given?
-    redirect_to timeframes_path(branch_id: self.resource.branch_id)
+    redirect_to reservations_path(branch_id: self.resource.branch_id)
   end
 
   # DELETE /resource/sign_out

@@ -1,0 +1,58 @@
+- skip_counter = Array.new(7){Array.new(Room.count,0)}
+- display_rooms = @room ? [@room] : @rooms
+
+div.row
+  .col-md-12#table-container
+    table#time_table
+      tr#lesson_day
+        th
+        - @days.each do |day|
+          - if day.wday == 6
+            - day_color = "#E6FFE9"
+          - elsif day.wday == 0
+            - day_color = "#fbeae0"
+          - else 
+            - day_color = "#fff"
+          th[colspan="#{display_rooms.count}", style="background-color: #{day_color};"]
+            = day.strftime("%m/%d (#{%w(日 月 火 水 木 金 土)[day.wday]})")
+      tr#classroom_name
+        td
+        - @days.each do |day|
+          - display_rooms.each do |room|
+            td#classroom_name_title[style="font-size: 70%;"]
+              = room.name
+      - tr_counter = 0
+      - (@branch.calendar_start_time.to_i...@branch.calendar_end_time.to_i).step(Timeframe::TIME_SPAN * 60) do |time|
+        - tr_counter += 1
+        tr class=((tr_counter - 1) % 12 == 0 ? 'time_schedule border' : 'time_schedule')
+          - if Time.at(time).min == 0
+            th [rowspan="#{60/Timeframe::TIME_SPAN}"]
+              = Time.at(time).strftime("%H:%M")
+
+          - wdays_num = (0..6)
+          - wdays_num.each do |wday| 
+            - display_rooms.each_with_index do |room, index|
+              - if skip_counter[wday][index] > 0
+                - skip_counter[wday][index] -= 1
+              - else
+                - available_timeframe = nil
+
+                - timeframes.each do |timeframe|
+                  - if timeframe.start_time.strftime('%H:%M') == Time.at(time).strftime('%H:%M') && timeframe.target_date.strftime('%m/%d (%a)') == @days[wday].strftime('%m/%d (%a)') && timeframe.room_id == room.id
+                    - available_timeframe = timeframe
+                - if available_timeframe.present?
+                  - timeframe_length = (available_timeframe.end_time - available_timeframe.start_time)/60/Timeframe::TIME_SPAN
+                  td.lesson_chart[ style="background-color:#{Colorlist.find(available_timeframe.color).code};" rowspan="#{timeframe_length}" ]
+                    div
+                      - if current_user.present? && Reservation.where(timeframe_id: available_timeframe.id).where(user_id: current_user.id).present?
+                        = available_timeframe.name
+                        p
+                        span.reserved-box = t("activerecord.attributes.timeframe.reserved")
+                      - elsif current_user.present?
+                        = link_to available_timeframe.name, new_reservation_path(timeframe_id: available_timeframe.id)
+                      - else
+                        = link_to available_timeframe.name, edit_timeframe_path(id: available_timeframe.id)
+
+                    - skip_counter[wday][index] = timeframe_length-1
+                - else
+                  td

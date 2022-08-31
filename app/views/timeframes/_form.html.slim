@@ -1,56 +1,59 @@
 div.row
-  div class="col-md-4 select"
+  div class="col-md-7 select"
     div class="form-group"
       label = t('activerecord.attributes.timeframe.name')
       = f.text_field :name, autofocus: 'true', class:"form-control"
-  
-  div class="col-md-2 select target_data"
+
+  div class="col-md-4 select"
+      div class="form-group"
+        label = t('activerecord.attributes.timeframe.required_ticket_number')
+        div class='input-group-append'
+          = f.number_field :required_ticket_number, autofocus: 'true', class:"form-control"
+          span class="input-group-text" 
+            = t('activerecord.attributes.timeframe.sheet')
+div.row
+  div class="col-md-3 select"
     div class="form-group"
       label = t('activerecord.attributes.timeframe.target_date')
       div class='form-group'
         = f.text_field :target_date, default: "#{@timeframe.target_date}", class:"form-control datepicker"
 
-  div class="col-md-2 select target_data"
+  div class="col-md-2 select"
     div class="form-group timeframe_start_time"
       label = t('activerecord.attributes.timeframe.start_time')
       br
       = f.time_select :start_time, start_hour: 7, end_hour: 23, minute_step: 5, autofocus: 'true', class:"form-control"
 
-  div class="col-md-2 select target_data"
+  div class="col-md-2 select"
     div class="form-group timeframe_end_time"
       label = t('activerecord.attributes.timeframe.end_time')
       br
       = f.time_select :end_time, start_hour: 7, end_hour: 23, minute_step: 5, autofocus: 'true', class:"form-control"
-br
-div class="row"
-  div class="col-md-7 select target_data"
-    div class="form-group"
-      label = t('activerecord.attributes.timeframe.room')
-      p = f.collection_select :room_id, @rooms, :id, :name, {selected: @rooms.first }, { class: 'form-control select-box' }
 
-  div class="col-md-2 select"
+  div class="col-md-3 select"
     div class="form-group"
       label = t('activerecord.attributes.timeframe.capacity')
       div class='input-group-append'
         = f.number_field :capacity, autofocus: 'true', class:"form-control"
         span class="input-group-text" 人
 
+  
+
 br
 div class="row"
-  div class="col-md-5"
+  div class="col-md-12 select"
+    div class="form-group"
+      label = t('activerecord.attributes.timeframe.room')
+      p = f.collection_select :room_id, @rooms, :id, :name, {selected: @rooms.first }, { class: 'form-control select-box' }
+div.row
+  div class="col-md-10"
     div class="form-group"
       label = t('activerecord.attributes.timeframe.color')
       = f.select :color, (Colorlist.all.map {|c| [c.name, c.id, {'code' => c.code }]}), {}, {id: 'color_select', class: "form-control select-box"}
-  div class="col-md-2"
+  div class="col-md-1"
     div#output
 
-  div class="col-md-2 select"
-    div class="form-group"
-      label = t('activerecord.attributes.timeframe.required_ticket_number')
-      div class='input-group-append'
-        = f.number_field :required_ticket_number, autofocus: 'true', class:"form-control"
-        span class="input-group-text" 
-          = t('activerecord.attributes.timeframe.sheet')
+  
 
 javascript:
   jQuery(function(){
@@ -145,9 +148,10 @@ javascript:
         var selected_year = obj.date.getFullYear();
         var selected_month = obj.date.getMonth() + 1;
         var selected_day = obj.date.getDate();
-        var selected_date = (selected_year + "/" + ('0' + selected_month).slice(-2) + "/" + selected_day);
+        var selected_date = (selected_year + "/" + ('0' + selected_month).slice(-2) + "/" + ('0' + selected_day).slice(-2));
         current_selected_date = selected_date;
-        duplication_udge();
+        console.log(current_selected_date);
+        duplication_err();
       }
   });
 
@@ -156,7 +160,7 @@ javascript:
     var start_min = $('#timeframe_start_time_5i') .val();
     var start_time = start_hour + ":" + start_min;
     current_start_time = start_time;
-    duplication_udge();
+    duplication_err();
   });
 
   $('.timeframe_end_time').change(function(){
@@ -164,17 +168,17 @@ javascript:
     var end_min = $('#timeframe_end_time_5i') .val();
     var end_time = end_hour + ":" + end_min;
     current_end_time = end_time;
-    duplication_udge();
+    duplication_err();
   });
 
   $('#timeframe_room_id').change(function(){
     num = this.selectedIndex;
     room_id = this.options[num].value;   //ルームのIDを取得
     current_room_id = room_id;
-    duplication_udge();
+    duplication_err();
   });
 
-  function duplication_udge(){
+  function duplication_err(){
     var status_number = 0;
     for(var i = 0; i < timeframes.length; ++i) {
       var prev_timeframe_date = timeframes[i].target_date.split("-")[0] + "-" + timeframes[i].target_date.split("-")[1] + "-" + timeframes[i].target_date.split("-")[2].match(/.{2}/g)[0];
@@ -186,11 +190,14 @@ javascript:
       var prev_timeframe_end_time = end_hour + ":" + end_min;
       var prev_room_id = timeframes[i].room_id;
       var condition = current_selected_date.replaceAll("/","-") === prev_timeframe_date && prev_timeframe_start_time <  current_end_time &&  prev_timeframe_end_time > current_start_time && Number(prev_room_id) == Number(current_room_id)
+     
       if (condition){
         document.getElementById('timeframe-create-update-button').disabled = true;
+       // console.log("true");
         break;
       } else {
         document.getElementById('timeframe-create-update-button').disabled = false;
+        ///console.log("false");
       }
     }
   }

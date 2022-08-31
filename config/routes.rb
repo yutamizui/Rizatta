@@ -22,7 +22,11 @@ Rails.application.routes.draw do
 
   resources :companies
   resources :branches
-  resources :reservations
+  resources :reservations do
+    collection do
+      get :list
+    end
+  end
   resources :rooms
   resources :timeframes
   resources :users

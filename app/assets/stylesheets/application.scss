@@ -188,12 +188,9 @@ table#time_table #lesson_day th {
   text-align: center;
 }
 
-table#time_table #lesson_day th:nth-child(7) {
-  background-color: #E6FFE9;
-}
-
-table#time_table #lesson_day th:nth-child(8) {
-  background-color: #fbeae0;
+#lesson_reservation_tab li  {
+  list-style: none;
+  margin: 5px;
 }
 
 table#time_table #classroom_name td {
@@ -293,25 +290,64 @@ table#time_table .name_size {
 .select-box{
   border: 1px medium!important;
   box-sizing: content-box!important;
-  width: 400px!important;
+  width: 90%!important;
   font-size: 16px!important;
  }
 
- @media (max-width: 400px){
-  .select-box{ 
-    
-    border: 1px medium!important;
-    box-sizing: content-box!important;
-    font-size: 16px!important;
-    width: 290px!important;
-  }
- }
-
- .reserved-box {
-  border: 1px solid;
-  padding: 1px;
-  border-radius: 5%;
- }
-
-
 /* #########################################　レッスン表 end ########################################### */
+
+.ticket-footer {
+  text-align: left!important;
+}
+
+/* #########################################　チケット表示 start ########################################### */
+
+
+.display_point {
+  width: 100%;
+  height: 100px;
+  text-align: right;
+  color: 	#228B22;
+  font-weight: bolder;
+  font-style: italic;
+  font-size: 20px;
+  padding: 0.5em 1em;
+  font-weight: bold;
+  border: solid 3px #6091d3;
+  border-radius: 10px;
+  margin: 0 5px 18px auto;
+}
+
+.display_point span {
+  color: 	#CD5C5C;
+  font-weight: bolder;
+  font-style: italic;
+  font-size: 30px;
+}
+
+@media screen and (min-width: 992px) { /*ウィンドウ幅が992px以上の場合に適用*/
+  .display_point{
+    width: 30%;
+  }
+
+  .profile-15 {
+    width: 10%;
+    height: 10%;
+  }
+
+}
+
+@media screen and (max-width: 991px) { /*ウィンドウ幅が最大767pxまでの場合に適用*/
+  .display_point{
+    width: 40%;
+  }
+}
+
+@media screen and (max-width: 768px) { /*ウィンドウ幅が最大767pxまでの場合に適用*/
+  .display_point{
+    width: 70%;
+    margin-right: 20px;
+  }
+}
+
+/* #########################################　チケット表示 end ########################################### */
