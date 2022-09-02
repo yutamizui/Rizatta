@@ -28,7 +28,7 @@ class TimeframesController < ApplicationController
 
   def update
     if @timeframe.update(timeframe_params)
-      redirect_to timeframes_path(branch_id: @timeframe.branch_id), notice: t('activerecord.attributes.link.updated')
+      redirect_to reservations  _path(branch_id: @timeframe.branch_id), notice: t('activerecord.attributes.link.updated')
     else
       flash[:notice] = t('activerecord.attributes.link.failed_to_create')
       render 'timeframess/edit'

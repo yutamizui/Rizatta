@@ -14,6 +14,8 @@ class ApplicationController < ActionController::Base
           cookies[:locale] = params[:locale]
           if current_company.present?
             redirect_to controller: :branches, action: :index
+          elsif current_user.present?
+            redirect_to reservations_path
           else
             redirect_to new_user_session_path
           end

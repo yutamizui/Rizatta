@@ -168,6 +168,7 @@ en:
       
       reservation:
         title: Reservation
+        creation: Reservation Slot
         list: Reservation List
         confirmation: Your reservation
       

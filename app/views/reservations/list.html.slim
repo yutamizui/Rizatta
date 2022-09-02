@@ -2,7 +2,7 @@
   - if @branches.present?
     - @branches.each do |b|
       span#branch-button
-        = link_to b.name, reservations_path(branch_id: b.id, style: params[:style]), class:"btn btn-secondary button-margin", name:"#{b.id}"
+        = link_to b.name, list_reservations_path(branch_id: b.id, style: params[:style]), class:"btn btn-secondary button-margin", name:"#{b.id}"
   table class="table table-bordered"
     thead class="thead-dark table-active "
       tr
@@ -12,22 +12,27 @@
         th = t('activerecord.attributes.timeframe.room')
         th = t('activerecord.attributes.timeframe.capacity')
     tbody
-      - if @reservations.count > 0
-        - @reservations.each do |r|
-          - t = Timeframe.find(r.timeframe_id)
+      - if @timeframes.count > 0
+        - @timeframes.each do |t|
           tr
-          td = t.name
-          td = t.target_date.strftime("%m/%d (#{%w(日 月 火 水 木 金 土)[t.target_date.wday]})")
-          td
-            = t.start_time.strftime("%H:%M")
-            = " ~ "
-            = t.end_time.strftime("%H:%M")
-          td = Room.find(t.room_id).name
-          td
-            = t.reservations.count
-            = " / "
-            = t.capacity
-            = " 名"
+            td = t.name
+            td = t.target_date.strftime("%m/%d (#{%w(日 月 火 水 木 金 土)[t.target_date.wday]})")
+            td
+              = t.start_time.strftime("%H:%M")
+              = " ~ "
+              = t.end_time.strftime("%H:%M")
+            td = Room.find(t.room_id).name
+            td
+              = t.reservations.count
+              = " / "
+              = t.capacity
+              = " 名"
+          tr 
+            td colspan="5"
+              - User.where(id: t.reservations.pluck(:user_id)).each do |u|
+                = u.name + ","
+                
+          
 
 - elsif current_user.present?
   table class="table table-bordered"

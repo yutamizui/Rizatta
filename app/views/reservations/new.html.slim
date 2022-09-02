@@ -1,43 +1,45 @@
-= current_user.name
-div.row
-  div class="col-md-12"
-    p = @timeframe.name
-    p
-      = @timeframe.start_time.strftime("%Y年%m月%d日 %H:%M") 
-      = " ~ "
-      = @timeframe.end_time.strftime("%H:%M") 
-div class="col-md-12"
-  = render 'shared/errors', obj: @reservation
-  = form_tag({controller: :reservations, action: :create}, { method: :post}) do
-    = hidden_field_tag :timeframe_id, @timeframe.id
-    = hidden_field_tag :branch_id, @branch.id
-    = hidden_field_tag :week, @week -1
-    = hidden_field_tag :room, @room.try(:name)
-    - if current_user.present?
-      = hidden_field_tag :user_id, current_user.id
-    div class="actions"
-      = submit_tag "レッスンを予約する", class:"btn btn-success btn-lg", id:"lesson_reservation_button"
-    p
-    p id="alert-comment"
+div class="card"
+  div class="card-header"
+    h3 予約内容
+  div class="card-body"
+    h2 class="card-title" 
+      div.col-md-12
+        = @timeframe.name
+      div.col-md-12
+        = @timeframe.target_date.strftime("%Y年%m月%d日") 
+        = "  "
+        = @timeframe.start_time.strftime("%H:%M")
+        = " ~ "
+        = @timeframe.end_time.strftime("%H:%M")
+      div.col-md-12
+        = t('activerecord.attributes.timeframe.required_ticket_number') + " : "
+        = @timeframe.required_ticket_number
+        = t('activerecord.attributes.ticket.sheet')
+    div.col-md-12 class="card-text" 
+      = render 'shared/errors', obj: @reservation
+      = form_tag({controller: :reservations, action: :create}, { method: :post}) do
+        = hidden_field_tag :timeframe_id, @timeframe.id
+        = hidden_field_tag :branch_id, @branch.id
+        = hidden_field_tag :week, @week -1
+        = hidden_field_tag :room, @room.try(:name)
+        - if current_user.present?
+          = hidden_field_tag :user_id, current_user.id
+        div class="actions"
+          = submit_tag "レッスンを予約する", class:"btn btn-success btn-lg", id:"lesson_reservation_button"
+        p
+        p id="alert-comment"
+
 
 javascript:
   var available_tickets = #{raw @available_tickets.to_json};
-  if (available_tickets.length == 0){
+  var availability = #{raw @availability};
+  if (availability == false){
     document.getElementById('lesson_reservation_button').classList.add("disabled"); 
     const text1 = document.createTextNode("チケットが不足しています");
     document.getElementById('alert-comment').appendChild(text1);
   } else {
     if (document.getElementById('alert-comment').hasChildNodes()) {
       document.getElementById('alert-comment').removeChild(document.getElementById('alert-comment').firstChild);
-    }
-  }
-
-  for(var i = 0; i < available_tickets.length; ++i) {
-    if (available_tickets.length > 0){
-        document.getElementById('lesson_reservation_button').classList.remove("disabled"); 
-        break;
-    } else {
-       document.getElementById('lesson_reservation_button').classList.add("disabled"); 
-       break;
+      document.getElementById('lesson_reservation_button').classList.remove("disabled"); 
     }
   }

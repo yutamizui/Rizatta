@@ -20,7 +20,10 @@
               <%= link_to t('activerecord.attributes.staff.title'), staffs_path(branch_id:current_company.branches.first.id), class:"text"%>
             </li>
             <li class="<%= 'active' if controller_name == "reservations" && action_name == "index" %>">
-              <%= link_to t('activerecord.attributes.reservation.title'), reservations_path(branch_id:current_company.branches.first.id), class:"text"%>
+              <%= link_to t('activerecord.attributes.reservation.creation'), reservations_path(branch_id:current_company.branches.first.id), class:"text"%>
+            </li>
+            <li class="<%= 'active' if controller_name == "reservations" && action_name == "list" %>">
+              <%= link_to t('activerecord.attributes.reservation.list'), list_reservations_path(branch_id:current_company.branches.first.id), class:"text"%>
             </li>
           </li>
           <% end %>

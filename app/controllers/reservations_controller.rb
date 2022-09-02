@@ -6,7 +6,11 @@ class ReservationsController < ApplicationController
   def index
     if current_company.present?
       @branches = current_company.branches
-      @branch = Branch.find(params[:branch_id])
+      if params[:branch_id].present?
+        @branch = Branch.find(params[:branch_id])
+      else
+        @branch = current_company.branches.first
+      end
     elsif current_staff.present?
       @branch = current_staff.branch
     else
@@ -29,6 +33,7 @@ class ReservationsController < ApplicationController
         @branches = current_company.branches
       end
       @reservations = Reservation.includes(:timeframe).where(timeframes: {branch_id: @branch.id}).order("timeframes.target_date ASC").order("timeframes.start_time ASC")
+      @timeframes = Timeframe.where(id: @reservations.pluck(:timeframe_id)).order(target_date: :ASC).order(start_time: :ASC)
     elsif current_staff.present?
       @reservations = Reservation.where(staff_id: current_staff.id)
     elsif current_user.present?
@@ -40,33 +45,41 @@ class ReservationsController < ApplicationController
     @reservation = Reservation.new
     @timeframe = Timeframe.find(params[:timeframe_id])
     @branch = Branch.find(@timeframe.branch_id)
-    @available_tickets = current_user.tickets.where("expired_at > ?", Date.today.end_of_day).where(status: true)
+    @available_tickets = current_user.tickets.where("expired_at >= ?", Date.today.end_of_day).where(status: true)
+    if @available_tickets.present? && @available_tickets.count >= @timeframe.required_ticket_number
+      @availability = true
+    else
+      @availability = false
+    end
   end
 
   def create
     @timeframe = Timeframe.find(params[:timeframe_id])
-    @available_tickets = current_user.tickets.where("expired_at > ?", Date.today.end_of_day).where(status: true)
-    if @available_tickets.present?
-      
+    @available_tickets = current_user.tickets.where("expired_at >= ?", Date.today.end_of_day).where(status: true)
+    if @available_tickets.present? && @available_tickets.count >= @timeframe.required_ticket_number
       @reservation = Reservation.create(
         user_id: params[:user_id].to_i,
         timeframe_id: params[:timeframe_id].to_i
       )
-      @available_tickets.first.update(
-        status: false,
-        reservation_id: @reservation.id
-      )
-      redirect_to reservations_path(), notice: t('activerecord.attributes.link.created')
+      @available_tickets.first(@timeframe.required_ticket_number).each do |t|
+        t.update(
+          status: false,
+          reservation_id: @reservation.id
+        )
+      end
+      redirect_to reservations_path, notice: t('activerecord.attributes.link.created')
     end
   end
 
   def destroy
     @reservation = Reservation.find(params[:id])
-    @ticket = Ticket.where(reservation_id: @reservation.id)
-    @ticket.update(
-      status: true,
-      reservation_id: nil
-    )
+    @tickets = Ticket.where(reservation_id: @reservation.id)
+    @tickets.each do |t|
+      t.update(
+        status: true,
+        reservation_id: nil
+      )
+    end
     @reservation.destroy
     redirect_to reservations_path(), notice: t('activerecord.attributes.link.canceled')
   end

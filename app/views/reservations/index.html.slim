@@ -75,10 +75,10 @@ div.row.nondisplay-print
             = link_to day.strftime("%m/%d (#{%w(日 月 火 水 木 金 土)[day.wday]})"), reservations_path(day: day, week: @week, branch_id: @branch.id), class:"btn btn-info btn-sm button-margin-sm"
     p
     div.tab-content
-      div#home
+      div
         h3
-          = @day.strftime("%m/%d (#{%w(日 月 火 水 木 金 土)[@day.wday]})")
-          | のレッスン予定
+        = @day.strftime("%m/%d (#{%w(日 月 火 水 木 金 土)[@day.wday]})")
+        | のレッスン予定
         p
           = render 'sm_calendar', start_day: @day, timeframes: @timeframes
           br

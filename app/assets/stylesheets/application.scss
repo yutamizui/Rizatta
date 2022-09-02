@@ -39,6 +39,13 @@ body {
   background-color: #28a745!important;
 }
 
+@media (max-width: 768px) {
+  .navbar-dark .navbar-nav .nav-link {
+    padding-left: 20px;
+  }
+
+}
+
 .nav-tabs > li > a:hover {
   background-color: #35d259!important;
 }
@@ -135,7 +142,7 @@ body {
 }
 .navbar-nav a {
   text-decoration: none;
-  color: white;
+  color: black;
 }
 
 .navbar-nav a:hover {
@@ -347,7 +354,14 @@ table#time_table .name_size {
   .display_point{
     width: 70%;
     margin-right: 20px;
+    font-size: 18px;
   }
 }
 
 /* #########################################　チケット表示 end ########################################### */
+
+
+.card-title div {
+  padding: 5px;
+}
+

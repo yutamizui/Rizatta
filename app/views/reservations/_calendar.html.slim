@@ -24,7 +24,7 @@ div.row
       - tr_counter = 0
       - (@branch.calendar_start_time.to_i...@branch.calendar_end_time.to_i).step(Timeframe::TIME_SPAN * 60) do |time|
         - tr_counter += 1
-        tr class=((tr_counter - 1) % 12 == 0 ? 'time_schedule border' : 'time_schedule')
+        tr class=((tr_counter - 1) % 12 == 0 ? 'time_schedule border-top' : 'time_schedule')
           - if Time.at(time).min == 0
             th [rowspan="#{60/Timeframe::TIME_SPAN}"]
               = Time.at(time).strftime("%H:%M")
@@ -44,12 +44,17 @@ div.row
                   - timeframe_length = (available_timeframe.end_time - available_timeframe.start_time)/60/Timeframe::TIME_SPAN
                   td.lesson_chart[ style="background-color:#{Colorlist.find(available_timeframe.color).code};" rowspan="#{timeframe_length}" ]
                     div
+                      - capacity = available_timeframe.capacity - (available_timeframe.reservations.count)
                       - if current_user.present? && Reservation.where(timeframe_id: available_timeframe.id).where(user_id: current_user.id).present?
                         = available_timeframe.name
                         p
                         span.reserved-box = t("activerecord.attributes.timeframe.reserved")
                       - elsif current_user.present?
                         = link_to available_timeframe.name, new_reservation_path(timeframe_id: available_timeframe.id)
+                        br  
+                        = "残り"
+                        = capacity
+                        = "席"
                       - else
                         = link_to available_timeframe.name, edit_timeframe_path(id: available_timeframe.id)
 

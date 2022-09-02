@@ -190,6 +190,7 @@ ja:
       
       reservation:
         title: 予約
+        creation: 予約作成
         list: 予約一覧
         confirmation: 予約確認
 

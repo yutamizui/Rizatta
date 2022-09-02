@@ -13,7 +13,7 @@ div.row
       - tr_counter = 0
       - (@branch.calendar_start_time.to_i...@branch.calendar_end_time.to_i).step(Timeframe::TIME_SPAN * 60) do |time|
         - tr_counter += 1
-        tr class=((tr_counter - 1) % 12 == 0 ? 'time_schedule border' : 'time_schedule')
+        tr class=((tr_counter - 1) % 12 == 0 ? 'time_schedule border-top' : 'time_schedule')
           - if Time.at(time).min == 0
             th rowspan="#{60/Timeframe::TIME_SPAN }"
               = Time.at(time).strftime("%H:%M")
@@ -39,6 +39,9 @@ div.row
                       span.reserved-box = t("activerecord.attributes.timeframe.reserved")
                     - elsif current_user.present?
                       = link_to available_timeframe.name, new_reservation_path(timeframe_id: available_timeframe.id)
+                      = "残り"
+                      = capacity
+                      = "席"
                     - else
                       = link_to available_timeframe.name, edit_timeframe_path(id: available_timeframe.id)
                 - skip_counter[index] = timeframe_length-1

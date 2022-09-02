@@ -47,7 +47,7 @@
                   <%= t("activerecord.attributes.ticket.currently_owned") %>
                   <br>
                   <span>
-                    <%= current_user.tickets.where("expired_at > ?", Date.today.end_of_day).where(status: true).count %>
+                    <%= current_user.tickets.where("expired_at >= ?", Date.today.end_of_day).where(status: true).count %>
                     <%= t("activerecord.attributes.ticket.sheet") %>
                   </span>
                 </div>
