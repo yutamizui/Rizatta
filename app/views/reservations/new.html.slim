@@ -24,6 +24,18 @@ div class="card"
         = hidden_field_tag :room, @room.try(:name)
         - if current_user.present?
           = hidden_field_tag :user_id, current_user.id
+        - if current_company.present?
+          div.card.button-margin
+            div.card-header
+              = t('activerecord.attributes.reservation.target_user')
+            div.card-body
+              - @users.each do |u|
+                label.check_lb#all_user
+                  - if @users.first.id == u.id
+                    input type="radio" name="user_id" value="#{u.id}" checked="checked"
+                  - else  
+                    input type="radio" name="user_id" value="#{u.id}" 
+                  = u.name
         div class="actions"
           = submit_tag "レッスンを予約する", class:"btn btn-success btn-lg", id:"lesson_reservation_button"
         p

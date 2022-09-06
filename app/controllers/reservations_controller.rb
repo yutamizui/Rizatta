@@ -45,17 +45,28 @@ class ReservationsController < ApplicationController
     @reservation = Reservation.new
     @timeframe = Timeframe.find(params[:timeframe_id])
     @branch = Branch.find(@timeframe.branch_id)
-    @available_tickets = current_user.tickets.where("expired_at >= ?", Date.today.end_of_day).where(status: true)
-    if @available_tickets.present? && @available_tickets.count >= @timeframe.required_ticket_number
-      @availability = true
-    else
-      @availability = false
+    @users = User.where(branch_id: @branch.id)
+    if current_user.present?
+      @available_tickets = current_user.tickets.where("expired_at >= ?", Date.today.end_of_day).where(status: true)
+      if @available_tickets.present? && @available_tickets.count >= @timeframe.required_ticket_number
+        @availability = true
+      else
+        @availability = false
+      end
     end
   end
 
   def create
+    @reservation = Reservation.new
     @timeframe = Timeframe.find(params[:timeframe_id])
-    @available_tickets = current_user.tickets.where("expired_at >= ?", Date.today.end_of_day).where(status: true)
+    @branch = Branch.find(@timeframe.branch_id)
+    @users = User.where(branch_id: @branch.id)
+    if current_user.present?
+      target_user = current_user
+    else
+      target_user = User.find(params[:user_id])
+    end
+    @available_tickets = target_user.tickets.where("expired_at >= ?", Date.today.end_of_day).where(status: true)
     if @available_tickets.present? && @available_tickets.count >= @timeframe.required_ticket_number
       @reservation = Reservation.create(
         user_id: params[:user_id].to_i,
@@ -68,6 +79,9 @@ class ReservationsController < ApplicationController
         )
       end
       redirect_to reservations_path, notice: t('activerecord.attributes.link.created')
+    else
+      flash.now[:alert] = t('activerecord.attributes.link.failed_to_create')
+      render 'reservations/new'
     end
   end
 

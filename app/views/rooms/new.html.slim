@@ -1,7 +1,7 @@
 div.col-md-12
   div class="card"
     div class="card-header text-white bg-secondary text-center" 
-      h4 = t('activerecord.attributes.branch.create')
+      h4 = t('activerecord.attributes.room.create')
     div class="card-body"
       == render 'shared/errors', obj: @room
       = form_for @room do |f|
@@ -20,13 +20,16 @@ table class="table table-bordered"
   thead class="thead-dark table-active "
     tr
       th = t('activerecord.attributes.room.name')
-      th
+      th colspan="2"
 
   tbody
     - @rooms.each do |r| 
       tr
         td = r.name
-        td = link_to t('activerecord.attributes.link.edit'), edit_room_path(id: r.id), class:"btn btn-success"
+        td
+          = link_to t('activerecord.attributes.link.edit'), edit_room_path(id: r.id), class:"btn btn-success button-margin"
+          - unless Timeframe.where(room_id: r.id).present?
+            = link_to t('activerecord.attributes.link.delete'), room_path(id: r.id), method: :delete, data: {confirm: "sdfdsfsd"},class:"btn btn-danger button-margin"
 
 
 javascript:

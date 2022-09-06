@@ -28,7 +28,12 @@ Rails.application.routes.draw do
     end
   end
   resources :rooms
-  resources :timeframes
+  resources :timeframes do
+    collection do
+      post :single_duplicate
+      post :multiple_duplicate
+    end
+  end
   resources :users
   resources :tickets
   resources :staffs, only: [:index]

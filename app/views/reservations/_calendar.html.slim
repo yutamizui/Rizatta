@@ -50,14 +50,51 @@ div.row
                         p
                         span.reserved-box = t("activerecord.attributes.timeframe.reserved")
                       - elsif current_user.present?
-                        = link_to available_timeframe.name, new_reservation_path(timeframe_id: available_timeframe.id)
                         br  
-                        = "残り"
-                        = capacity
-                        = "席"
+                        - if capacity == 0
+                          = available_timeframe.name
+                          p = "満席"
+                        - else
+                          = link_to available_timeframe.name, new_reservation_path(timeframe_id: available_timeframe.id)
+                          p 
+                            = "残り"
+                            = capacity
+                            = "席"
                       - else
-                        = link_to available_timeframe.name, edit_timeframe_path(id: available_timeframe.id)
+                        p = available_timeframe.name
+                        - if capacity > 0
+                          p = link_to t("activerecord.attributes.reservation.creation"), new_reservation_path(timeframe_id: available_timeframe.id)
+                        - unless Timeframe.where(target_date: available_timeframe.target_date.since(1.weeks)).present?
+                          = link_to '複製', "#", data: {toggle: "modal", target: "#duplicateModal#{available_timeframe.id}"}
+
+                        - unless Reservation.where(timeframe_id: available_timeframe.id).present?
+                          p = link_to t("activerecord.attributes.timeframe.delete"), timeframe_path(id: available_timeframe.id, style: params[:style]), method: :delete, data: {confirm: t('activerecord.attributes.link.are_you_sure')}
 
                     - skip_counter[wday][index] = timeframe_length-1
+
+                  div class="modal fade" id="duplicateModal#{available_timeframe.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
+                    div class="modal-dialog" role="document"
+                      div class="modal-content" 
+                        div class="modal-header"
+                          button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                            span aria-hidden="true" &times;
+                        div class="modal-body"
+                          h2 = available_timeframe.name + "の未来予約枠を"
+                          = form_tag({controller: :timeframes, action: :single_duplicate}, { method: :post}) do
+                            = number_field_tag :how_many_week, "1", min:"1", class:"small-number-field"
+                            = " 週分"
+                            = hidden_field_tag :timeframe_id, available_timeframe.id
+                            div class="actions"
+                              = submit_tag "複製する", class:"btn btn-primary btn-lg button-margin", id:"lesson_reservation_button"
+                        hr
+                        div class="modal-body"
+                          h2 = available_timeframe.target_date.strftime("%m/%d (#{%w(日 月 火 水 木 金 土)[available_timeframe.target_date.wday]})") + "すべての未来予約枠を"
+                          = form_tag({controller: :timeframes, action: :multiple_duplicate}, { method: :post}) do
+                            = number_field_tag :how_many_week, "1", min:"1", class:"small-number-field"
+                            = " 週分"
+                            = hidden_field_tag :timeframe_id, available_timeframe.id
+                            div class="actions"
+                              = submit_tag "複製する", class:"btn btn-success btn-lg button-margin", id:"lesson_reservation_button"
                 - else
                   td
+

@@ -87,6 +87,7 @@ en:
         close: Close
         cancel: Cancel
         canceled: The reservation has been canceled
+        no_cancel: No Cancel
       
 
 
@@ -146,9 +147,10 @@ en:
        phone_comment: Hyphen is not required
 
       room:
-        title: Reservation Space
+        title: Room
         name: Name
-        create: Create Reservation Space
+        create: Create Room
+        edit: Edit Room
       
       timeframe:
         title: Time frame
@@ -158,19 +160,22 @@ en:
         end_time: Ending time
         capacity: Capacity
         color: Color
-        create: Create Timeframe
+        create: Create Slot
         room: Reservation Space
         opening_time: Opening Time
         time_on_calendar: Select the time slots you would like to see on your reservation calendar.
         required_ticket_number: Number of tickets required
         reserved: Reserved
         sheet: sheet
+        duplicate: Duplicate
+        delete: Delete
       
       reservation:
         title: Reservation
-        creation: Reservation Slot
+        creation: Make a Reservation
         list: Reservation List
         confirmation: Your reservation
+        target_user: Target User
       
       ticket:
         title: Ticket

@@ -5,6 +5,7 @@ class RoomsController < ApplicationController
   def new
     @room = Room.new
     @room.branch_id = params[:branch_id]
+    @branch = Branch.find(params[:branch_id])
     @branches = current_company.branches
     @rooms = Room.where(branch_id: params[:branch_id])
   end
@@ -33,6 +34,10 @@ class RoomsController < ApplicationController
   end
 
   def destroy
+    @room = Room.find(params[:id])
+    if @room.destroy
+      redirect_to new_room_path(branch_id: @branch_id, style: params[:style] ), notice: t('activerecord.attributes.link.deleted')
+    end
   end
 
   private

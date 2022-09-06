@@ -21,6 +21,69 @@ class TimeframesController < ApplicationController
     end
   end
 
+  def single_duplicate
+    @timeframe = Timeframe.find(params[:timeframe_id])
+    @number_of_week = params[:how_many_week].to_i
+
+    begin
+      Timeframe.transaction do
+        for num in (1..@number_of_week) do
+          timeframe = Timeframe.new(
+            name: @timeframe.name,
+            target_date: @timeframe.target_date.since(num.week),
+            start_time: @timeframe.start_time,
+            end_time: @timeframe.end_time,
+            capacity: @timeframe.capacity,
+            color: @timeframe.color,
+            branch_id: @timeframe.branch_id,
+            room_id: @timeframe.room_id,
+            required_ticket_number: @timeframe.required_ticket_number,
+          )
+          
+          unless Timeframe.timeframe_duplicate?(timeframe)
+            timeframe.save!
+          end
+        end
+      end
+    rescue => e
+      err_info = {alert: 'エラーがおこりました'}
+      logger.error e.message
+    end
+    redirect_to reservations_path(branch_id: @timeframe.branch_id), notice: t('activerecord.attributes.link.created')
+  end
+
+  def multiple_duplicate
+    @timeframe = Timeframe.find(params[:timeframe_id])
+    @timeframes = Timeframe.where(target_date: @timeframe.target_date).where(branch_id: @timeframe.branch_id)
+    @number_of_week = params[:how_many_week].to_i
+    begin
+      Timeframe.transaction do
+        for num in (1..@number_of_week) do
+          @timeframes.each do |t|
+            timeframe = Timeframe.new(
+              name: t.name,
+              target_date: t.target_date.since(num.week),
+              start_time: t.start_time,
+              end_time: t.end_time,
+              capacity: t.capacity,
+              color: t.color,
+              branch_id: t.branch_id,
+              room_id: t.room_id,
+              required_ticket_number: t.required_ticket_number,
+            )
+            unless Timeframe.timeframe_duplicate?(timeframe)
+              timeframe.save!
+            end
+          end
+        end
+      end
+    rescue => e
+      err_info = {alert: 'エラーがおこりました'}
+      logger.error e.message
+    end
+    redirect_to reservations_path(branch_id: @timeframe.branch_id), notice: t('activerecord.attributes.link.created')
+  end
+
   def edit
     @rooms = Room.where(id: current_company.branches.pluck(:id))
     @page_type = "edit"
@@ -28,7 +91,7 @@ class TimeframesController < ApplicationController
 
   def update
     if @timeframe.update(timeframe_params)
-      redirect_to reservations  _path(branch_id: @timeframe.branch_id), notice: t('activerecord.attributes.link.updated')
+      redirect_to reservations_path(branch_id: @timeframe.branch_id), notice: t('activerecord.attributes.link.updated')
     else
       flash[:notice] = t('activerecord.attributes.link.failed_to_create')
       render 'timeframess/edit'
@@ -38,7 +101,7 @@ class TimeframesController < ApplicationController
   def destroy
     @branch_id = @timeframe.branch_id
     if @timeframe.destroy
-      redirect_to timeframes_path(branch_id: @branch_id, style: "list_view" ), notice: t('activerecord.attributes.link.deleted')
+      redirect_to reservations_path(branch_id: @branch_id, style: params[:style] ), notice: t('activerecord.attributes.link.deleted')
     end
   end
   

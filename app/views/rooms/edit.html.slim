@@ -2,7 +2,7 @@ div.row
   div.col-md-12
     div class="card"
       div class="card-header text-white bg-secondary mb-3" 
-        h4  = t('activerecord.attributes.branch.edit')
+        h4  = t('activerecord.attributes.room.edit')
       div class="card-body"
         == render 'shared/errors', obj: @room
         = form_for @room, url: room_path do |f|

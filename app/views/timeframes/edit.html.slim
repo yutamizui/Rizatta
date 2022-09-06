@@ -1,14 +1,19 @@
-div.row
-  div.col-md-12
-    div class="card"
-      div class="card-header text-white bg-secondary mb-3" 
-        h4  = t('activerecord.attributes.link.edit')
-      div class="card-body"
-        == render 'shared/errors', obj: @timeframe
-        = form_for @timeframe, url: timeframe_path do |f|
-          == render 'timeframes/form', f: f
-          = f.submit  t('activerecord.attributes.link.update'), class:"btn btn-primary", id:"timeframe-create-update-button"
-br
-br
+/ div.row
+/   div.col-md-12
+/     div class="card"
+/       div class="card-header text-white bg-secondary mb-3" 
+/         h4  = t('activerecord.attributes.link.edit')
+/       div class="card-body"
+/         == render 'shared/errors', obj: @timeframe
+/         = form_for @timeframe, url: timeframe_path do |f|
+/           == render 'timeframes/form', f: f
+/           = f.submit  t('activerecord.attributes.link.update'), class:"btn btn-primary", id:"timeframe-create-update-button"
+/ br
+/ br
+= form_tag({controller: :timeframes, action: :single_duplicate}, { method: :post}) do
+  = number_field_tag :how_many_week, ""
+  = hidden_field_tag :timeframe_id, @timeframe.id
+  div class="actions"
+    = submit_tag "予約枠を複製する", class:"btn btn-success btn-lg button-margin", id:"lesson_reservation_button"
 = link_to :back do 
   button class="btn btn-secondary button-margin" = t("activerecord.attributes.link.back")

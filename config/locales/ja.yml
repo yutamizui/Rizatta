@@ -108,6 +108,7 @@ ja:
         close: 閉じる
         cancel: キャンセルする
         canceled: 予約がキャンセルされました
+        no_cancel: キャンセル不可
       common:
         password: パスワード
         password_confirmation: パスワード確認
@@ -169,9 +170,10 @@ ja:
        phone_comment: ハイフンは不要
       
       room:
-       title: 予約スペース
+       title: ルーム
        name: 名前
-       create: 予約スペースの作成
+       create: ルームの作成
+       edit: ルームの変更
       
       timeframe:
         title: 時間枠
@@ -181,18 +183,21 @@ ja:
         end_time: 終了時間
         capacity: 定員
         color: 色
-        create: 時間枠を作成する
+        create: 予約枠を作成する
         room: 予約スペース
         opening_time: 開催時間
         reserved: 予約済み
         required_ticket_number: 必要チケット数
         sheet: 枚
+        duplicate: 複製
+        delete: 削除
       
       reservation:
         title: 予約
-        creation: 予約作成
+        creation: 予約する
         list: 予約一覧
         confirmation: 予約確認
+        target_user: 対象ユーザー
 
       ticket:
         title: チケット
