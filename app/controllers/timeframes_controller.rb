@@ -24,7 +24,7 @@ class TimeframesController < ApplicationController
   def single_duplicate
     @timeframe = Timeframe.find(params[:timeframe_id])
     @number_of_week = params[:how_many_week].to_i
-
+    timeframe_duplicate_count = 0
     begin
       Timeframe.transaction do
         for num in (1..@number_of_week) do
@@ -42,6 +42,8 @@ class TimeframesController < ApplicationController
           
           unless Timeframe.timeframe_duplicate?(timeframe)
             timeframe.save!
+          else
+            timeframe_duplicate_count += 1
           end
         end
       end
@@ -56,6 +58,7 @@ class TimeframesController < ApplicationController
     @timeframe = Timeframe.find(params[:timeframe_id])
     @timeframes = Timeframe.where(target_date: @timeframe.target_date).where(branch_id: @timeframe.branch_id)
     @number_of_week = params[:how_many_week].to_i
+    timeframe_duplicate_count = 0
     begin
       Timeframe.transaction do
         for num in (1..@number_of_week) do
@@ -73,6 +76,8 @@ class TimeframesController < ApplicationController
             )
             unless Timeframe.timeframe_duplicate?(timeframe)
               timeframe.save!
+            else
+              timeframe_duplicate_count += 1
             end
           end
         end

@@ -35,8 +35,9 @@ class RoomsController < ApplicationController
 
   def destroy
     @room = Room.find(params[:id])
+    branch_id = @room.branch_id
     if @room.destroy
-      redirect_to new_room_path(branch_id: @branch_id, style: params[:style] ), notice: t('activerecord.attributes.link.deleted')
+      redirect_to new_room_path(branch_id: branch_id, style: params[:style] ), notice: t('activerecord.attributes.link.deleted')
     end
   end
 

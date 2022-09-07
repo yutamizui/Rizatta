@@ -55,7 +55,7 @@
               = " ~ "
               = t.end_time.strftime("%H:%M")
           td = Room.find(t.room_id).name
-          td = link_to t('activerecord.attributes.link.cancel'), reservation_path(id: r.id), method: :delete, data: {confirm: t('activerecord.attributes.link.are_you_sure_to_cancel')}, class:"btn btn-danger btn-sm"
+          td = link_to t('activerecord.attributes.link.cancel'), reservation_path(id: r.id, style: params[:style]), method: :delete, data: {confirm: t('activerecord.attributes.link.are_you_sure_to_cancel')}, class:"btn btn-danger btn-sm"
 
 javascript:
   jQuery(function(){

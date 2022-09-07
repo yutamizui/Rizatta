@@ -62,14 +62,24 @@ div.row
                             = "席"
                       - else
                         p = available_timeframe.name
+                        a.no-underline data-toggle="collapse" href="#collapse#{available_timeframe.id}" role="button" aria-expanded="false" aria-controls="collapseExample"
+                          = Reservation.where(timeframe_id: available_timeframe.id).count
+                          = " / "
+                          = available_timeframe.capacity
+                          = " 名"
+                        div class="collapse" id="collapse#{available_timeframe.id}"
+                          div class="card card-body"
+                            - users = User.where(id: Reservation.where(timeframe_id: available_timeframe.id).pluck(:user_id))
+                            - users.each do |u|
+                              p style="color: black;" = u.name
+                        p
                         - if capacity > 0
-                          p = link_to t("activerecord.attributes.reservation.creation"), new_reservation_path(timeframe_id: available_timeframe.id)
-                        - unless Timeframe.where(target_date: available_timeframe.target_date.since(1.weeks)).present?
-                          = link_to '複製', "#", data: {toggle: "modal", target: "#duplicateModal#{available_timeframe.id}"}
+                          p = link_to t("activerecord.attributes.reservation.creation"), new_reservation_path(timeframe_id: available_timeframe.id), class:"no-underline"
+                        - unless Timeframe.where(target_date: available_timeframe.target_date.since(1.weeks)).where(branch_id: available_timeframe.branch_id).where(room_id: available_timeframe.room_id).present?
+                          p = link_to '複製', "#", data: {toggle: "modal", target: "#duplicateModal#{available_timeframe.id}"}, class:"no-underline"
 
                         - unless Reservation.where(timeframe_id: available_timeframe.id).present?
-                          p = link_to t("activerecord.attributes.timeframe.delete"), timeframe_path(id: available_timeframe.id, style: params[:style]), method: :delete, data: {confirm: t('activerecord.attributes.link.are_you_sure')}
-
+                          p = link_to t("activerecord.attributes.timeframe.delete"), timeframe_path(id: available_timeframe.id, style: params[:style]), method: :delete, data: {confirm: t('activerecord.attributes.link.are_you_sure')}, class:"no-underline"
                     - skip_counter[wday][index] = timeframe_length-1
 
                   div class="modal fade" id="duplicateModal#{available_timeframe.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
@@ -86,15 +96,16 @@ div.row
                             = hidden_field_tag :timeframe_id, available_timeframe.id
                             div class="actions"
                               = submit_tag "複製する", class:"btn btn-primary btn-lg button-margin", id:"lesson_reservation_button"
-                        hr
-                        div class="modal-body"
-                          h2 = available_timeframe.target_date.strftime("%m/%d (#{%w(日 月 火 水 木 金 土)[available_timeframe.target_date.wday]})") + "すべての未来予約枠を"
-                          = form_tag({controller: :timeframes, action: :multiple_duplicate}, { method: :post}) do
-                            = number_field_tag :how_many_week, "1", min:"1", class:"small-number-field"
-                            = " 週分"
-                            = hidden_field_tag :timeframe_id, available_timeframe.id
-                            div class="actions"
-                              = submit_tag "複製する", class:"btn btn-success btn-lg button-margin", id:"lesson_reservation_button"
+                        - unless Timeframe.where(target_date: available_timeframe.target_date.since(1.weeks)).where(branch_id: available_timeframe.branch_id).present?
+                          hr
+                          div class="modal-body"
+                            h2 = available_timeframe.target_date.strftime("%m/%d (#{%w(日 月 火 水 木 金 土)[available_timeframe.target_date.wday]})") + "すべての未来予約枠を"
+                            = form_tag({controller: :timeframes, action: :multiple_duplicate}, { method: :post}) do
+                              = number_field_tag :how_many_week, "1", min:"1", class:"small-number-field"
+                              = " 週分"
+                              = hidden_field_tag :timeframe_id, available_timeframe.id
+                              div class="actions"
+                                = submit_tag "複製する", class:"btn btn-success btn-lg button-margin", id:"lesson_reservation_button"
                 - else
                   td
 
