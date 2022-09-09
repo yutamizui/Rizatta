@@ -195,6 +195,7 @@ ja:
       reservation:
         title: 予約
         creation: 予約する
+        calendar: 予約カレンダー
         list: 予約一覧
         confirmation: 予約確認
         target_user: 対象ユーザー

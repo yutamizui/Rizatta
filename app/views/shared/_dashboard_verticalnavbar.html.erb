@@ -6,30 +6,42 @@
       </button>
     </div>
     
-    <% if current_company.present? || current_staff.present? %>
+    <% if company_admin %>
       <div class="navbar-collapse collapse sidebar-navbar-collapse" id="judge-collape">
         <ul class="nav navbar-nav">
           <li class="<%= 'active' if controller_name == "branches" && action_name == "index" %>">
             <%= link_to t('activerecord.attributes.branch.title'), branches_path, class:"text" %>
           </li>
-          <% if current_company.present? && current_company.branches.count > 0 || current_staff.present? && current_staff.company.branches.count > 0 %>
+          <% if company_admin.branches.count > 0 %>
             <li class="<%= 'active' if controller_name == "users" && action_name == "index" %>">
-              <%= link_to t('activerecord.attributes.user.title'), users_path(branch_id:current_company.branches.first.id), class:"text" %>
+              <%= link_to t('activerecord.attributes.user.title'), users_path(branch_id: company_admin.branches.first.id), class:"text" %>
             </li>
             <li class="<%= 'active' if controller_name == "staffs" && action_name == "index" %>">
-              <%= link_to t('activerecord.attributes.staff.title'), staffs_path(branch_id:current_company.branches.first.id), class:"text"%>
+              <%= link_to t('activerecord.attributes.staff.title'), staffs_path(branch_id: company_admin.branches.first.id), class:"text"%>
             </li>
             <li class="<%= 'active' if controller_name == "reservations" && action_name == "index" %>">
-              <%= link_to t('activerecord.attributes.reservation.creation'), reservations_path(branch_id:current_company.branches.first.id), class:"text"%>
+              <%= link_to t('activerecord.attributes.reservation.calendar'), reservations_path(branch_id: company_admin.branches.first.id), class:"text"%>
             </li>
             <li class="<%= 'active' if controller_name == "reservations" && action_name == "list" %>">
-              <%= link_to t('activerecord.attributes.reservation.list'), list_reservations_path(branch_id:current_company.branches.first.id), class:"text"%>
+              <%= link_to t('activerecord.attributes.reservation.list'), list_reservations_path(branch_id: company_admin.branches.first.id), class:"text"%>
             </li>
-          </li>
           <% end %>
-          <li class="<%= 'active' if controller_name == "registrations" && action_name == "edit" %>">
-            <%= link_to t('activerecord.attributes.company.edit_registration'), edit_company_registration_path, class:"text" %></li>
+          <% if current_company.present? %>
+            <li class="<%= 'active' if controller_name == "registrations" && action_name == "edit" %>">
+              <%= link_to t('activerecord.attributes.company.edit_registration'), edit_company_registration_path, class:"text" %></li>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    <% elsif current_staff.present? && current_staff.status == "general" %>
+      <div class="navbar-collapse collapse sidebar-navbar-collapse" id="judge-collape">
+        <ul class="nav navbar-nav">
+          <li class="<%= 'active' if controller_name == "reservations" && action_name == "index" %>">
+            <%= link_to t('activerecord.attributes.reservation.calendar'), reservations_path(branch_id: current_staff.company.branches.first.id), class:"text"%>
           </li>
+          <li class="<%= 'active' if controller_name == "reservations" && action_name == "list" %>">
+              <%= link_to t('activerecord.attributes.reservation.list'), list_reservations_path(branch_id: current_staff.company.branches.first.id), class:"text"%>
+            </li>
         </ul>
       </div>
     <% elsif current_user.present? %>

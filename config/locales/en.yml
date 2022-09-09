@@ -173,6 +173,7 @@ en:
       reservation:
         title: Reservation
         creation: Make a Reservation
+        calendar: Reservation Schedule
         list: Reservation List
         confirmation: Your reservation
         target_user: Target User

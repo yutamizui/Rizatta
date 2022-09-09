@@ -36,6 +36,6 @@ Rails.application.routes.draw do
   end
   resources :users
   resources :tickets
-  resources :staffs, only: [:index]
+  resources :staffs
   get "locale" => "application#locale", as: "locale"
 end

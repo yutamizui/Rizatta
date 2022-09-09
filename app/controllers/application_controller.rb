@@ -1,6 +1,24 @@
 class ApplicationController < ActionController::Base
     before_action :set_locale
     before_action :configure_permitted_parameters, if: :devise_controller?
+    
+    def company_admin
+      if current_company.present? 
+        @company = current_company
+      elsif current_staff.present? && current_staff.status == "admin"
+        @company = current_staff.company
+      end
+    end
+    helper_method :company_admin
+    
+    def company_official
+      if current_company.present? 
+        @company = current_company
+      elsif current_staff.present?
+        @company = current_staff.company
+      end
+    end
+    helper_method :company_official
 
 
     def set_locale

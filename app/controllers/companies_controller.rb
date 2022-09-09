@@ -4,7 +4,7 @@ class CompaniesController < ApplicationController
     if params[:branch_id].present?
       @branch = Branch.find(params[:branch_id])
     else
-      @branch = current_company.branches.first
+      @branch = company_admin.branches.first
     end
     @users = @branch.users
   end

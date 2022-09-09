@@ -23,19 +23,20 @@ class ReservationsController < ApplicationController
   end
 
   def list
-    if current_company.present?
+    if company_admin.present?
       if params[:branch_id].present?
         @branch = Branch.find(params[:branch_id])
       else
-        @branch = current_company.branches.first
+        @branch = company_admin.branches.first
       end
-      if current_company.branches.count > 1
-        @branches = current_company.branches
+      if company_admin.branches.count > 1
+        @branches = company_admin.branches
       end
       @reservations = Reservation.includes(:timeframe).where(timeframes: {branch_id: @branch.id}).order("timeframes.target_date ASC").order("timeframes.start_time ASC")
-      @timeframes = Timeframe.where(id: @reservations.pluck(:timeframe_id)).order(target_date: :ASC).order(start_time: :ASC)
+      @timeframes = Timeframe.where(branch_id: company_admin.branches.pluck(:id)).order(target_date: :ASC).order(start_time: :ASC)
     elsif current_staff.present?
-      @reservations = Reservation.where(staff_id: current_staff.id)
+      @timeframes = Timeframe.where(staff_id: current_staff.id).order(target_date: :ASC).order(start_time: :ASC)
+      @reservations = Reservation.includes(:timeframe).where(timeframes: {branch_id: current_staff.branch_id}).order("timeframes.target_date ASC").order("timeframes.start_time ASC")
     elsif current_user.present?
       @reservations = Reservation.includes(:timeframe).where(user_id: current_user.id).order("timeframes.target_date ASC").order("timeframes.start_time ASC")
     end

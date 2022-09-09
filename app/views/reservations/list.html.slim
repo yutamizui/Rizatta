@@ -1,4 +1,4 @@
-- if current_company.present?
+- if company_admin.present? || current_staff.present?
   - if @branches.present?
     - @branches.each do |b|
       span#branch-button

@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   def index
     @users = User.where(branch_id: params[:branch_id])
-    @branches = current_company.branches
+    @branches = company_admin.branches
     @ticket = Ticket.new
   end
 

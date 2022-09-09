@@ -13,6 +13,7 @@ table class="table table-bordered"
       th = t('activerecord.attributes.staff.status')
       th = t('activerecord.attributes.staff.email')
       th = t('activerecord.attributes.staff.phone')
+      th
       
 
   tbody
@@ -23,6 +24,8 @@ table class="table table-bordered"
         td = s.status
         td = s.email
         td = s.phone
+        - unless current_staff.present? && current_staff.id == s.id
+          td = link_to t('activerecord.attributes.link.edit'), edit_staff_path(id: s.id), class:"btn btn-success btn-sm"
         
 javascript:
   jQuery(function(){

@@ -18,8 +18,7 @@
           <!-- スタッフがログインしている時　-->
           <% elsif current_staff.present? %>
             <li class="nav-item"> <%= link_to t('activerecord.attributes.link.logout'),destroy_staff_session_path, method: :delete, class:"nav-link" %></li>
-            <li class="nav-item"><%= link_to t('activerecord.attributes.company.user_page'), users_path, class:"nav-link" %></li>
-            <li class="nav-item"><%= link_to t('activerecord.attributes.company.staff_page'), staffs_path, class:"nav-link" %></li>
+            
          <!-- ユーザーがログインしている時　-->
           <% elsif current_user.present? %>
             <li class="nav-item"><%= link_to t('activerecord.attributes.reservation.title'), reservations_path(branch_id: current_user.branch.id, style: "calendar_view"), class:"nav-link" %></li>

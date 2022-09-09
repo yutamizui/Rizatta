@@ -12,6 +12,9 @@ class TimeframesController < ApplicationController
 
   def create
     @timeframe = Timeframe.new(timeframe_params)
+    if current_staff.present? 
+      @timeframe.staff_id = current_staff.id
+    end
     @timeframe.color = params[:timeframe][:color].to_i
     if @timeframe.save
       redirect_to reservations_path(branch_id: @timeframe.branch_id), notice: t('activerecord.attributes.link.created')
@@ -38,8 +41,8 @@ class TimeframesController < ApplicationController
             branch_id: @timeframe.branch_id,
             room_id: @timeframe.room_id,
             required_ticket_number: @timeframe.required_ticket_number,
+            staff_id: @timeframe.staff_id
           )
-          
           unless Timeframe.timeframe_duplicate?(timeframe)
             timeframe.save!
           else
@@ -73,6 +76,7 @@ class TimeframesController < ApplicationController
               branch_id: t.branch_id,
               room_id: t.room_id,
               required_ticket_number: t.required_ticket_number,
+              staff_id: t.staff_id
             )
             unless Timeframe.timeframe_duplicate?(timeframe)
               timeframe.save!
