@@ -17,8 +17,7 @@ class SalesItemsController < ApplicationController
   end
 
   def create
-    @sales_items = SalesItem.create(sales_item_params)
-
+    @sales_item = SalesItem.create(sales_item_params)
     redirect_to sales_items_path(branch_id: @sales_item.branch_id), notice: t('activerecord.attributes.link.created')
   end
 
@@ -26,12 +25,11 @@ class SalesItemsController < ApplicationController
   end
 
   def update
-    @sales_item.update(sales_item_params)
-    if ticket.update(sales_item_params)
-      redirect_to sales_items_path(id: @sales_item.id), notice: t('activerecord.attributes.link.edited')
+    if @sales_item.update(sales_item_params)
+      redirect_to sales_items_path(id: @sales_item.id, branch_id: @sales_item.branch_id), notice: t('activerecord.attributes.link.updated')
     else
       flash[:notice] = t('activerecord.attributes.link.failed_to_create')
-      render 'tickets/edit'
+      render 'sales_items/edit'
     end
   end
 
@@ -46,6 +44,6 @@ class SalesItemsController < ApplicationController
     end
 
     def sales_item_params
-      params.require(:sales_item).permit(:user_id, :reservation_id, :expired_at, :status)
+      params.require(:sales_item).permit(:name, :number_of_ticket, :branch_id)
     end
 end

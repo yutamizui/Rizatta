@@ -168,6 +168,8 @@ ja:
        reservation_limit: 予約制限時間
        cancelation_limit: キャンセル制限時間
        phone_comment: ハイフンは不要
+       ticket_price: １枚のチケット料金
+       yen: 円
       
       room:
        title: ルーム

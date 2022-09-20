@@ -145,6 +145,10 @@ en:
        reservation_limit: Reservation Time Limit
        cancelation_limit: Cancel Time Limit
        phone_comment: Hyphen is not required
+       ticket_price: One Ticket Price
+       yen: Yen
+
+       
 
       room:
         title: Room

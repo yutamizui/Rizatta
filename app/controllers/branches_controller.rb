@@ -1,5 +1,5 @@
 class BranchesController < ApplicationController
-  before_action :find_branch, only: [:show, :edit, :update, :delete]
+  before_action :find_branch, only: [:show, :edit, :update, :destroy]
 
   def index
     @branches = Branch.all
@@ -40,6 +40,8 @@ class BranchesController < ApplicationController
   end
 
   def destroy
+    @branch.destroy
+    redirect_to branches_path, notice: t('activerecord.attributes.link.canceled')
   end
 
   private
@@ -49,6 +51,6 @@ class BranchesController < ApplicationController
 
     def branch_params
       params.require(:branch).permit(:name, :address, :phone, :company_id, :calendar_start_time, :calendar_end_time,
-         :makable_reservation_hour_span, :cancelable_reservation_hour_span )
+         :makable_reservation_hour_span, :cancelable_reservation_hour_span, :ticket_price)
     end
 end

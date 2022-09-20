@@ -10,6 +10,12 @@ div.col-md-12
   div.form-group
     = f.label :address
     = f.text_field :address, class:"form-control"
+div.col-md-12
+  div.form-group
+    = f.label :ticket_price
+    div.input-group
+      = f.number_field :ticket_price, class:"form-control"
+      span.input-group-text = t('activerecord.attributes.branch.yen')
 
 
 div.form-group

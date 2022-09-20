@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_14_082623) do
+ActiveRecord::Schema.define(version: 2022_09_20_105747) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 2022_09_14_082623) do
     t.integer "cancelable_reservation_hour_span", default: 24, null: false
     t.datetime "calendar_start_time", default: "2000-01-01 10:00:00"
     t.datetime "calendar_end_time", default: "2000-01-01 20:00:00"
+    t.integer "ticket_price", default: 1000
     t.index ["company_id"], name: "index_branches_on_company_id"
   end
 
@@ -64,7 +65,7 @@ ActiveRecord::Schema.define(version: 2022_09_14_082623) do
   end
 
   create_table "sales_items", force: :cascade do |t|
-    t.integer "name", null: false
+    t.string "name", null: false
     t.integer "number_of_ticket", default: 1, null: false
     t.bigint "branch_id"
     t.datetime "created_at", precision: 6, null: false
