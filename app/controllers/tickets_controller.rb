@@ -1,6 +1,5 @@
 class TicketsController < ApplicationController
   before_action :find_ticket, only: [:show, :edit, :update, :delete]
-  
 
   def show
     @ticket = Ticket.find(params[:id])

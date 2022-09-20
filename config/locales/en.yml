@@ -188,6 +188,13 @@ en:
         number_to_create: Number to create
         sheet: sheets
 
+      sales_item:
+        title: Sales Item
+        name: Sales Item Name
+        number_of_ticket: Purchasing number of ticket
+        new: Create Sales Item 
+        edit: Edit Sales Item
+
 
       language:
         setting: Language Setting

@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
- 
+
   devise_scope :user do
     root :to => "users/sessions#new"
   end
@@ -36,6 +36,7 @@ Rails.application.routes.draw do
   end
   resources :users
   resources :tickets
+  resources :sales_items
   resources :staffs
   get "locale" => "application#locale", as: "locale"
 end

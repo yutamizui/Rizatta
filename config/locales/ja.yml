@@ -209,6 +209,13 @@ ja:
         currently_owned: 現在所有しているチケット
         number_to_create: 作成枚数
         sheet: 枚
+      
+      sales_item:
+        title: 販売アイテム
+        name: 販売アイテム名
+        number_of_ticket: 購入チケット数
+        new: 販売アイテム作成
+        edit: 販売アイテム編集
 
 
       language:

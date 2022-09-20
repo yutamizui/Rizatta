@@ -1,0 +1,36 @@
+= link_to t('activerecord.attributes.sales_item.new'), new_sales_item_path(branch_id: params[:branch_id]), class:"btn btn-success button-margin"
+br
+- if @branches.count > 0
+  - @branches.each do |b|
+    span#branch-button
+      = link_to b.name, sales_items_path(branch_id: b.id), class:"btn btn-secondary button-margin", name:"#{b.id}"
+
+table class="table table-bordered"
+  thead class="thead-dark table-active "
+    tr
+      th.text-center = "#"
+      th = t('activerecord.attributes.sales_item.name')
+      th = t('activerecord.attributes.sales_item.number_of_ticket')
+      th
+
+  tbody
+    - @sales_items.each_with_index do |s,i| 
+      tr 
+        td.text-center = i + 1
+        td = s.name
+        td = s.number_of_ticket
+        - unless current_staff.present? && current_staff.id == s.id
+          td = link_to t('activerecord.attributes.link.edit'), edit_sales_item_path(id: s.id), class:"btn btn-success btn-sm"
+        
+javascript:
+  jQuery(function(){
+    var params = (new URL(document.location)).searchParams;
+    var branch_id = params.get('branch_id');
+    $('#branch-button a').each(function(){
+      var buttontype = $(this).attr('name');
+      if( buttontype == branch_id ){
+        $( $(this)).addClass("btn-company");
+      }
+    });
+    //var branches = #{raw @branches.to_json};
+  }) 

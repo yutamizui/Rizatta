@@ -1,0 +1,8 @@
+div.col-md-12
+  div.form-group
+    = f.label :name
+    = f.text_field :name, class:"form-control"
+  div.form-group
+    = f.label :number_of_ticket
+    = f.number_field :number_of_ticket, min: 1, class:"form-control"
+  

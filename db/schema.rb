@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_29_052350) do
+ActiveRecord::Schema.define(version: 2022_09_14_082623) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 2022_08_29_052350) do
     t.string "address", null: false
     t.string "phone", null: false
     t.string "secret_code", null: false
+    t.integer "ticket_price", default: 1000
     t.index ["email"], name: "index_companies_on_email", unique: true
     t.index ["reset_password_token"], name: "index_companies_on_reset_password_token", unique: true
   end
@@ -60,6 +61,15 @@ ActiveRecord::Schema.define(version: 2022_08_29_052350) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["branch_id"], name: "index_rooms_on_branch_id"
+  end
+
+  create_table "sales_items", force: :cascade do |t|
+    t.integer "name", null: false
+    t.integer "number_of_ticket", default: 1, null: false
+    t.bigint "branch_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["branch_id"], name: "index_sales_items_on_branch_id"
   end
 
   create_table "staffs", force: :cascade do |t|
@@ -129,6 +139,7 @@ ActiveRecord::Schema.define(version: 2022_08_29_052350) do
   add_foreign_key "reservations", "timeframes"
   add_foreign_key "reservations", "users"
   add_foreign_key "rooms", "branches"
+  add_foreign_key "sales_items", "branches"
   add_foreign_key "staffs", "branches"
   add_foreign_key "staffs", "companies"
   add_foreign_key "timeframes", "branches"
