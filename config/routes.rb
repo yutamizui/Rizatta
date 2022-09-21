@@ -1,8 +1,6 @@
 Rails.application.routes.draw do
 
-  devise_scope :user do
-    root :to => "users/sessions#new"
-  end
+  root to: 'reservations#index'
 
   devise_for :companies, controllers: {
     sessions:      'companies/sessions',
@@ -36,7 +34,12 @@ Rails.application.routes.draw do
   end
   resources :users
   resources :tickets
-  resources :sales_items
+  resources :sales_items do
+    collection do
+      get :list
+      post :purchase
+    end
+  end
   resources :staffs
   get "locale" => "application#locale", as: "locale"
 end

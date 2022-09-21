@@ -20,6 +20,11 @@ div.container
               = f.label t('activerecord.attributes.company.secret_code')
               = f.text_field :secret_code, autofocus: true, class:"form-control"
             div.form-group
+              = f.label t('activerecord.attributes.company.ticket_price')
+              div.input-group
+                = f.number_field :ticket_price, autofocus: true, class:"form-control"
+                span.input-group-text = t('activerecord.attributes.sales_item.yen')
+            div.form-group
               = f.label t('activerecord.attributes.common.password')
               = f.password_field :password, placeholder: t('activerecord.attributes.common.password_length'), autocomplete: "off", class:"form-control"
             div.form-group

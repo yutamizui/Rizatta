@@ -80,6 +80,7 @@ en:
         deleted: Deleted
         are_you_sure: Are you sure to delete?
         are_you_sure_to_cancel: Are you sure to cancel?
+        are_you_sure_to_purchase: Are you sure to purchase?
         add: Add
         send: Send
         delete: Delete
@@ -88,6 +89,7 @@ en:
         cancel: Cancel
         canceled: The reservation has been canceled
         no_cancel: No Cancel
+        purchase: Purchase
       
 
 
@@ -109,6 +111,7 @@ en:
         edit_information: Change registration information
         user_page: User Page
         staff_page: Staff Page
+        ticket_price: One Ticket Price
 
       user:
         title: User
@@ -191,14 +194,21 @@ en:
         currently_owned: Ticket currently owned
         number_to_create: Number to create
         sheet: sheets
+        purchase: Ticket Purchase
+        purchase_completed: Tickets have been purchased!
+        effective_date: Ticket Valid days from purchase date
+        date: days
+
 
       sales_item:
         title: Sales Item
         name: Sales Item Name
-        number_of_ticket: Purchasing number of ticket
+        number_of_ticket: Number of ticket
         new: Create Sales Item 
         edit: Edit Sales Item
-
+        price: Price
+        sheet: sheets
+        yen: Yen
 
       language:
         setting: Language Setting

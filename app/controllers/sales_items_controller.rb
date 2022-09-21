@@ -6,6 +6,24 @@ class SalesItemsController < ApplicationController
     @sales_items = SalesItem.where(branch_id: params[:branch_id])
   end
 
+  def list
+    @branch = current_user.branch
+    @sales_items = SalesItem.where(branch_id: @branch.id)
+  end
+
+  def purchase
+    @sales_item = SalesItem.find(params[:id])
+    price = @sales_item.price
+    number_of_ticket = @sales_item.number_of_ticket
+    number_of_ticket.times do
+      Ticket.create(
+        user_id: current_user.id,
+        expired_at: Date.today.next_month
+      )
+    end
+    redirect_to list_sales_items_path(branch_id: current_user.branch.id), notice: t('activerecord.attributes.ticket.purchase_completed')
+  end
+
 
   def show
     @sales_item = SalesItem.find(params[:id])
@@ -44,6 +62,6 @@ class SalesItemsController < ApplicationController
     end
 
     def sales_item_params
-      params.require(:sales_item).permit(:name, :number_of_ticket, :branch_id)
+      params.require(:sales_item).permit(:name, :number_of_ticket, :branch_id, :price, :effective_date)
     end
 end

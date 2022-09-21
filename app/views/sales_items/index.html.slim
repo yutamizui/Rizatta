@@ -10,7 +10,9 @@ table class="table table-bordered"
     tr
       th.text-center = "#"
       th = t('activerecord.attributes.sales_item.name')
+      th = t('activerecord.attributes.sales_item.price')
       th = t('activerecord.attributes.sales_item.number_of_ticket')
+      th = t('activerecord.attributes.sales_item.effective_date')
       th
 
   tbody
@@ -18,7 +20,15 @@ table class="table table-bordered"
       tr 
         td.text-center = i + 1
         td = s.name
-        td = s.number_of_ticket
+        td 
+          = s.price 
+          = t('activerecord.attributes.sales_item.yen')
+        td 
+          = s.number_of_ticket
+          = t('activerecord.attributes.sales_item.sheet')
+        td
+          = s.effective_date
+          = t('activerecord.attributes.sales_item.date')
         - unless current_staff.present? && current_staff.id == s.id
           td = link_to t('activerecord.attributes.link.edit'), edit_sales_item_path(id: s.id), class:"btn btn-success btn-sm"
         

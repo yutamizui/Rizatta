@@ -29,7 +29,7 @@ table class="table table-bordered"
         td
           = link_to t('activerecord.attributes.link.edit'), edit_room_path(id: r.id), class:"btn btn-success button-margin"
           - unless Timeframe.where(room_id: r.id).present?
-            = link_to t('activerecord.attributes.link.delete'), room_path(id: r.id), method: :delete, data: {confirm: "sdfdsfsd"},class:"btn btn-danger button-margin"
+            = link_to t('activerecord.attributes.link.delete'), room_path(id: r.id), method: :delete,data: {confirm: t('activerecord.attributes.link.are_you_sure_to_cancel')},class:"btn btn-danger button-margin"
 
 
 javascript:

@@ -1,0 +1,26 @@
+table class="table table-bordered"
+  thead class="thead-dark table-active "
+    tr
+      th.text-center = "#"
+      th = t('activerecord.attributes.sales_item.name')
+      th = t('activerecord.attributes.sales_item.price')
+      th = t('activerecord.attributes.sales_item.number_of_ticket')
+      th = t('activerecord.attributes.sales_item.effective_date')
+      th
+
+  tbody
+    - @sales_items.each_with_index do |s,i| 
+      tr
+        td.text-center = i + 1
+        td = s.name
+        td
+          = s.price 
+          = t('activerecord.attributes.sales_item.yen')
+        td
+          = s.number_of_ticket
+          = t('activerecord.attributes.sales_item.sheet')
+        td
+          = s.effective_date
+          = t('activerecord.attributes.sales_item.date')
+
+        td = link_to t('activerecord.attributes.link.purchase'), purchase_sales_items_path(id: s.id), method: :post, data: {confirm: t('activerecord.attributes.link.are_you_sure_to_purchase')}, class:"btn btn-warning btn-sm"

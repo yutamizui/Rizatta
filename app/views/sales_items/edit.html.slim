@@ -7,8 +7,8 @@ div.row
         == render 'shared/errors', obj: @sales_item
         = form_for @sales_item, url: sales_item_path do |f|
           == render 'sales_items/form', f: f
-          = f.submit  t('activerecord.attributes.link.update'), class:"btn btn-info"
+          = f.submit  t('activerecord.attributes.link.update'), class:"btn btn-info button-margin"
 br
 br
 = link_to :back do 
-  button class="btn btn-secondary button-margin" = t("activerecord.attributes.button.back")
+  button class="btn btn-secondary button-margin" = t("activerecord.attributes.link.back")

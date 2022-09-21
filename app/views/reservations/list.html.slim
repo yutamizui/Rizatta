@@ -13,8 +13,10 @@
         th = t('activerecord.attributes.timeframe.capacity')
     tbody
       - if @timeframes.count > 0
-        - @timeframes.each do |t|
-          tr
+        - @timeframes.each_with_index do |t,i|
+          - if i.even?
+            - cel_color = "#DCDCDC"
+          tr style="background-color: #{cel_color};"
             td = t.name
             td = t.target_date.strftime("%m/%d (#{%w(日 月 火 水 木 金 土)[t.target_date.wday]})")
             td
@@ -27,12 +29,12 @@
               = " / "
               = t.capacity
               = " 名"
-          tr 
+          tr style="background-color: #{cel_color};"
             td colspan="5"
               - User.where(id: t.reservations.pluck(:user_id)).each do |u|
                 = u.name + ","
                 
-          
+            
 
 - elsif current_user.present?
   table class="table table-bordered"

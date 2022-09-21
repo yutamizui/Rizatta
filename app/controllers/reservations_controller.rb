@@ -4,22 +4,26 @@ class ReservationsController < ApplicationController
   before_action :set_day
 
   def index
-    if current_company.present?
-      @branches = current_company.branches
-      if params[:branch_id].present?
-        @branch = Branch.find(params[:branch_id])
+    if current_company.present? || current_staff.present? || current_user.present?
+      if current_company.present?
+        @branches = current_company.branches
+        if params[:branch_id].present?
+          @branch = Branch.find(params[:branch_id])
+        else
+          @branch = current_company.branches.first
+        end
+      elsif current_staff.present?
+        @branch = current_staff.branch
       else
-        @branch = current_company.branches.first
+        @branch = current_user.branch
       end
-    elsif current_staff.present?
-      @branch = current_staff.branch
+      @timeframes = Timeframe.where(branch_id: @branch.id).order(target_date: :asc)
+      @rooms = Room.where(branch_id: @branch.id)
+      @room = Room.find_by(name: params[:room])
+      @reservation = Reservation.new
     else
-      @branch = current_user.branch
+      redirect_to new_user_session_path
     end
-    @timeframes = Timeframe.where(branch_id: @branch.id).order(target_date: :asc)
-    @rooms = Room.where(branch_id: @branch.id)
-    @room = Room.find_by(name: params[:room])
-    @reservation = Reservation.new
   end
 
   def list

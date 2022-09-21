@@ -3,6 +3,18 @@ div.col-md-12
     = f.label :name
     = f.text_field :name, class:"form-control"
   div.form-group
-    = f.label :number_of_ticket
-    = f.number_field :number_of_ticket, min: 1, class:"form-control"
-  
+    div.col-md-4
+      = f.label :price
+      div.input-group
+        = f.number_field :price, default: 1000, class:"form-control"
+        span.input-group-text = t('activerecord.attributes.sales_item.yen')
+    div.col-md-4
+      = f.label :number_of_ticket
+      div.input-group
+        = f.number_field :number_of_ticket, min: 1, class:"form-control" 
+        span.input-group-text = t('activerecord.attributes.sales_item.sheet')
+    div.col-md-4
+      = f.label :effective_date
+      div.input-group
+        = f.number_field :effective_date, min: 1, class:"form-control" 
+        span.input-group-text = t('activerecord.attributes.sales_item.date')
