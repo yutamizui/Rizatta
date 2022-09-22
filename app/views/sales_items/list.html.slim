@@ -1,3 +1,8 @@
+- if current_user.customer_id == nil
+  = "koko"
+  = form_tag({:controller => 'payments', :action => 'customer_registration'},{ :method => :post}) do
+    script.payjp-button[src="https://checkout.pay.jp" data-key="#{ENV.fetch("PAYJP_PUBLIC_KEY")}"]
+
 table class="table table-bordered"
   thead class="thead-dark table-active "
     tr
@@ -9,12 +14,12 @@ table class="table table-bordered"
       th
 
   tbody
-    - @sales_items.each_with_index do |s,i| 
+    - @sales_items.each_with_index do |s,i|
       tr
         td.text-center = i + 1
         td = s.name
         td
-          = s.price 
+          = s.price
           = t('activerecord.attributes.sales_item.yen')
         td
           = s.number_of_ticket
@@ -22,5 +27,5 @@ table class="table table-bordered"
         td
           = s.effective_date
           = t('activerecord.attributes.sales_item.date')
-
-        td = link_to t('activerecord.attributes.link.purchase'), purchase_sales_items_path(id: s.id), method: :post, data: {confirm: t('activerecord.attributes.link.are_you_sure_to_purchase')}, class:"btn btn-warning btn-sm"
+        - unless current_user.customer_id == nil
+          td = link_to t('activerecord.attributes.link.purchase'), purchase_sales_items_path(id: s.id), method: :post, data: {confirm: t('activerecord.attributes.link.are_you_sure_to_purchase')}, class:"btn btn-warning btn-sm"

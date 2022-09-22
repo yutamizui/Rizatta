@@ -1,5 +1,7 @@
 class SalesItemsController < ApplicationController
   before_action :find_sales_item, only: [:show, :edit, :update, :delete]
+  def customer_registration
+  end
   
   def index
     @branches = company_admin.branches
@@ -11,18 +13,7 @@ class SalesItemsController < ApplicationController
     @sales_items = SalesItem.where(branch_id: @branch.id)
   end
 
-  def purchase
-    @sales_item = SalesItem.find(params[:id])
-    price = @sales_item.price
-    number_of_ticket = @sales_item.number_of_ticket
-    number_of_ticket.times do
-      Ticket.create(
-        user_id: current_user.id,
-        expired_at: Date.today.next_month
-      )
-    end
-    redirect_to list_sales_items_path(branch_id: current_user.branch.id), notice: t('activerecord.attributes.ticket.purchase_completed')
-  end
+  
 
 
   def show

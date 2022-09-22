@@ -42,4 +42,15 @@ Rails.application.routes.draw do
   end
   resources :staffs
   get "locale" => "application#locale", as: "locale"
+
+  post "payments/customer_registration"
+  post "payments/payjpcard_update"
+  get 'payments/price'
+  post "payments/payjp_webhook"
+  post "payments/charge"
+  post "payments/subscribe"
+  post "payments/unsubscribe"
+  get "payments" => "payments#index", as: "payments"
+  get "payment" => "payments#show", as: "payment"
+
 end
