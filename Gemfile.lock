@@ -1632,6 +1632,8 @@ GEM
     ssrf_filter (1.0.7)
     strscan (3.0.4)
     temple (0.8.2)
+    terser (1.1.12)
+      execjs (>= 0.3.0, < 3)
     thor (1.2.1)
     tilt (2.0.11)
     time (0.2.0)
@@ -1645,8 +1647,6 @@ GEM
     turbolinks-source (5.2.0)
     tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
-    uglifier (4.2.0)
-      execjs (>= 0.3.0, < 3)
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.8.2)
@@ -1732,10 +1732,10 @@ DEPENDENCIES
   spring
   spring-watcher-listen (~> 2.0.0)
   sqlite3
+  terser
   toastr-rails
   toastr_rails
   turbolinks (~> 5)
-  uglifier
   web-console (>= 3.3.0)
   webpacker
   will_paginate
