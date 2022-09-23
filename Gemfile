@@ -8,7 +8,12 @@ end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.1.0'
-ruby '3.0.2'
+ruby '3.1.2'
+
+gem 'net-ftp', '~> 0.1'
+gem 'net-imap', '~> 0.2'
+gem 'net-pop', '~> 0.1'
+gem 'net-smtp', '~> 0.3'
 
 gem 'puma', '~> 3.0'
 # Use SCSS for stylesheets
