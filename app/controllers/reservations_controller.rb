@@ -4,10 +4,6 @@ class ReservationsController < ApplicationController
   before_action :set_day
 
   def index
-    if current_company.present? && current_company.branches.blank?
-      redirect_to branches_path
-    end
-
     if current_company.present?
       @branches = current_company.branches
       if params[:branch_id].present?
