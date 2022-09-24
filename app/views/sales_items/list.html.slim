@@ -1,7 +1,7 @@
 - if current_user.customer_id == nil
-  = "koko"
-  = form_tag({:controller => 'payments', :action => 'customer_registration'},{ :method => :post}) do
-    script.payjp-button[src="https://checkout.pay.jp" data-key="#{ENV.fetch("PAYJP_PUBLIC_KEY")}"]
+  div.button-margin
+    = form_tag({:controller => 'payments', :action => 'customer_registration'},{ :method => :post}) do
+      script.payjp-button[src="https://checkout.pay.jp" data-key="#{ENV.fetch("PAYJP_PUBLIC_KEY")}" data-text="カード情報を登録する"]
 
 table class="table table-bordered"
   thead class="thead-dark table-active "
@@ -28,4 +28,10 @@ table class="table table-bordered"
           = s.effective_date
           = t('activerecord.attributes.sales_item.date')
         - unless current_user.customer_id == nil
-          td = link_to t('activerecord.attributes.link.purchase'), purchase_sales_items_path(id: s.id), method: :post, data: {confirm: t('activerecord.attributes.link.are_you_sure_to_purchase')}, class:"btn btn-warning btn-sm"
+          td = link_to t('activerecord.attributes.link.purchase'), payments_charge_path(id: s.id), method: :post, data: {confirm: t('activerecord.attributes.link.are_you_sure_to_purchase')}, class:"btn btn-warning btn-sm"
+  
+
+- if current_user.present? && current_user.customer_id != nil
+  div.button-margin
+    = form_tag({:controller => 'payments', :action => 'payjpcard_update'},{ :method => :post}) do
+      script.payjp-button[src="https://checkout.pay.jp" data-key="#{ENV.fetch("PAYJP_PUBLIC_KEY")}" data-text="カードの変更はこちら" data-submit-text="このカードに変更する"] 

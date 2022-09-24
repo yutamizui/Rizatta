@@ -9,12 +9,12 @@ class PaymentsController < ApplicationController
       if @user.present?
         Payjp.api_key = ENV.fetch("PAYJP_SECRET_KEY")
         customer = Payjp::Customer.create(
-          id: "yotech" + @user.id.to_s,
+          id: "rizatta" + @user.id.to_s,
           description: @user.name,
           card: params['payjp-token'],
           email: @user.email
         )
-        @user.update(customer_id: "yotech" + @user.id.to_s )
+        @user.update(customer_id: "rizatta" + @user.id.to_s )
       end
 
     rescue Payjp::CardError => e
@@ -42,14 +42,14 @@ class PaymentsController < ApplicationController
     end
 
     if flash.now[:alert].present?
-        render 'payments/index'
+        render 'sales_items/list'
     else
         flash[:notice] = "カード情報を登録しました。チケットをご購入いただけます。"
-        redirect_to payments_path
+        redirect_to list_sales_items_path(branch_id: @user.branch_id)
     end
   end
 
-  # ポイント都度購入
+  # アイテム購入
   def charge
     @sales_item = SalesItem.find(params[:id])
     price = @sales_item.price
@@ -60,7 +60,7 @@ class PaymentsController < ApplicationController
       Payjp::Charge.create(
         amount: price,
         currency: 'jpy',
-        customer: "yotech" + current_user.id.to_s,
+        customer: "rizatta" + current_user.id.to_s,
       )
     rescue Payjp::AuthenticationError => e
         flash[:alert] = "エラーが発生しました。運営にお問い合わせください。(お問い合わせ番号：１)"
@@ -80,12 +80,12 @@ class PaymentsController < ApplicationController
           expired_at: Date.today.next_month
         )
       end
-      redirect_to list_sales_items_path(branch_id: @user.branch_id), notice: t('activerecord.attributes.ticket.purchase_completed')
+      redirect_to list_sales_items_path(branch_id: current_user.branch_id), notice: t('activerecord.attributes.ticket.purchase_completed')
     end
   end
 
   def payjpcard_update
-    customer_id = "placty#{current_user.id}"
+    customer_id = "rizatta#{current_user.id}"
 
     Payjp.api_key = ENV.fetch("PAYJP_SECRET_KEY")
     customer = Payjp::Customer.retrieve(
@@ -96,10 +96,10 @@ class PaymentsController < ApplicationController
         default: true
     )
     if flash[:alert].present?
-        render 'payments/index'
+        render 'list_sales_items/index'
     else
-        flash[:notice] = "カード情報を変更しました。"
-        redirect_to payments_path
+      flash[:notice] = "カード情報を変更しました。"
+      redirect_to list_sales_items_path(branch_id: current_user.branch_id)
     end
   end
 
