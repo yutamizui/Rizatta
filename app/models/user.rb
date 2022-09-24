@@ -6,6 +6,6 @@ class User < ApplicationRecord
 
   belongs_to :company
   belongs_to :branch
-  has_many :reservations
-  has_many :tickets
+  has_many :reservations, dependent: :destroy
+  has_many :tickets, dependent: :destroy
 end
