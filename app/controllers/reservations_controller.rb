@@ -2,6 +2,7 @@ class ReservationsController < ApplicationController
   before_action :set_week
   before_action :set_this_week
   before_action :set_day
+  before_action :authenticate_any!
 
   def index
     if current_company.present?
@@ -119,6 +120,14 @@ class ReservationsController < ApplicationController
       @day = Date.parse(params[:day])
     else
       @day = Date.today
+    end
+  end
+
+  def authenticate_any!
+    if company_signed_in? || staff_signed_in? || user_signed_in?
+      true
+    else
+      authenticate_user!
     end
   end
 
