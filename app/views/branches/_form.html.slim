@@ -22,9 +22,9 @@ div.form-group
   div.col-md-6
     label = t('activerecord.attributes.branch.time_on_calendar')
     br
-    = f.datetime_select :calendar_start_time, default: Date.today + 7.hour, discard_year: true, discard_month: true, discard_day: true, start_hour: 7, end_hour: 22, minute_step: 60, autofocus: 'true', class:"form-control"
+    = f.datetime_select :calendar_start_time, discard_year: true, discard_month: true, discard_day: true, start_hour: 7, end_hour: 22, minute_step: 60, autofocus: 'true', class:"form-control"
     = " ~ "
-    =  f.datetime_select :calendar_end_time, default: Date.today + 22.hour, discard_year: true, discard_month: true, discard_day: true, start_hour: 7, end_hour: 22, minute_step: 60, autofocus: 'true', class:"form-control"
+    =  f.datetime_select :calendar_end_time, discard_year: true, discard_month: true, discard_day: true, start_hour: 7, end_hour: 22, minute_step: 60, autofocus: 'true', class:"form-control"
   div.col-md-3
     label = t('activerecord.attributes.branch.reservation_limit')
     div.input-group
