@@ -19,7 +19,7 @@ class BranchesController < ApplicationController
     @branch = Branch.new(branch_params)
     @branch.company_id = current_company.id
     if @branch.save
-      redirect_to branches_path, notice: t('activerecord.attributes.link.created')
+      redirect_to branches_path(company_id: @branch.id), notice: t('activerecord.attributes.link.created')
     else
       flash.now[:alert] = t('activerecord.attributes.link.failed_to_create')
       render 'new'
