@@ -22,7 +22,7 @@ class Companies::RegistrationsController < Devise::RegistrationsController
      if resource.save
         # ブロックが与えられたらresource(=User)を呼ぶ
         yield resource if block_given?
-       redirect_to new_branch_path
+       redirect_to branches_path
      elsif resource.persisted?
 
        # confirmable/lockableどちらかのactive_for_authentication?がtrueだったら
@@ -32,7 +32,7 @@ class Companies::RegistrationsController < Devise::RegistrationsController
 
          sign_up(resource_name, resource)
          if current_company.present?
-          new_branch_path
+          branches_path
          else
            respond_with resource, location: after_sign_up_path_for(resource)
          end

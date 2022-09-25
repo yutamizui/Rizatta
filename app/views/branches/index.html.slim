@@ -10,14 +10,15 @@ table class="table table-bordered"
       th
 
   tbody
-    - @branches.each do |b| 
-      tr
-        td = b.name
-        td = b.address
-        td = b.phone
-        td 
-          = link_to t('activerecord.attributes.link.edit'), edit_branch_path(id: b.id), class:"btn btn-success button-margin"
-          = link_to t('activerecord.attributes.link.delete'), branch_path(id: b.id), method: :delete, data: {confirm: t('activerecord.attributes.link.are_you_sure')}, class:"btn btn-danger button-margin"
+    - if @branches.present?
+      - @branches.each do |b| 
+        tr
+          td = b.name
+          td = b.address
+          td = b.phone
+          td 
+            = link_to t('activerecord.attributes.link.edit'), edit_branch_path(id: b.id), class:"btn btn-success button-margin"
+            = link_to t('activerecord.attributes.link.delete'), branch_path(id: b.id), method: :delete, data: {confirm: t('activerecord.attributes.link.are_you_sure')}, class:"btn btn-danger button-margin"
 
 
 
