@@ -14,9 +14,9 @@ div.row
       - (@branch.calendar_start_time.to_i...@branch.calendar_end_time.to_i).step(Timeframe::TIME_SPAN * 60) do |time|
         - tr_counter += 1
         tr class=((tr_counter - 1) % 12 == 0 ? 'time_schedule border-top' : 'time_schedule')
-          - if Time.at(time).min == 0
+          - if Time.zone.at(time).min == 0
             th rowspan="#{60/Timeframe::TIME_SPAN }"
-              = Time.at(time).strftime("%H:%M")
+              = Time.zone.at(time).strftime("%H:%M")
 
           - display_rooms.each_with_index do |room, index|
             - if skip_counter[index] > 0
@@ -25,7 +25,7 @@ div.row
               - available_timeframe = nil
 
               - timeframes.each do |timeframe|
-                - if timeframe.start_time.strftime('%H:%M') == Time.at(time).strftime('%H:%M') && timeframe.target_date.strftime('%m/%d (%a)') == @day.strftime('%m/%d (%a)') && timeframe.room_id == room.id
+                - if timeframe.start_time.strftime('%H:%M') == Time.zone.at(time).strftime('%H:%M') && timeframe.target_date.strftime('%m/%d (%a)') == @day.strftime('%m/%d (%a)') && timeframe.room_id == room.id
                   - available_timeframe = timeframe
 
               - if available_timeframe.present?
