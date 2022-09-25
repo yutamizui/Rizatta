@@ -31,7 +31,7 @@ class Companies::RegistrationsController < Devise::RegistrationsController
   
          sign_up(resource_name, resource)
          if current_company.present?
-           branches_path
+          edit_company_registration_path
          else
            respond_with resource, location: after_sign_up_path_for(resource)
          end
