@@ -10,7 +10,7 @@ class ActiveHash::Base
   extend ActiveModel::Translation
 end
 
-module Yotech
+module Rizatta
   class Application < Rails::Application
     config.i18n.default_locale = :ja
     config.i18n.fallbacks = [I18n.default_locale]
