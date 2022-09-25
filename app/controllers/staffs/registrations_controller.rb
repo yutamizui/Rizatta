@@ -19,15 +19,21 @@ class Staffs::RegistrationsController < Devise::RegistrationsController
 
   def create
     # ここでUser.new（と同等の操作）を行う
-    @branch = Branch.where(secret_code: params[:staff][:secret_code]).first
-    @branch_id = @branch.id
-    @company_id = Company.find(@branch.company_id).id
     build_resource(sign_up_params)
+    @branch = Branch.where(secret_code: params[:staff][:secret_code]).first
+    resource.branch_id = @branch.id
+    resource.company_id = Company.find(@branch.company_id).id
+    
 
      if resource.save
         # ブロックが与えられたらresource(=User)を呼ぶ
         yield resource if block_given?
-       redirect_to staffs_path(branch_id: resource.branch_id)
+        if company_admin
+          redirect_to staffs_path(branch_id: resource.branch_id)
+        else
+          sign_up(resource_name, resource)
+          redirect_to reservations_path(branch_id: resource.branch_id)
+        end
      elsif resource.persisted?
 
        # confirmable/lockableどちらかのactive_for_authentication?がtrueだったら
@@ -37,7 +43,7 @@ class Staffs::RegistrationsController < Devise::RegistrationsController
          # AdminActionMailer.new_registration_reminder(resource).deliver
          # UserActionMailer.user_registration_reminder(resource).deliver
   
-         sign_up(resource_name, resource)
+         
          if current_company.present?
            companies_path
          else

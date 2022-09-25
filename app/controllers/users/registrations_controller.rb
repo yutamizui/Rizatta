@@ -17,15 +17,22 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def create
-    # ここでUser.new（と同等の操作）を行う
-    @company_id = params[:company_id]
-    @branch_id = params[:branch_id]
+    # ここでUser.new（と同等の操作）を行う]
     build_resource(sign_up_params)
+    @branch = Branch.where(secret_code: params[:user][:secret_code]).first
+    resource.branch_id = @branch.id
+    resource.company_id = Company.find(@branch.company_id).id
+   
    
      if resource.save
        # ブロックが与えられたらresource(=User)を呼ぶ
        yield resource if block_given?
-       redirect_to users_path(branch_id: resource.branch_id)
+       if company_admin
+        redirect_to users_path(branch_id: resource.branch_id)
+      else
+        sign_up(resource_name, resource)
+        redirect_to reservations_path(branch_id: resource.branch_id)
+      end
 
      elsif resource.persisted?
   

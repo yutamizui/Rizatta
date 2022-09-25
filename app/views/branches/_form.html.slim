@@ -36,7 +36,8 @@ div.form-group
     div.input-group
       = f.number_field :cancelable_reservation_hour_span, autofocus: 'true', class:"form-control"
       span.input-group-text = t('activerecord.attributes.branch.before_end_time')
-  br
-  div.form-group
-    = f.label t('activerecord.attributes.branch.secret_code')
+  
+  div.col-md-12
+    br
+    label = f.label t('activerecord.attributes.branch.secret_code')
     = f.text_field :secret_code, autofocus: true, class:"form-control"

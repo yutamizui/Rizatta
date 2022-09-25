@@ -20,6 +20,10 @@ class StaffsController < ApplicationController
   end
 
   def destroy
+    @staff = Staff.find(params[:id])
+    branch_id = @staff.branch_id
+    @staff.destroy
+    redirect_to staffs_path(branch_id: branch_id), notice: t('activerecord.attributes.link.deleted')
   end
 
   private
