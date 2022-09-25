@@ -20,6 +20,7 @@ class Companies::RegistrationsController < Devise::RegistrationsController
      if resource.save
         # ブロックが与えられたらresource(=User)を呼ぶ
         yield resource if block_given?
+        sign_up(resource_name, resource)
         redirect_to branches_path(company_id: resource.id)
      elsif resource.persisted?
 
