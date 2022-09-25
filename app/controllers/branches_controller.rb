@@ -2,7 +2,7 @@ class BranchesController < ApplicationController
   before_action :find_branch, only: [:show, :edit, :update, :destroy]
 
   def index
-    @branches = Branch.all
+    @branches = Branch.where(company_id: params[:company_id])
     @branch = @branches.first
   end
 

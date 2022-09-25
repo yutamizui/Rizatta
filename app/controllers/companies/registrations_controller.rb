@@ -20,6 +20,7 @@ class Companies::RegistrationsController < Devise::RegistrationsController
      if resource.save
         # ブロックが与えられたらresource(=User)を呼ぶ
         yield resource if block_given?
+        redirect_to branches_path(company_id: resource.id)
      elsif resource.persisted?
 
        # confirmable/lockableどちらかのactive_for_authentication?がtrueだったら
@@ -30,12 +31,8 @@ class Companies::RegistrationsController < Devise::RegistrationsController
          # UserActionMailer.user_registration_reminder(resource).deliver
   
          sign_up(resource_name, resource)
-         if current_company.present?
-          redirect_to branches_path
-         else
-           respond_with resource, location: after_sign_up_path_for(resource)
-         end
-  
+         respond_with resource, location: after_sign_up_path_for(resource)
+
        else
          set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"
          expire_data_after_sign_in!
