@@ -18,7 +18,7 @@ div.container
               = f.text_field :phone, autofocus: true, class:"form-control"
             - if company_admin
               = f.hidden_field :secret_code, value: params[:secret_code]
-            else
+            - else
               div.form-group
                 = f.label t('activerecord.attributes.branch.secret_code')
                 = f.text_field :secret_code, autofocus: true, class:"form-control"

@@ -21,7 +21,7 @@ div.container
               = f.select :status, Staff.statuses_i18n.map{|key,value| [value,key]}, {}, size:"1x1",class:"form-control"
             - if company_admin
               = f.hidden_field :secret_code, value: params[:secret_code]
-            else
+            - else
               div.form-group
                 = f.label t('activerecord.attributes.branch.secret_code')
                 = f.text_field :secret_code, autofocus: true, class:"form-control"
