@@ -20,7 +20,7 @@ div.container
               = f.label t('activerecord.attributes.staff.status')
               = f.select :status, Staff.statuses_i18n.map{|key,value| [value,key]}, {}, size:"1x1",class:"form-control"
             - if company_admin
-              = f.hidden_field :secret_code, value: params[:secret_code]
+              = f.hidden_field :secret_code, value:"#{Branch.find(params[:branch_id]).secret_code}"
             - else
               div.form-group
                 = f.label t('activerecord.attributes.branch.secret_code')

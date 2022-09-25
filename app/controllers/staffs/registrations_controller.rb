@@ -23,7 +23,6 @@ class Staffs::RegistrationsController < Devise::RegistrationsController
     @branch = Branch.where(secret_code: params[:staff][:secret_code]).first
     resource.branch_id = @branch.id
     resource.company_id = Company.find(@branch.company_id).id
-    
 
      if resource.save
         # ブロックが与えられたらresource(=User)を呼ぶ
