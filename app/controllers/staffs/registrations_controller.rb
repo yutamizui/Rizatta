@@ -19,8 +19,9 @@ class Staffs::RegistrationsController < Devise::RegistrationsController
 
   def create
     # ここでUser.new（と同等の操作）を行う
-    @company_id = params[:company_id]
-    @branch_id = params[:branch_id]
+    @branch = Branch.where(secret_code: params[:staff][:secret_code]).first
+    @branch_id = @branch.id
+    @company_id = Company.find(@branch.company_id).id
     build_resource(sign_up_params)
 
      if resource.save

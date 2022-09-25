@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_21_105806) do
+ActiveRecord::Schema.define(version: 2022_09_25_050202) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 2022_09_21_105806) do
     t.datetime "calendar_start_time", default: "2000-01-01 10:00:00"
     t.datetime "calendar_end_time", default: "2000-01-01 20:00:00"
     t.integer "ticket_price", default: 1000
+    t.string "secret_code"
     t.index ["company_id"], name: "index_branches_on_company_id"
   end
 

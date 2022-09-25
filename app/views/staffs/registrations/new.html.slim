@@ -61,8 +61,8 @@ div.container
               div.form-group
                 = f.label t('activerecord.attributes.common.password_confirmation')
                 = f.password_field :password_confirmation, autocomplete: "off", class:"form-control"
-                = f.hidden_field :company_id, value: Company.where(secret_code: @secret_code).first.id
-                = f.hidden_field :branch_id, value: params[:branch_id]
+                = f.hidden_field :secret_code, value: params[:secret_code]
+                
               div.actions
                 = f.submit t('activerecord.attributes.link.register'),  class:"btn btn-success button-margin"
                 br

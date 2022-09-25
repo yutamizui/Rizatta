@@ -128,7 +128,6 @@ ja:
         phone: 電話番号
         create: 企業情報を作成する
         id: 会社ID
-        secret_code: 会社コード
         email: メールアドレス
         edit_information: 登録情報変更
         user_page: ユーザーページ
@@ -174,6 +173,7 @@ ja:
        phone_comment: ハイフンは不要
        ticket_price: １枚のチケット料金
        yen: 円
+       secret_code: 店舗コード
       
       room:
        title: ルーム

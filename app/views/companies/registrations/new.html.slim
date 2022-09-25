@@ -19,9 +19,7 @@ div.container
             div.form-group
               = f.label t('activerecord.attributes.company.phone')
               = f.text_field :phone, autofocus: true, class:"form-control"
-            div.form-group
-              = f.label t('activerecord.attributes.company.secret_code')
-              = f.text_field :secret_code, autofocus: true, class:"form-control"
+            
             div.form-group
               = f.label t('activerecord.attributes.common.password')
               = f.password_field :password, placeholder: t('activerecord.attributes.common.password_length'), autocomplete: "off", class:"form-control"

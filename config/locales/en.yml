@@ -107,7 +107,6 @@ en:
         phone: Phone Number
         create: Create Company
         id: Company's ID
-        secret_code: Company's code
         edit_information: Change registration information
         user_page: User Page
         staff_page: Staff Page
@@ -150,6 +149,7 @@ en:
        phone_comment: Hyphen is not required
        ticket_price: One Ticket Price
        yen: Yen
+       secret_code: Branch's code
 
        
 
