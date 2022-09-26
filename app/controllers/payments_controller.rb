@@ -77,7 +77,7 @@ class PaymentsController < ApplicationController
       number_of_ticket.times do
         Ticket.create(
           user_id: current_user.id,
-          expired_at: Date.today.next_month
+          expired_at: Date.today + @sales_item.effective_date
         )
       end
       redirect_to list_sales_items_path(branch_id: current_user.branch_id), notice: t('activerecord.attributes.ticket.purchase_completed')
