@@ -7,3 +7,11 @@ div.col-md-12
       = form_for @branch do |f|
         == render 'branches/form', f: f
         = f.submit  t('activerecord.attributes.link.create'), class:"btn btn-primary button-margin"
+
+
+javascript:
+  var start_time = document.getElementById("branch_calendar_start_time_4i");
+  start_time.value = "10";
+  var end_time = document.getElementById("branch_calendar_end_time_4i");
+  end_time.value = "22";
+  
