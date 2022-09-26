@@ -27,7 +27,7 @@ table class="table table-bordered"
         - unless current_staff.present? && current_staff.id == s.id
           td 
             = link_to t('activerecord.attributes.link.edit'), edit_staff_path(id: s.id), class:"btn btn-success btn-sm button-margin"
-            = link_to t('activerecord.attributes.link.delete'), staff_path(id: s.id), method: :delete, data: {confirm: t('activerecord.attributes.link.are_you_sure')}, class:"btn btn-danger btn-sm"
+            = link_to t('activerecord.attributes.link.delete'), staff_path(id: s.id), method: :delete, data: {confirm: t('activerecord.attributes.link.are_you_sure')}, class:"btn btn-danger btn-sm button-margin"
         
 javascript:
   jQuery(function(){

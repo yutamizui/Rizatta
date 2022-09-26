@@ -12,11 +12,17 @@ class TimeframesController < ApplicationController
 
   def create
     @timeframe = Timeframe.new(timeframe_params)
+    target_date = params[:timeframe][:target_date]
+    start_hour = params[:timeframe]["start_time(4i)"].to_s
+    start_min = params[:timeframe]["start_time(5i)"].to_s
+    @timeframe.target_date = target_date + " " + start_hour + ":" + start_min
     if current_staff.present? 
       @timeframe.staff_id = current_staff.id
     end
     @timeframe.color = params[:timeframe][:color].to_i
+
     if @timeframe.save
+
       redirect_to reservations_path(branch_id: @timeframe.branch_id), notice: t('activerecord.attributes.link.created')
     else
       flash.now[:alert] = t('activerecord.attributes.link.failed_to_create')

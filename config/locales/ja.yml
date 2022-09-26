@@ -197,6 +197,10 @@ ja:
         sheet: 枚
         duplicate: 複製
         delete: 削除
+        available_timeframe: ご利用可能予約枠
+        previous_timeframe: 以前の予約枠
+        booked_timeframe: ご予約枠
+        previous_booked_timeframe: 以前のご予約枠
       
       reservation:
         title: 予約

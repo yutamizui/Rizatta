@@ -176,6 +176,10 @@ en:
         sheet: sheet
         duplicate: Duplicate
         delete: Delete
+        available_timeframe: Available Timeframe
+        privious_timeframe: Previous Timeframe
+        booked_timeframe: Your reservations
+        previous_booked_timeframe: Your previous reservations
       
       reservation:
         title: Reservation

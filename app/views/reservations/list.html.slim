@@ -3,26 +3,30 @@
     - @branches.each do |b|
       span#branch-button
         = link_to b.name, list_reservations_path(branch_id: b.id, style: params[:style]), class:"btn btn-secondary button-margin", name:"#{b.id}"
+  
+  // 予約可能なリスト
+  h2 = t('activerecord.attributes.timeframe.available_timeframe')
   table class="table table-bordered"
     thead class="thead-dark table-active "
       tr
-        th = t('activerecord.attributes.timeframe.name')
         th = t('activerecord.attributes.timeframe.target_date')
         th = t('activerecord.attributes.timeframe.opening_time')
+        th = t('activerecord.attributes.timeframe.name')
         th = t('activerecord.attributes.timeframe.room')
         th = t('activerecord.attributes.timeframe.capacity')
     tbody
-      - if @timeframes.count > 0
-        - @timeframes.each_with_index do |t,i|
+      - if @future_timeframes.count > 0
+        - @future_timeframes.each_with_index do |t,i|
           - if i.even?
-            - cel_color = "#DCDCDC"
+            - cel_color = "#fff5e5"
           tr style="background-color: #{cel_color};"
-            td = t.name
             td = t.target_date.strftime("%m/%d (#{%w(日 月 火 水 木 金 土)[t.target_date.wday]})")
             td
               = t.start_time.strftime("%H:%M")
               = " ~ "
               = t.end_time.strftime("%H:%M")
+            td = t.name
+            
             td = Room.find(t.room_id).name
             td
               = t.reservations.count
@@ -33,31 +37,89 @@
             td colspan="5"
               - User.where(id: t.reservations.pluck(:user_id)).each do |u|
                 = u.name + ","
-                
-            
-
-- elsif current_user.present?
-  table class="table table-bordered"
-    thead class="thead-dark table-active "
-      tr
-        th = t('activerecord.attributes.timeframe.name')
-        th = t('activerecord.attributes.timeframe.target_date')
-        th = t('activerecord.attributes.timeframe.opening_time')
-        th = t('activerecord.attributes.timeframe.room')
-        th 
-    tbody
-      - if @reservations.count > 0
-        - @reservations.each do |r|
-          - t = Timeframe.find(r.timeframe_id)
-          tr
-          td = t.name
-          td = t.target_date.strftime("%m/%d (#{%w(日 月 火 水 木 金 土)[t.target_date.wday]})")
-          td 
+  
+  // 以前の予約リスト
+  - if @past_timeframes.count > 0
+    h2 = t('activerecord.attributes.timeframe.previous_timeframe')
+    table class="table table-bordered"
+      thead class="thead-dark table-active "
+        tr
+          th = t('activerecord.attributes.timeframe.target_date')
+          th = t('activerecord.attributes.timeframe.opening_time')
+          th = t('activerecord.attributes.timeframe.name')
+          th = t('activerecord.attributes.timeframe.room')
+          th = t('activerecord.attributes.timeframe.capacity')
+      tbody
+        - @past_timeframes.reverse.each_with_index do |t,i|
+          - if i.even?
+            - cel_color = "#fff5e5"
+          tr style="background-color: #DCDCDC;"
+            td = t.target_date.strftime("%m/%d (#{%w(日 月 火 水 木 金 土)[t.target_date.wday]})")
+            td
               = t.start_time.strftime("%H:%M")
               = " ~ "
               = t.end_time.strftime("%H:%M")
-          td = Room.find(t.room_id).name
-          td = link_to t('activerecord.attributes.link.cancel'), reservation_path(id: r.id, style: params[:style]), method: :delete, data: {confirm: t('activerecord.attributes.link.are_you_sure_to_cancel')}, class:"btn btn-danger btn-sm"
+            td = t.name
+
+            td = Room.find(t.room_id).name
+            td
+              = t.reservations.count
+              = " / "
+              = t.capacity
+              = " 名"
+          tr style="background-color: #DCDCDC;"
+            td colspan="5"
+              - User.where(id: t.reservations.pluck(:user_id)).each do |u|
+                = u.name + ","
+
+- elsif current_user.present?
+  // 予約可能なリスト
+  - if @reservations.where("target_date > ?", Time.zone.now).count > 0
+    h2 = t('activerecord.attributes.timeframe.booked_timeframe')
+    table class="table table-bordered"
+      thead class="thead-dark table-active "
+        tr
+          th = t('activerecord.attributes.timeframe.name')
+          th = t('activerecord.attributes.timeframe.target_date')
+          th = t('activerecord.attributes.timeframe.opening_time')
+          th = t('activerecord.attributes.timeframe.room')
+          th 
+      tbody
+        - @reservations.where("target_date > ?", Time.zone.now).each do |r|
+          - t = Timeframe.find(r.timeframe_id)
+          tr
+            td = t.name
+            td = t.target_date.strftime("%m/%d (#{%w(日 月 火 水 木 金 土)[t.target_date.wday]})")
+            td 
+                = t.start_time.strftime("%H:%M")
+                = " ~ "
+                = t.end_time.strftime("%H:%M")
+            td = Room.find(t.room_id).name
+            td = link_to t('activerecord.attributes.link.cancel'), reservation_path(id: r.id, style: params[:style]), method: :delete, data: {confirm: t('activerecord.attributes.link.are_you_sure_to_cancel')}, class:"btn btn-danger btn-sm"
+  
+  hr
+  // 以前の予約リスト
+  - if @reservations.where("target_date < ?", Time.zone.now).count > 0
+    h2 = t('activerecord.attributes.timeframe.previous_booked_timeframe')
+    table class="table table-bordered"
+      thead class="thead-dark table-active "
+        tr
+          th = t('activerecord.attributes.timeframe.name')
+          th = t('activerecord.attributes.timeframe.target_date')
+          th = t('activerecord.attributes.timeframe.opening_time')
+          th = t('activerecord.attributes.timeframe.room')
+      tbody
+        - @reservations.where("target_date < ?", Time.zone.now).reverse.each do |r|
+          - t = Timeframe.find(r.timeframe_id)
+          tr style="background-color: #DCDCDC;"
+            td = t.name
+            td = t.target_date.strftime("%m/%d (#{%w(日 月 火 水 木 金 土)[t.target_date.wday]})")
+            td 
+                = t.start_time.strftime("%H:%M")
+                = " ~ "
+                = t.end_time.strftime("%H:%M")
+            td = Room.find(t.room_id).name
+            
 
 javascript:
   jQuery(function(){

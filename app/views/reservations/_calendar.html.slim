@@ -38,7 +38,7 @@ div.row
                 - available_timeframe = nil
 
                 - timeframes.each do |timeframe|
-                  - if timeframe.start_time.strftime('%H:%M') == Time.zone.at(time).strftime('%H:%M') && timeframe.target_date.strftime('%m/%d (%a)') == @days[wday].strftime('%m/%d (%a)') && timeframe.room_id == room.id
+                  - if timeframe.start_time.strftime('%H:%M') == Time.zone.at(time).strftime('%H:%M') && timeframe.target_date.strftime('%m/%d (%a)') == @days[wday].strftime('%m/%d (%a)') && timeframe.target_date >= Time.zone.now && timeframe.room_id == room.id
                     - available_timeframe = timeframe
                 - if available_timeframe.present?
                   - timeframe_length = (available_timeframe.end_time - available_timeframe.start_time)/60/Timeframe::TIME_SPAN

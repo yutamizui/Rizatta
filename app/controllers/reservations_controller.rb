@@ -34,10 +34,12 @@ class ReservationsController < ApplicationController
         @branches = company_admin.branches
       end
       @reservations = Reservation.includes(:timeframe).where(timeframes: {branch_id: @branch.id}).order("timeframes.target_date ASC").order("timeframes.start_time ASC")
-      @timeframes = Timeframe.where(branch_id: company_admin.branches.pluck(:id)).order(target_date: :ASC).order(start_time: :ASC)
+      @future_timeframes = Timeframe.where(branch_id: params[:branch_id]).where("target_date >= ?", Time.zone.now).order(target_date: :ASC)
+      @past_timeframes = Timeframe.where(branch_id: params[:branch_id]).where("target_date < ?", Time.zone.now).order(target_date: :ASC)
     elsif current_staff.present?
-      @timeframes = Timeframe.where(staff_id: current_staff.id).order(target_date: :ASC).order(start_time: :ASC)
       @reservations = Reservation.includes(:timeframe).where(timeframes: {branch_id: current_staff.branch_id}).order("timeframes.target_date ASC").order("timeframes.start_time ASC")
+      @future_timeframes = Timeframe.where(staff_id: current_staff.id).where("target_date >= ?", Time.zone.now).order(target_date: :ASC)
+      @past_timeframes = Timeframe.where(staff_id: current_staff.id).where("target_date < ?", Time.zone.now).order(target_date: :ASC)
     elsif current_user.present?
       @reservations = Reservation.includes(:timeframe).where(user_id: current_user.id).order("timeframes.target_date ASC").order("timeframes.start_time ASC")
     end
@@ -68,7 +70,7 @@ class ReservationsController < ApplicationController
     else
       target_user = User.find(params[:user_id])
     end
-    @available_tickets = target_user.tickets.where("expired_at >= ?", Date.today.end_of_day).where(status: true)
+    @available_tickets = target_user.tickets.order(:expired_at).where("expired_at >= ?", Date.today.end_of_day).where(status: true)
     if @available_tickets.present? && @available_tickets.count >= @timeframe.required_ticket_number
       @reservation = Reservation.create(
         user_id: params[:user_id].to_i,
