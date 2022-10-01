@@ -209,6 +209,7 @@ ja:
         list: 予約一覧
         confirmation: 予約確認
         target_user: 対象ユーザー
+        notifier: 予約が入りました
 
       ticket:
         title: チケット
@@ -221,7 +222,7 @@ ja:
         sheet: 枚
         purchase: チケット購入
         purchase_completed: チケットを購入しました！
-      
+
       sales_item:
         title: 販売アイテム
         name: 販売アイテム名
@@ -233,6 +234,21 @@ ja:
         yen: 円
         effective_date: 購入日からのチケット有効日数
         date: 日
+
+      payments:
+       sales_management: 売上管理
+       payday: 支払日
+       amount: 金額
+       list: 売上一覧
+       total_amount: 合計額
+       comission: 手数料
+       final_sum: 最終合計額
+       transfer_fee: 振り込み手数料
+       transfer_description: |
+         売上金を振り込む際の手数料は加盟店様負担となります。
+         ※振込手数料は、売上金から差し引かせていただきます。
+       payment_cycle: 入金サイクル
+       payment_description: 末締め/ 翌月１０日払い
 
 
       language:

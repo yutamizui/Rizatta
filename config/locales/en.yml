@@ -188,6 +188,7 @@ en:
         list: Reservation List
         confirmation: Your reservation
         target_user: Target User
+        notifier: You've got a reservation
       
       ticket:
         title: Ticket
@@ -213,6 +214,21 @@ en:
         price: Price
         sheet: sheets
         yen: Yen
+        list: Sales List
+      
+      payments:
+       sales_management: Sales Management
+       payday: Payday
+       amount: Payment amount
+       total_amount: Total Amount
+       comission: Comission fee
+       final_sum: Final Sum
+       transfer_fee: Transfer fee
+       transfer_description: |
+         Merchants are responsible for a handling fee when transferring sales proceeds.
+         ※The transfer fee will be deducted from the sales proceeds.
+       payment_cycle: Payment Cycle
+       payment_description: Closing at the end of the month, payment on the 10th of the following month
 
       language:
         setting: Language Setting

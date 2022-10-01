@@ -1,5 +1,15 @@
 class PaymentsController < ApplicationController
 
+  def index
+    @branches = company_admin.branches
+    if params[:target_date].present?
+      @target_date = params[:target_date].to_datetime.in_time_zone
+    else
+      @target_date = Date.today
+    end
+    @payments = Payment.where("payday >= ?", @target_date.beginning_of_month).where("payday <= ? ", @target_date.end_of_day).where(branch_id: params[:branch_id])
+  end
+
   def customer_registration
     if current_user.present?
       @user = current_user
@@ -77,9 +87,16 @@ class PaymentsController < ApplicationController
       number_of_ticket.times do
         Ticket.create(
           user_id: current_user.id,
-          expired_at: Date.today + @sales_item.effective_date
+          expired_at: (Date.today + @sales_item.effective_date).in_time_zone.end_of_day
         )
       end
+      Payment.create(
+        user_id: current_user.id,
+        payday: Date.today,
+        amount: price,
+        branch_id: current_user.branch_id,
+        sales_item_id: @sales_item.id
+      )
       redirect_to list_sales_items_path(branch_id: current_user.branch_id), notice: t('activerecord.attributes.ticket.purchase_completed')
     end
   end

@@ -1,0 +1,76 @@
+- if @branches.count > 0
+  - @branches.each do |b|
+    span#branch-button
+      = link_to b.name, payments_path(branch_id: b.id), class:"btn btn-secondary button-margin", name:"#{b.id}"
+
+div.row
+  div.col-md-12.text-center
+    - if @target_date.end_of_month < Date.today.end_of_month
+      = link_to "<", payments_path(target_date: @target_date.next_month, branch_id: params[:branch_id])
+    = link_to "#{@target_date.year}年#{@target_date.month}月 #{t('activerecord.attributes.payments.list')}", payments_path(target_date: @target_date, branch_id: params[:branch_id]), class:"btn btn-secondary button-margin"
+    - if @target_date.end_of_month > Date.today.ago(11.month).end_of_month
+      = link_to ">", payments_path(target_date: @target_date.prev_month, branch_id: params[:branch_id])
+    
+div.row
+  table class="table table-bordered"  
+    thead class="thead-dark table-active"
+      tr
+        th = t('activerecord.attributes.payments.payday')
+        th = t('activerecord.attributes.user.name')
+        th = t('activerecord.attributes.sales_item.name')
+        th = t('activerecord.attributes.payments.amount')
+    tbody
+      - if @payments.present?
+        - total_amount = []
+        - @payments.each do |p|
+          tr
+            td = p.payday.strftime("%Y-%m-%d")
+            td = User.find(p.user_id).name
+            td = SalesItem.find(p.sales_item_id).name
+            td
+              = p.amount
+              = t('activerecord.attributes.sales_item.yen')
+            - total_amount << p.amount
+            - @total_amount = total_amount.sum
+
+- if @payments.present?
+  div.row
+    table class="table table-bordered"
+      thead class="thead-light table-active"
+        tr 
+          th.text-center = t('activerecord.attributes.payments.total_amount')
+          th.text-center  = t('activerecord.attributes.payments.comission') + " (5%)"
+          th.text-center  = t('activerecord.attributes.payments.final_sum')
+      tbody
+        tr
+          td.text-right
+            = @total_amount.to_s(:delimited)
+            = t('activerecord.attributes.sales_item.yen')
+          td.text-right 
+            = (@total_amount * 0.05).round(0).to_s(:delimited)
+            = t('activerecord.attributes.sales_item.yen')
+          td.text-right 
+            = (@total_amount - (@total_amount * 0.05)).round(0).to_s(:delimited)
+            = t('activerecord.attributes.sales_item.yen')
+
+  div.row
+    div.col-md-12
+      p = "☆" + t('activerecord.attributes.payments.transfer_fee')
+      p = simple_format(t('activerecord.attributes.payments.transfer_description'))
+      p = "☆" + t('activerecord.attributes.payments.payment_cycle')
+      p = simple_format(t('activerecord.attributes.payments.payment_description'))
+
+
+javascript:
+  jQuery(function(){
+    var params = (new URL(document.location)).searchParams;
+    var branch_id = params.get('branch_id');
+    $('#branch-button a').each(function(){
+      var buttontype = $(this).attr('name');
+      if( buttontype == branch_id ){
+        $( $(this)).addClass("btn-company");
+      }
+    });
+    //var branches = #{raw @branches.to_json};
+  })
+

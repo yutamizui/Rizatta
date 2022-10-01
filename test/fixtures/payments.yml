@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: 
+  amount: 1
+  payday: 2022-09-27 11:47:48
+
+two:
+  user: 
+  amount: 1
+  payday: 2022-09-27 11:47:48

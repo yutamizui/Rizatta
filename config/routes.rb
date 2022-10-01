@@ -45,7 +45,7 @@ Rails.application.routes.draw do
 
   post "payments/customer_registration"
   post "payments/payjpcard_update"
-  get 'payments/price'
+  get 'payments/index'
   post "payments/payjp_webhook"
   post "payments/charge"
   post "payments/subscribe"

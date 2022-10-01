@@ -21,6 +21,10 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    @user = User.find(params[:id])
+    branch_id = @user.branch_id
+    @user.destroy
+    redirect_to users_path(branch_id: branch_id), notice: t('activerecord.attributes.link.canceled')
   end
 
   private

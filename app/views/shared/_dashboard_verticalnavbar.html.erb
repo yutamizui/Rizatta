@@ -28,6 +28,9 @@
             <li class="<%= 'active' if controller_name == "sales_items" && action_name == "index" %>">
               <%= link_to t('activerecord.attributes.sales_item.title'), sales_items_path(branch_id: company_admin.branches.first.id), class:"text"%>
             </li>
+            <li class="<%= 'active' if controller_name == "payments" && action_name == "index" %>">
+              <%= link_to t('activerecord.attributes.payments.sales_management'), payments_path(branch_id: company_admin.branches.first.id), class:"text"%>
+            </li>
           <% end %>
           <% if current_company.present? %>
             <li class="<%= 'active' if controller_name == "registrations" && action_name == "edit" %>">

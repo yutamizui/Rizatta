@@ -82,6 +82,7 @@ class ReservationsController < ApplicationController
           reservation_id: @reservation.id
         )
       end
+      StaffActionMailer.reservation_notifier(@reservation, @timeframe).deliver
       redirect_to reservations_path, notice: t('activerecord.attributes.link.created')
     else
       flash.now[:alert] = t('activerecord.attributes.link.failed_to_create')
@@ -91,6 +92,7 @@ class ReservationsController < ApplicationController
 
   def destroy
     @reservation = Reservation.find(params[:id])
+    @timeframe = @reservation.timeframe
     @tickets = Ticket.where(reservation_id: @reservation.id)
     @tickets.each do |t|
       t.update(
@@ -98,6 +100,7 @@ class ReservationsController < ApplicationController
         reservation_id: nil
       )
     end
+    StaffActionMailer.reservation_cancel_notifier(@reservation, @timeframe).deliver
     @reservation.destroy
     redirect_to reservations_path(), notice: t('activerecord.attributes.link.canceled')
   end

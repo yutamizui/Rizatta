@@ -57,8 +57,9 @@ table class="table table-bordered"
                     div
                       = submit_tag t('activerecord.attributes.ticket.create'), class:"btn btn-primary button-margin"
                      
-        td = link_to t('activerecord.attributes.link.edit'), edit_user_path(id: u.id), class:"btn btn-success btn-sm"
-
+        td 
+          = link_to t('activerecord.attributes.link.edit'), edit_user_path(id: u.id), class:"btn btn-success btn-sm button-margin"
+          = link_to t('activerecord.attributes.link.delete'), user_path(id: u.id), method: :delete, data: {confirm: t('activerecord.attributes.link.are_you_sure')}, class:"btn btn-danger btn-sm button-margin"
 javascript:
   jQuery(function(){
     var params = (new URL(document.location)).searchParams;

@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h3><%= @branch.name %><%= "     ご予約内容確認" %></h3>
+    <p>
+      いつもリザッタをご利用いただきありがとうございます。
+      <br>
+      今回のご予約内容は以下のとおりです。
+    </p>
+
+    <div class="container">
+        <p>
+          <%= "日時： " %>
+          <% wd = ["日", "月", "火", "水", "木", "金", "土"] %>
+          <%= @timeframe.target_date.strftime("%Y年%m月%d日 (#{wd[@timeframe.target_date.wday]})") %>
+          <%= @timeframe.start_time.strftime("%H:%M") %>
+          <%= "~" %>
+          <%= @timeframe.end_time.strftime("%H:%M") %>
+        </p>
+        <p>
+          <%= "予約対象： " %>
+          <%= @timeframe.name %>
+        </p>
+         <p>
+          <%= "ユーザー名： " %>
+          <%= @reservation.user.name %>
+          <%= "さん" %>
+        </p>
+        <p>
+          <%= t('activerecord.attributes.timeframe.required_ticket_number') + " : " %>
+          <%= @timeframe.required_ticket_number %>
+          <%= t('activerecord.attributes.ticket.sheet') %>
+        </p>
+    </div>
+  </body>
+</html>

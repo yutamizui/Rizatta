@@ -61,8 +61,18 @@ Rails.application.configure do
   # Suppress logger output for asset requests.
   config.assets.quiet = true
 
-  config.action_mailer.default_url_options = { host: 'localhost:3000' }
-
+  
+  config.action_mailer.delivery_method = :smtp
+   config.action_mailer.smtp_settings = {
+     :address        => 'smtp.sendgrid.net',
+     :port           => '587',
+     :authentication => :plain,
+     :user_name      => ENV['SENDGRID_USERNAME'],
+     :password       => ENV['SENDGRID_PASSWORD'],
+     :domain         => 'localhost:3000',
+     :enable_starttls_auto => true
+   }
+   
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 
@@ -71,6 +81,7 @@ Rails.application.configure do
 
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
+  config.action_mailer.delivery_method = :letter_opener
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   # Uncomment if you wish to allow Action Cable access from any origin.

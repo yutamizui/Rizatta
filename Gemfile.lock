@@ -1586,7 +1586,6 @@ GEM
     ruby-vips (2.1.4)
       ffi (~> 1.12)
     ruby2_keywords (0.0.5)
-    ruby_http_client (3.5.5)
     rubyzip (2.3.2)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
@@ -1608,8 +1607,6 @@ GEM
       sprockets-rails
       tilt
     semantic_range (3.0.0)
-    sendgrid-ruby (6.6.2)
-      ruby_http_client (~> 3.4)
     slim (4.1.0)
       temple (>= 0.7.6, < 0.9)
       tilt (>= 2.0.6, < 2.1)
@@ -1727,7 +1724,6 @@ DEPENDENCIES
   ransack
   rubyzip
   sass-rails (~> 5.0)
-  sendgrid-ruby
   slim-rails
   spring
   spring-watcher-listen (~> 2.0.0)
