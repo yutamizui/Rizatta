@@ -100,11 +100,13 @@ Rails.application.configure do
     :address        => 'smtp.sendgrid.net',
     :port           => '587',
     :authentication => :plain,
-    :SENDGRID_USERNAME => ENV['SENDGRID_USERNAME'],
-    :SENDGRID_PASSWORD => ENV['SENDGRID_PASSWORD'],
+    :user_name      => 'apikey',
+    :password       => ENV['SENDGRID_API_KEY'],
     :domain         => 'rizatta.com',
     :enable_starttls_auto => true
   }
+
+  config.action_mailer.default_url_options = { host: 'https://www.rizatta.com/' }
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
