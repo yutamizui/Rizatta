@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'info@rizatta.com'
+  default from: 'em4676.rizatta.com'
   layout 'mailer'
 end
