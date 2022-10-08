@@ -21,5 +21,4 @@ module Rizatta
   end
 end
 
-ActionMailer::Base.delivery_method = :smtp
 
