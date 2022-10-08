@@ -100,8 +100,8 @@ Rails.application.configure do
     :address        => 'smtp.sendgrid.net',
     :port           => '587',
     :authentication => :plain,
-    :user_name      => 'apikey',
-    :password       => ENV['SENDGRID_API_KEY'],
+    :SENDGRID_USERNAME => 'apikey',
+    :SENDGRID_PASSWORD => ENV['SENDGRID_API_KEY'],
     :domain         => 'rizatta.com',
     :enable_starttls_auto => true
   }
