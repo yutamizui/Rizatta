@@ -1,5 +1,5 @@
 class StaffActionMailer < ApplicationMailer
-  default :from => 'em4676.rizatta.com'
+  default :from => 'info@rizatta.com'
   
 # send a signup email to the user, pass in the user object that   contains the user's email address
   def reservation_notifier(reservation, timeframe)
