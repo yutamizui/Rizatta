@@ -101,7 +101,7 @@ Rails.application.configure do
     :port           => '587',
     :authentication => :plain,
     :SENDGRID_USERNAME => ENV['SENDGRID_USERNAME'],
-    :SENDGRID_PASSWORD => ENV['SENDGRID_API_KEY'],
+    :SENDGRID_PASSWORD => ENV['SENDGRID_PASSWORD'],
     :domain         => 'rizatta.com',
     :enable_starttls_auto => true
   }
