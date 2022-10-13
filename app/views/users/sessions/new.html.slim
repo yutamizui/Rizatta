@@ -20,3 +20,9 @@ div.container
               div.actions
                 = f.submit t('activerecord.attributes.link.login'), class:"btn btn-primary button-margin"
     = render "users/shared/links"
+    
+    = link_to t('activerecord.attributes.company.login'), new_company_session_path, class:"no-underline"
+    br
+    = link_to t('activerecord.attributes.staff.login'), new_staff_session_path, class:"no-underline"
+    br
+    = link_to t('activerecord.attributes.link.back'), new_user_session_path, class:"btn btn-secondary btn-sm button-margin" 

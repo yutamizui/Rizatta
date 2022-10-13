@@ -26,8 +26,9 @@ Devise.setup do |config|
   # with default "from" parameter.
   config.mailer_sender = 'info@rizatta.com'
 
-  # Configure the class responsible to send e-mails.
+  # # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
+  config.mailer = 'Users::Mailer'
 
   # Configure the parent class responsible to send e-mails.
   # config.parent_mailer = 'ActionMailer::Base'

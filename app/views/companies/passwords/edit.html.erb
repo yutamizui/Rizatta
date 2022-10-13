@@ -1,25 +1,25 @@
-<h2>Change your password</h2>
+<h2><%= t('devise.mailer.reset_password_instructions.action') %></h2>
 
 <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "companies/shared/error_messages", resource: resource %>
+  <%= render "users/shared/error_messages", resource: resource %>
   <%= f.hidden_field :reset_password_token %>
 
   <div class="field">
-    <%= f.label :password, "New password" %><br />
+    <%= f.label :password, t('devise.passwords.edit.new_password') %><br />
     <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em><br />
+      <em>(<%= @minimum_password_length %> <%= t('devise.passwords.edit.word_limit') %>)</em><br />
     <% end %>
     <%= f.password_field :password, autofocus: true, autocomplete: "new-password" %>
   </div>
 
   <div class="field">
-    <%= f.label :password_confirmation, "Confirm new password" %><br />
+    <%= f.label :password_confirmation,  t('devise.passwords.edit.confirm_new_password') %><br />
     <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
 
   <div class="actions">
-    <%= f.submit "Change my password" %>
+    <%= f.submit t('devise.passwords.edit.change_my_password'), class:"btn company-title-color button-margin" %>
   </div>
 <% end %>
 
-<%= render "companies/shared/links" %>
+<%= render "users/shared/links" %>

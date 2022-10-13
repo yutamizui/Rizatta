@@ -21,7 +21,8 @@ class TimeframesController < ApplicationController
     end
     @timeframe.color = params[:timeframe][:color].to_i
 
-    if @timeframe.save
+    unless Timeframe.timeframe_duplicate?(@timeframe)
+      @timeframe.save
 
       redirect_to reservations_path(branch_id: @timeframe.branch_id), notice: t('activerecord.attributes.link.created')
     else

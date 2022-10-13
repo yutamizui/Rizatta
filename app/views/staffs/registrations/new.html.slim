@@ -3,7 +3,7 @@ div.container
   div.row
     div.col-md-6
       div class="card button-margin"
-        h4 class="card-header staff-title-color" = t('activerecord.attributes.staff.new_registration')
+        h2 class="card-header staff-title-color" = t('activerecord.attributes.staff.new_registration')
         div class="card-body"
           = form_with model: @staff, url: staff_registration_path, id: 'new_staff', class: 'new_staff', local: true do |f|
             = devise_error_messages
@@ -34,66 +34,4 @@ div.container
             div.actions
               = f.submit t('activerecord.attributes.link.register'),  class:"btn btn-success button-margin"
               br
-              = render "staffs/shared/links" 
-
-/   - elsif params[:secret_code].present?
-/     div.row
-/       div.col-md-6
-/         div class="card button-margin"
-/           h4 class="card-header staff-title-color" = t('activerecord.attributes.staff.new_registration')
-/           div class="card-body"
-/             = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
-/               = devise_error_messages
-/               div.form-group
-/                 = f.label t('activerecord.attributes.staff.name')
-/                 = f.text_field :name, autofocus: true, class:"form-control"
-/               div.form-group
-/                 = f.label t('activerecord.attributes.staff.email')
-/                 = f.text_field :email, autofocus: true, class:"form-control"
-/               div.form-group
-/                 = f.label t('activerecord.attributes.staff.phone')
-/                 = f.text_field :phone, autofocus: true, class:"form-control"
-/               div.form-group
-/                 = f.label t('activerecord.attributes.staff.status')
-/                 = f.select :status, Staff.statuses_i18n.map{|key,value| [value,key]}, {}, class:"form-control"
-
-/               div.form-group
-/                 = f.label t('activerecord.attributes.common.password')
-/                 = f.password_field :password, placeholder: t('activerecord.attributes.common.password_length'), autocomplete: "off", class:"form-control"
-/               div.form-group
-/                 = f.label t('activerecord.attributes.common.password_confirmation')
-/                 = f.password_field :password_confirmation, autocomplete: "off", class:"form-control"
-/                 = f.hidden_field :secret_code, value: params[:secret_code]
-                
-/               div.actions
-/                 = f.submit t('activerecord.attributes.link.register'),  class:"btn btn-success button-margin"
-/                 br
-/                 = render "staffs/shared/links" 
-/   - else
-/     div.row
-/       = form_tag(new_staff_registration_path, method: :get) do
-/         div.row
-/           div.col-md-6
-/             = label_tag t('activerecord.attributes.company.secret_code')
-/             = text_field_tag :secret_code, "", class:"form-control"
-/             = hidden_field_tag :branch_id, value: params[:branch_id]
-/         br
-/         = submit_tag  t('activerecord.attributes.staff.go_to_registration_page'),class:"btn btn-success disabled"
-  
-/   = link_to t('activerecord.attributes.link.back'), root_path, class:"btn btn-secondary button-margin"
-
-/ javascript:
-/   var all_secret_code = #{@all_secret_code_j};
-/    $('#secret_code').hover(
-/     function() {
-/       //マウスカーソルが重なった時の処理
-/       $('input[name="secret_code"').on("click keydown keyup keypress change touchstart", function(){
-/         var secret_code = $(this).val();
-/         if (all_secret_code.includes(secret_code))  {
-/           $('input[name="commit"').removeClass("disabled");
-/         } else {
-/           $('input[name="commit"').addClass("disabled");
-/         }
-/       });
-/     },
-/   );
+              = render "staffs/shared/links"
