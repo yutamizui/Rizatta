@@ -7,7 +7,7 @@ class StaffActionMailer < ApplicationMailer
     @timeframe = timeframe
     @branch = @timeframe.branch
     mail(
-      :to => 'info@rizatta.com',
+      :to => @branch.email,
       :subject =>  "ご予約を受け付けました"
     )
   end
@@ -17,7 +17,7 @@ class StaffActionMailer < ApplicationMailer
     @timeframe = timeframe
     @branch = @timeframe.branch
     mail(
-      :to => 'info@rizatta.com',
+      :to => @branch.email,
       :subject =>  "ご予約のキャンセルを受け付けました"
     )
   end

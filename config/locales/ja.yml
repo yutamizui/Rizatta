@@ -174,6 +174,7 @@ ja:
        ticket_price: １枚のチケット料金
        yen: 円
        secret_code: 店舗コード
+       email: メールアドレス
       
       room:
        title: ルーム

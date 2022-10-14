@@ -90,8 +90,6 @@ en:
         canceled: The reservation has been canceled
         no_cancel: No Cancel
         purchase: Purchase
-      
-
 
       common:
         password: Password
@@ -135,7 +133,7 @@ en:
         phone: Phone Nunmber
         status: Position
         go_to_registration_page: Go to staff creation page
-      
+
       branch:
        title: Branch
        name: Branch Name
@@ -150,15 +148,14 @@ en:
        ticket_price: One Ticket Price
        yen: Yen
        secret_code: Branch's code
-
-       
+       email: Email Address
 
       room:
         title: Room
         name: Name
         create: Create Room
         edit: Edit Room
-      
+
       timeframe:
         title: Time frame
         name: Name
@@ -180,7 +177,7 @@ en:
         privious_timeframe: Previous Timeframe
         booked_timeframe: Your reservations
         previous_booked_timeframe: Your previous reservations
-      
+
       reservation:
         title: Reservation
         creation: Make a Reservation
@@ -189,7 +186,7 @@ en:
         confirmation: Your reservation
         target_user: Target User
         notifier: You've got a reservation
-      
+
       ticket:
         title: Ticket
         expired_at: Expiration date
@@ -215,7 +212,7 @@ en:
         sheet: sheets
         yen: Yen
         list: Sales List
-      
+
       payments:
        sales_management: Sales Management
        payday: Payday
