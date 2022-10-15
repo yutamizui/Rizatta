@@ -8,17 +8,15 @@ class Staffs::RegistrationsController < Devise::RegistrationsController
 
   # GET /resource/sign_up
   def new
+    @all_secret_codes = Branch.all.pluck(:secret_code)
     build_resource
-    @branch_id = params[:branch_id]
-    @secret_code = params[:secret_code]
-    @all_secret_code = Company.all.pluck(:secret_code)
-    @all_secret_code_j = @all_secret_code.to_json.html_safe
     yield resource if block_given?
     respond_with resource
   end
 
   def create
     # ここでUser.new（と同等の操作）を行う
+    @all_secret_codes = Branch.all.pluck(:secret_code)
     build_resource(sign_up_params)
     @branch = Branch.where(secret_code: params[:staff][:secret_code]).first
     resource.branch_id = @branch.id

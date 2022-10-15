@@ -15,22 +15,22 @@ div.container
               = f.text_field :email, autofocus: true, class:"form-control"
             div.form-group
               = f.label t('activerecord.attributes.user.phone')
-              = f.text_field :phone, autofocus: true, class:"form-control"
+              = f.text_field :phone, autofocus: true, required: "required", class:"form-control"
             - if company_admin
               = f.hidden_field :secret_code, value:"#{Branch.find(params[:branch_id]).secret_code}"
             - else
               div.form-group
                 = f.label t('activerecord.attributes.branch.secret_code')
-                = f.text_field :secret_code, autofocus: true, class:"form-control"
+                = f.text_field :secret_code, autofocus: true, required: "required", class:"form-control", id:"secret-code"
             div.form-group
               = f.label t('activerecord.attributes.common.password')
               = f.password_field :password, placeholder: t('activerecord.attributes.common.password_length'), autocomplete: "off", class:"form-control"
             div.form-group
               = f.label t('activerecord.attributes.common.password_confirmation')
-              = f.password_field :password_confirmation, autocomplete: "off", class:"form-control"
+              = f.password_field :password_confirmation, autocomplete: "off", class:"form-control "
               
             div.actions
-              = f.submit t('activerecord.attributes.link.register'), class:"btn btn-primary button-margin"
+              = f.submit t('activerecord.attributes.link.register'), class:"btn btn-primary button-margin", id:"creating-button"
               br
               = render "users/shared/links"
       div.col.md-6
@@ -41,4 +41,20 @@ div.container
     div.col-md-12
       div.col-md-2
         = link_to t('activerecord.attributes.link.back'), new_user_session_path, class:"btn btn-secondary btn-sm button-margin" 
+       
+
+javascript:
+  document.querySelector('#creating-button').disabled = true;
+  var all_secret_codes = #{raw @all_secret_codes.to_json};
   
+
+  $("#secret-code").change(function(){
+    var target_secret_code = document.getElementById("secret-code").value;
+    all_secret_codes.forEach(function(element){
+      if (element == target_secret_code ){
+         document.querySelector('#creating-button').disabled = false;
+      } else {
+         document.querySelector('#creating-button').disabled = true;
+      }
+    });
+  })

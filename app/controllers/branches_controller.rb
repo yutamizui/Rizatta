@@ -51,6 +51,6 @@ class BranchesController < ApplicationController
 
     def branch_params
       params.require(:branch).permit(:name, :address, :phone, :company_id, :calendar_start_time, :calendar_end_time,
-         :makable_reservation_hour_span, :cancelable_reservation_hour_span, :ticket_price, :secret_code, :email)
+         :makable_reservation_hour_span, :cancelable_reservation_hour_span, :ticket_price, :email, :secret_code)
     end
 end
