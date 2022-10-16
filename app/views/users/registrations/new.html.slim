@@ -50,12 +50,12 @@ javascript:
 
   $("#secret-code").change(function(){
     var target_secret_code = document.getElementById("secret-code").value;
-    all_secret_codes.forEach(function(element){
-      if (element == target_secret_code ){
+    for(let i = 0; i < all_secret_codes.length; i++){
+      if (all_secret_codes[i] == target_secret_code ){
          document.querySelector('#creating-button').disabled = false;
          break;
       } else {
          document.querySelector('#creating-button').disabled = true;
       }
-    });
+    }
   })
