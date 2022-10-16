@@ -30,7 +30,10 @@ div.container
               = f.password_field :password_confirmation, autocomplete: "off", class:"form-control "
               
             div.actions
-              = f.submit t('activerecord.attributes.link.register'), class:"btn btn-primary button-margin", id:"creating-button"
+              - if company_admin
+                = f.submit t('activerecord.attributes.link.register'), class:"btn btn-primary button-margin"
+              - else
+                = f.submit t('activerecord.attributes.link.register'), class:"btn btn-primary button-margin", id:"creating-button"
               br
               = render "users/shared/links"
       div.col.md-6

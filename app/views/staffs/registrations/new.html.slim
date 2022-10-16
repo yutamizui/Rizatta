@@ -32,7 +32,10 @@ div.container
               = f.label t('activerecord.attributes.common.password_confirmation')
               = f.password_field :password_confirmation, autocomplete: "off", class:"form-control"
             div.actions
-              = f.submit t('activerecord.attributes.link.register'),  class:"btn btn-success button-margin", id:"creating-button"
+              - if company_admin
+                 = f.submit t('activerecord.attributes.link.register'),  class:"btn btn-success button-margin"
+              - else
+                = f.submit t('activerecord.attributes.link.register'),  class:"btn btn-success button-margin", id:"creating-button"
               br
               = render "staffs/shared/links"
 
