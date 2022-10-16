@@ -1,7 +1,7 @@
 div
   - if company_admin.present?
     = link_to t('activerecord.attributes.room.create'), new_room_path(branch_id: params[:branch_id]), class:"btn btn-primary button-margin"
-  - if company_official.present?
+  - if company_official.present? && Branch.find( params[:branch_id]).rooms.count > 0
     = link_to t('activerecord.attributes.timeframe.create'), new_timeframe_path(branch_id: params[:branch_id]), class:"btn btn-primary button-margin"
 br
 - if @branches.present?

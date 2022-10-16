@@ -2,7 +2,7 @@ class BranchesController < ApplicationController
   before_action :find_branch, only: [:show, :edit, :update, :destroy]
 
   def index
-    @branches = current_company.branches
+    @branches = company_admin.branches
     @branch = @branches.first
   end
 
@@ -17,7 +17,7 @@ class BranchesController < ApplicationController
 
   def create
     @branch = Branch.new(branch_params)
-    @branch.company_id = current_company.id
+    @branch.company_id = company_admin.id
     if @branch.save
       redirect_to branches_path(company_id: @branch.id), notice: t('activerecord.attributes.link.created')
     else

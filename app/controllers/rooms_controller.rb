@@ -6,7 +6,7 @@ class RoomsController < ApplicationController
     @room = Room.new
     @room.branch_id = params[:branch_id]
     @branch = Branch.find(params[:branch_id])
-    @branches = current_company.branches
+    @branches = company_admin.branches
     @rooms = Room.where(branch_id: params[:branch_id])
   end
 

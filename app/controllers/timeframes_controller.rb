@@ -101,7 +101,7 @@ class TimeframesController < ApplicationController
   end
 
   def edit
-    @rooms = Room.where(id: current_company.branches.pluck(:id))
+    @rooms = Room.where(id: company_admin.branches.pluck(:id))
     @page_type = "edit"
   end
 
