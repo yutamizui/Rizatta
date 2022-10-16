@@ -47,6 +47,7 @@ javascript:
     all_secret_codes.forEach(function(element){
       if (element == target_secret_code ){
          document.querySelector('#creating-button').disabled = false;
+         break;
       } else {
          document.querySelector('#creating-button').disabled = true;
       }
