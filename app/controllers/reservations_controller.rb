@@ -30,7 +30,7 @@ class ReservationsController < ApplicationController
       else
         @branch = company_admin.branches.first
       end
-      if company_admin.branches.count > 1
+      if company_admin.branches.count > 0
         @branches = company_admin.branches
       end
       @reservations = Reservation.includes(:timeframe).where(timeframes: {branch_id: @branch.id}).order("timeframes.target_date ASC").order("timeframes.start_time ASC")
