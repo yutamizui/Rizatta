@@ -8,7 +8,7 @@ div.row
       div class="form-group"
         label = t('activerecord.attributes.timeframe.required_ticket_number')
         div class='input-group-append'
-          = f.number_field :required_ticket_number, autofocus: 'true', class:"form-control"
+          = f.number_field :required_ticket_number, in: 0..100, autofocus: 'true', class:"form-control"
           span class="input-group-text" 
             = t('activerecord.attributes.timeframe.sheet')
 div.row

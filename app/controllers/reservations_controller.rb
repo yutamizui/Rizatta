@@ -52,7 +52,7 @@ class ReservationsController < ApplicationController
     @users = User.where(branch_id: @branch.id)
     if current_user.present?
       @available_tickets = current_user.tickets.where("expired_at >= ?", Date.today.end_of_day).where(status: true)
-      if @available_tickets.present? && @available_tickets.count >= @timeframe.required_ticket_number
+      if @available_tickets.present? && @available_tickets.count >= @timeframe.required_ticket_number || @timeframe.required_ticket_number == 0
         @availability = true
       else
         @availability = false
