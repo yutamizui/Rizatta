@@ -81,7 +81,13 @@ class ReservationsController < ApplicationController
           status: false,
           reservation_id: @reservation.id
         )
-      end
+      StaffActionMailer.reservation_notifier(@reservation, @timeframe).deliver
+      redirect_to reservations_path, notice: t('activerecord.attributes.link.created')
+    elsif @timeframe.required_ticket_number == 0
+      @reservation = Reservation.create(
+        user_id: params[:user_id].to_i,
+        timeframe_id: params[:timeframe_id].to_i
+      )
       StaffActionMailer.reservation_notifier(@reservation, @timeframe).deliver
       redirect_to reservations_path, notice: t('activerecord.attributes.link.created')
     else
