@@ -186,6 +186,8 @@ en:
         confirmation: Your reservation
         target_user: Target User
         notifier: You've got a reservation
+        reserved: You've just reserved it!
+        failed: Could not make reservation
 
       ticket:
         title: Ticket

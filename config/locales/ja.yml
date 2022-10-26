@@ -211,6 +211,7 @@ ja:
         confirmation: 予約確認
         target_user: 対象ユーザー
         notifier: 予約が入りました
+        reserved: 予約しました
 
       ticket:
         title: チケット
@@ -223,6 +224,7 @@ ja:
         sheet: 枚
         purchase: チケット購入
         purchase_completed: チケットを購入しました！
+        failed: 予約ができませんでした
 
       sales_item:
         title: 販売アイテム

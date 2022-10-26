@@ -85,16 +85,16 @@ class ReservationsController < ApplicationController
         end
       end
       StaffActionMailer.reservation_notifier(@reservation, @timeframe).deliver
-      redirect_to reservations_path, notice: t('activerecord.attributes.link.created')
+      redirect_to list_reservations_path, notice: t('activerecord.attributes.reservation.reserved')
     elsif @timeframe.required_ticket_number == 0
       @reservation = Reservation.create(
         user_id: params[:user_id].to_i,
         timeframe_id: params[:timeframe_id].to_i
       )
       StaffActionMailer.reservation_notifier(@reservation, @timeframe).deliver
-      redirect_to reservations_path, notice: t('activerecord.attributes.link.created')
+      redirect_to list_reservations_path, notice: t('activerecord.attributes.reservation.reserved')
     else
-      flash.now[:alert] = t('activerecord.attributes.link.failed_to_create')
+      flash.now[:alert] = t('activerecord.attributes.reservation.failed')
       render 'reservations/new'
     end
   end
@@ -111,7 +111,7 @@ class ReservationsController < ApplicationController
     end
     StaffActionMailer.reservation_cancel_notifier(@reservation, @timeframe).deliver
     @reservation.destroy
-    redirect_to reservations_path(), notice: t('activerecord.attributes.link.canceled')
+    redirect_to list_reservations_path(), notice: t('activerecord.attributes.link.canceled')
   end
 
   private
