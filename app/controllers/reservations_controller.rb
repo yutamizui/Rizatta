@@ -71,17 +71,26 @@ class ReservationsController < ApplicationController
       target_user = User.find(params[:user_id])
     end
     @available_tickets = target_user.tickets.order(:expired_at).where("expired_at >= ?", Date.today.end_of_day).where(status: true)
-    if @available_tickets.present? && @available_tickets.count >= @timeframe.required_ticket_number
+    if @available_tickets.present? && @available_tickets.count >= @timeframe.required_ticket_number || @timeframe.required_ticket_number == 0
       @reservation = Reservation.create(
         user_id: params[:user_id].to_i,
         timeframe_id: params[:timeframe_id].to_i
       )
-      @available_tickets.first(@timeframe.required_ticket_number).each do |t|
-        t.update(
-          status: false,
-          reservation_id: @reservation.id
-        )
+      if @timeframe.required_ticket_number > 0
+        @available_tickets.first(@timeframe.required_ticket_number).each do |t|
+          t.update(
+            status: false,
+            reservation_id: @reservation.id
+          )
+        end
       end
+      StaffActionMailer.reservation_notifier(@reservation, @timeframe).deliver
+      redirect_to reservations_path, notice: t('activerecord.attributes.link.created')
+    elsif @timeframe.required_ticket_number == 0
+      @reservation = Reservation.create(
+        user_id: params[:user_id].to_i,
+        timeframe_id: params[:timeframe_id].to_i
+      )
       StaffActionMailer.reservation_notifier(@reservation, @timeframe).deliver
       redirect_to reservations_path, notice: t('activerecord.attributes.link.created')
     else
