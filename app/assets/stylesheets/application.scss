@@ -314,6 +314,9 @@ table#time_table .name_size {
 
 /* #########################################　チケット表示 start ########################################### */
 
+.card-body {
+  z-index: 100;
+}
 
 .display_point {
   width: 100%;
@@ -334,7 +337,7 @@ table#time_table .name_size {
   color: 	#CD5C5C;
   font-weight: bolder;
   font-style: italic;
-  font-size: 30px;
+  font-size: 30px!important;
 }
 
 @media screen and (min-width: 992px) { /*ウィンドウ幅が992px以上の場合に適用*/

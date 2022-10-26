@@ -40,21 +40,28 @@
             <%= yield %>
           </div>
         <% elsif current_user.present? %>
+          <%  available_tickets = current_user.tickets.where("expired_at >= ?", Date.today.end_of_day).where(status: true).order(:expired_at) %>
           <div class="col-md-12">
             <div class="row">
               <div class="display_point pull-right" %>
                 <%= t("activerecord.attributes.ticket.currently_owned") %>
                 <br>
-                <span>
-                  <%  available_tickets = current_user.tickets.where("expired_at >= ?", Date.today.end_of_day).where(status: true).order(:expired_at) %>
-                  <%= available_tickets.count %>
-                  <%= t("activerecord.attributes.ticket.sheet") %>
-                </span>
-                <% available_tickets.each do |t| %>
-                  <div><%= t.expired_at %></div>
-                <% end %>
+                <div class="accordion" id="accordionExample">
+                  <span class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    <%= available_tickets.count %>
+                    <%= t("activerecord.attributes.ticket.sheet") %>
+                  </span>
+                  <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                    <div class="card border-success mb-3" style="max-width: 25rem;">
+                      <div class="card-body bg-light border-dark">
+                        <p style="color:#CD5C5C;"><%= t("activerecord.attributes.ticket.expired_at") %></p>
+                        <% available_tickets.each do |t| %>
+                          <h3><%= t.expired_at.strftime("%Y-%m-%d") %></h3>
+                        <% end %>
+                      </div>
+                  </div>
+                </div>
               </div>
-
             </div>
             <%= yield %>
           </div>
