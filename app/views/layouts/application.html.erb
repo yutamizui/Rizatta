@@ -46,10 +46,15 @@
                 <%= t("activerecord.attributes.ticket.currently_owned") %>
                 <br>
                 <span>
-                  <%= current_user.tickets.where("expired_at >= ?", Date.today.end_of_day).where(status: true).count %>
+                  <%  available_tickets = current_user.tickets.where("expired_at >= ?", Date.today.end_of_day).where(status: true).order(:expired_at) %>
+                  <%= available_tickets.count %>
                   <%= t("activerecord.attributes.ticket.sheet") %>
                 </span>
+                <% available_tickets.each do |t| %>
+                  <div><%= t.expired_at %></div>
+                <% end %>
               </div>
+
             </div>
             <%= yield %>
           </div>

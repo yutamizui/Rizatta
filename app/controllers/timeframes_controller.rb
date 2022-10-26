@@ -66,7 +66,8 @@ class TimeframesController < ApplicationController
 
   def multiple_duplicate
     @timeframe = Timeframe.find(params[:timeframe_id])
-    @timeframes = Timeframe.where(target_date: @timeframe.target_date).where(branch_id: @timeframe.branch_id)
+    @timeframes = Timeframe.where("target_date >= ?", @timeframe.target_date.beginning_of_day).where("target_date <= ?", @timeframe.target_date.end_of_day).where(branch_id: @timeframe.branch_id)
+    
     @number_of_week = params[:how_many_week].to_i
     timeframe_duplicate_count = 0
     begin

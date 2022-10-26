@@ -20,11 +20,21 @@ table class="table table-bordered"
         td = u.name
         td = u.email
         td = u.phone
-        td 
-          = u.tickets.where("expired_at >= ?", Date.today.end_of_day).where(status: true).count
+        td
+          - available_tickets = u.tickets.where("expired_at >= ?", Date.today.end_of_day).where(status: true).order(:expired_at)
+          = available_tickets.count
           = t('activerecord.attributes.timeframe.sheet')
           = "  "
           = link_to t('activerecord.attributes.ticket.create'), new_ticket_path, data: {toggle: "modal", target: "#ticket_modal#{u.id}"}, class:"btn btn-primary"
+          - if available_tickets.present?
+            - difference = (available_tickets.first.expired_at.to_datetime - Date.today).to_i
+            - if difference == 0
+              div = "今日有効期限切れのチケットがあります！"
+            - else
+              div 
+                = "あと"  
+                = (available_tickets.first.expired_at.to_datetime - Date.today).to_i 
+                =  "日で有効期限の切れるチケットがあります"
           div class="modal fade" id="ticket_modal#{u.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true"
             div class="modal-dialog modal-dialog-centered" role="document"
               div class="modal-content"
@@ -38,8 +48,12 @@ table class="table table-bordered"
                     div.col-md-12
                       p
                         = t("activerecord.attributes.ticket.currently_owned") + ":  "
-                        = u.tickets.where("expired_at > ?", Date.today.end_of_day).where(status: true).count
+                        = available_tickets.count
                         = t("activerecord.attributes.timeframe.sheet")
+                        - available_tickets.each do |t|
+                          p
+                            = t('activerecord.attributes.ticket.expired_at') + ": "
+                            = t.expired_at.strftime("%Y-%m-%d")
 
                 div class="modal-footer ticket-footer"
                   = render 'shared/errors', obj: @ticket
