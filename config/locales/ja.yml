@@ -202,7 +202,10 @@ ja:
         previous_timeframe: 以前の予約枠
         booked_timeframe: ご予約枠
         previous_booked_timeframe: 以前のご予約枠
-      
+        reserved_user: 予約者
+        reserved_user_check: 確認
+
+
       reservation:
         title: 予約
         creation: 予約する
@@ -217,7 +220,7 @@ ja:
         title: チケット
         expired_at: 有効期限
         management: チケット管理
-        create: チケットを作成する
+        create: チケット作成
         delete: チケットを削除する
         currently_owned: 現在所有しているチケット
         number_to_create: 作成枚数

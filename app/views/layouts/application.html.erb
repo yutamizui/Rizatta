@@ -7,17 +7,18 @@
     <%= csp_meta_tag %>
    
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
-    <div class="row">
-      <div class="col-md-12">
-        <%= render 'shared/navbar' %>
-      </div>
-    </div>
+    <header>
+     <%= render 'shared/navbar' %>
+    </header>
+
+    
+        
     <% if flash[:notice] %>
       <div class="alert alert-success">
         <%= flash[:notice] %>
@@ -31,54 +32,53 @@
     <% end %>
     <br>
     <div class="container">
-      <div class="row">
-        <% if company_admin || current_staff.present? && current_staff.status == "general"%>  <%# 管理者用の表示%>
-          <div class="col-md-2">
-            <%= render 'shared/dashboard_verticalnavbar' %>
-          </div>
-          <div class="col-md-10">
-            <%= yield %>
-          </div>
-        <% elsif current_user.present? %>
-          <%  available_tickets = current_user.tickets.where("expired_at >= ?", Date.today.end_of_day).where(status: true).order(:expired_at) %>
-          <div class="col-md-12">
-            <div class="row">
-              <div class="display_point pull-right" %>
-                <%= t("activerecord.attributes.ticket.currently_owned") %>
-                <br>
-                <div class="accordion" id="accordionExample">
-                  <span class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    <%= available_tickets.count %>
-                    <%= t("activerecord.attributes.ticket.sheet") %>
-                  </span>
-                  <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-                    <div class="card border-success mb-3" style="max-width: 25rem;">
-                      <div class="card-body bg-light border-dark">
-                        <p style="color:#CD5C5C;"><%= t("activerecord.attributes.ticket.expired_at") %></p>
-                        <% available_tickets.each do |t| %>
-                          <h3><%= t.expired_at.strftime("%Y-%m-%d") %></h3>
-                        <% end %>
-                      </div>
+      <% if company_admin || current_staff.present? && current_staff.status == "general"%>  <%# 管理者用の表示%>
+        <div class="col-md-2">
+          <%= render 'shared/dashboard_verticalnavbar' %>
+        </div>
+        <div class="col-md-10">
+          <%= yield %>
+        </div>
+      <% elsif current_user.present? %>
+        <%  available_tickets = current_user.tickets.where("expired_at >= ?", Date.today.end_of_day).where(status: true).order(:expired_at) %>
+        
+        <div class="row">
+          <div class="display_point" %>
+            <%= t("activerecord.attributes.ticket.currently_owned") %>
+            <br>
+            <div class="accordion" id="accordionExample">
+              <span class="btn btn-link" type="button" data-toggle="collapse" data-target="#ticket_display_accordion" aria-expanded="true" aria-controls="collapseOne">
+                <%= available_tickets.count %>
+                <%= t("activerecord.attributes.ticket.sheet") %>
+              </span>
+              <div id="ticket_display_accordion" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div class="card border-success mb-3" style="max-width: 25rem;">
+                  <div class="card-body bg-light border-dark" >
+                    <p style="color:#CD5C5C;"><%= t("activerecord.attributes.ticket.expired_at") %></p>
+                    <% available_tickets.each do |t| %>
+                      <h3><%= t.expired_at.strftime("%Y-%m-%d") %></h3>
+                    <% end %>
                   </div>
-                </div>
               </div>
             </div>
+          </div>
+        </div>
+        <%= yield %>
+        
+      <% else %>
+        <div class="col-md-12">
+          <div class="row">
             <%= yield %>
           </div>
-        <% else %>
-          <div class="col-md-12">
-            <div class="row">
-              <%= yield %>
-            </div>
-          </div>
-        <% end %>
-      </div>  
+        </div>
+      <% end %>
+
     </div>
     <%= render 'shared/footer' %>
     <!-- Optional JavaScript; choose one of the two! -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   </body>
 </html> 

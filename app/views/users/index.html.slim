@@ -25,7 +25,8 @@ table class="table table-bordered"
           = available_tickets.count
           = t('activerecord.attributes.timeframe.sheet')
           = "  "
-          = link_to t('activerecord.attributes.ticket.create'), new_ticket_path, data: {toggle: "modal", target: "#ticket_modal#{u.id}"}, class:"btn btn-primary"
+          = link_to t('activerecord.attributes.ticket.create'), new_ticket_path(user_id: u.id, branch_id: params[:branch_id]), class:"btn btn-primary"
+
           - if available_tickets.present?
             - difference = (available_tickets.first.expired_at.to_datetime - Date.today).to_i
             - if difference == 0
@@ -35,42 +36,7 @@ table class="table table-bordered"
                 = "あと"  
                 = (available_tickets.first.expired_at.to_datetime - Date.today).to_i 
                 =  "日で有効期限の切れるチケットがあります"
-          div class="modal fade" id="ticket_modal#{u.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true"
-            div class="modal-dialog modal-dialog-centered" role="document"
-              div class="modal-content"
-                div class="modal-header"
-                  h5 class="modal-title" id="exampleModalLongTitle" ご予約内容
-                  button type="button" class="close" data-dismiss="modal" aria-label="Close"
-                    span aria-hidden="true" &times;
 
-                div class="modal-body"
-                  div.row
-                    div.col-md-12
-                      p
-                        = t("activerecord.attributes.ticket.currently_owned") + ":  "
-                        = available_tickets.count
-                        = t("activerecord.attributes.timeframe.sheet")
-                        - available_tickets.each do |t|
-                          p
-                            = t('activerecord.attributes.ticket.expired_at') + ": "
-                            = t.expired_at.strftime("%Y-%m-%d")
-
-                div class="modal-footer ticket-footer"
-                  = render 'shared/errors', obj: @ticket
-                  = form_tag({controller: :tickets, action: :create}, { method: :post}) do
-                    div.form-group
-                      = label_tag t('activerecord.attributes.ticket.expired_at')
-                      = text_field_tag :expired_at, Date.today.end_of_day, class:"form-control datepicker"
-                    div.form-group
-                      = t('activerecord.attributes.ticket.number_to_create')
-                      div class='input-group-append'
-                        = number_field_tag :number_of_ticket, 1, min:1, class:"form-control"
-                        span class="input-group-text" 
-                          = t('activerecord.attributes.timeframe.sheet')
-                    = hidden_field_tag :user_id, u.id
-                    div
-                      = submit_tag t('activerecord.attributes.ticket.create'), class:"btn btn-primary button-margin"
-                     
         td 
           = link_to t('activerecord.attributes.link.edit'), edit_user_path(id: u.id), class:"btn btn-success btn-sm button-margin"
           = link_to t('activerecord.attributes.link.delete'), user_path(id: u.id), method: :delete, data: {confirm: t('activerecord.attributes.link.are_you_sure')}, class:"btn btn-danger btn-sm button-margin"
@@ -95,5 +61,3 @@ javascript:
   var month = today.getMonth() + 1;
   var day = today.getDate();
   $('.datepicker').datepicker('update', '&{year}/$(month)/&{day}');
-  
-

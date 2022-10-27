@@ -33,7 +33,7 @@ div.form-group
     label = t('activerecord.attributes.branch.reservation_limit')
     div.input-group
       = f.number_field :makable_reservation_hour_span, autofocus: 'true', class:"form-control"
-      span.input-group-text = t('activerecord.attributes.branch.before_end_time')
+      span. = t('activerecord.attributes.branch.before_end_time')
     
   div.col-md-3
     label = t('activerecord.attributes.branch.cancelation_limit')

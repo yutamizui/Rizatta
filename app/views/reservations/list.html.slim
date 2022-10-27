@@ -14,10 +14,11 @@
         th = t('activerecord.attributes.timeframe.name')
         th = t('activerecord.attributes.timeframe.room')
         th = t('activerecord.attributes.timeframe.capacity')
+        th = t('activerecord.attributes.timeframe.reserved_user')
     tbody
       - if @future_timeframes.count > 0
         - @future_timeframes.each_with_index do |t,i|
-          - if i.even?
+          - if t.reservations.count > 0
             - cel_color = "#fff5e5"
           tr style="background-color: #{cel_color};"
             td = t.target_date.strftime("%m/%d (#{%w(日 月 火 水 木 金 土)[t.target_date.wday]})")
@@ -26,22 +27,27 @@
               = " ~ "
               = t.end_time.strftime("%H:%M")
             td = t.name
-            
             td = Room.find(t.room_id).name
             td
               = t.reservations.count
               = " / "
               = t.capacity
               = " 名"
-          tr style="background-color: #{cel_color};"
-            td colspan="5"
-              - User.where(id: t.reservations.pluck(:user_id)).each do |u|
-                = u.name + ","
+            td
+              - if User.where(id: t.reservations.pluck(:user_id)).present?
+                div class="reservation_list_accordion"
+                  span class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse#{i}" aria-expanded="true" aria-controls="collapse#{i}"
+                    = t('activerecord.attributes.timeframe.reserved_user_check')
+                  div id="collapse#{i}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion#{i}"
+                    div class="card border-success mb-3" style="max-width: 25rem;"
+                      div class="card-body bg-light border-dark"
+                        - User.where(id: t.reservations.pluck(:user_id)).each do |u|
+                          p = u.name
   
   // 以前の予約リスト
   - if @past_timeframes.count > 0
     h2 = t('activerecord.attributes.timeframe.previous_timeframe')
-    table class="table table-bordered"
+    table class="table table-bordered past"
       thead class="thead-dark table-active "
         tr
           th = t('activerecord.attributes.timeframe.target_date')
@@ -49,9 +55,10 @@
           th = t('activerecord.attributes.timeframe.name')
           th = t('activerecord.attributes.timeframe.room')
           th = t('activerecord.attributes.timeframe.capacity')
+          th = t('activerecord.attributes.timeframe.reserved_user')
       tbody
-        - @past_timeframes.reverse.each_with_index do |t,i|
-          - if i.even?
+        - @past_timeframes.reverse.each_with_index do |t,n|
+          - if t.reservations.count > 0
             - cel_color = "#fff5e5"
           tr style="background-color: #DCDCDC;"
             td = t.target_date.strftime("%m/%d (#{%w(日 月 火 水 木 金 土)[t.target_date.wday]})")
@@ -67,59 +74,54 @@
               = " / "
               = t.capacity
               = " 名"
-          tr style="background-color: #DCDCDC;"
-            td colspan="5"
-              - User.where(id: t.reservations.pluck(:user_id)).each do |u|
-                = u.name + ","
+            td
+              - if User.where(id: t.reservations.pluck(:user_id)).present?
+                div class="reservation_list_accordion"
+                  span class="btn btn-link" type="button" data-toggle="collapse" data-target="#past_collapse#{n}" aria-expanded="true" aria-controls="past_accordion#{n}"
+                    = t('activerecord.attributes.timeframe.reserved_user_check')
+                  div id="past_collapse#{n}" class="collapse" aria-labelledby="headingOne" data-parent="#past_accordion#{n}"
+                    div class="card border-success mb-3" style="max-width: 25rem;"
+                      div class="card-body bg-light border-dark"
+                        - User.where(id: t.reservations.pluck(:user_id)).each do |u|
+                          p = u.name
 
 - elsif current_user.present?
   // 予約可能なリスト
-  - if @reservations.where("target_date > ?", Time.zone.now).count > 0
-    h2 = t('activerecord.attributes.timeframe.booked_timeframe')
-    table class="table table-bordered"
-      thead class="thead-dark table-active "
-        tr
-          th = t('activerecord.attributes.timeframe.name')
-          th = t('activerecord.attributes.timeframe.target_date')
-          th = t('activerecord.attributes.timeframe.opening_time')
-          th = t('activerecord.attributes.timeframe.room')
-          th 
-      tbody
+  div.row
+    div.col-md-12
+      - if @reservations.where("target_date > ?", Time.zone.now).count > 0
+        h2 = t('activerecord.attributes.timeframe.booked_timeframe')
         - @reservations.where("target_date > ?", Time.zone.now).each do |r|
           - t = Timeframe.find(r.timeframe_id)
-          tr
-            td = t.name
-            td = t.target_date.strftime("%m/%d (#{%w(日 月 火 水 木 金 土)[t.target_date.wday]})")
-            td 
+          div class="card reservation_list_for_user" style="width: 100%;"
+            div class="card-body"
+              h3 class="card-title" = t.name
+              p class="card-text" 
+                = t.target_date.strftime("%m/%d (#{%w(日 月 火 水 木 金 土)[t.target_date.wday]})")
                 = t.start_time.strftime("%H:%M")
                 = " ~ "
                 = t.end_time.strftime("%H:%M")
-            td = Room.find(t.room_id).name
-            td = link_to t('activerecord.attributes.link.cancel'), reservation_path(id: r.id, style: params[:style]), method: :delete, data: {confirm: t('activerecord.attributes.link.are_you_sure_to_cancel')}, class:"btn btn-danger btn-sm"
-  
-  hr
-  // 以前の予約リスト
-  - if @reservations.where("target_date < ?", Time.zone.now).count > 0
-    h2 = t('activerecord.attributes.timeframe.previous_booked_timeframe')
-    table class="table table-bordered"
-      thead class="thead-dark table-active "
-        tr
-          th = t('activerecord.attributes.timeframe.name')
-          th = t('activerecord.attributes.timeframe.target_date')
-          th = t('activerecord.attributes.timeframe.opening_time')
-          th = t('activerecord.attributes.timeframe.room')
-      tbody
-        - @reservations.where("target_date < ?", Time.zone.now).reverse.each do |r|
+              h6 class="card-subtitle mb-2 text-muted" = Room.find(t.room_id).name
+              = link_to t('activerecord.attributes.link.cancel'), reservation_path(id: r.id, style: params[:style]), method: :delete, data: {confirm: t('activerecord.attributes.link.are_you_sure_to_cancel')}, class:"btn btn-danger user_cancel_button btn-sm"
+          br
+
+      hr
+      // 以前の予約リスト
+      - if @reservations.where("target_date < ?", Time.zone.now).count > 0
+        h2 = t('activerecord.attributes.timeframe.previous_timeframe')
+        - @reservations.where("target_date < ?", Time.zone.now).each do |r|
           - t = Timeframe.find(r.timeframe_id)
-          tr style="background-color: #DCDCDC;"
-            td = t.name
-            td = t.target_date.strftime("%m/%d (#{%w(日 月 火 水 木 金 土)[t.target_date.wday]})")
-            td 
+          div class="card past_reservation_list_for_user" style="width: 100%;"
+            div class="card-body"
+              h3 class="card-title" = t.name
+              p class="card-text" 
+                = t.target_date.strftime("%m/%d (#{%w(日 月 火 水 木 金 土)[t.target_date.wday]})")
                 = t.start_time.strftime("%H:%M")
                 = " ~ "
                 = t.end_time.strftime("%H:%M")
-            td = Room.find(t.room_id).name
-            
+              h6 class="card-subtitle mb-2 text-muted" = Room.find(t.room_id).name
+          br
+
 
 javascript:
   jQuery(function(){

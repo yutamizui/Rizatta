@@ -352,7 +352,7 @@ table#time_table .name_size {
 
 }
 
-@media screen and (max-width: 991px) { /*ウィンドウ幅が最大767pxまでの場合に適用*/
+@media screen and (max-width: 991px) { /*ウィンドウ幅が最大991pxまでの場合に適用*/
   .display_point{
     width: 40%;
   }
@@ -360,7 +360,7 @@ table#time_table .name_size {
 
 @media screen and (max-width: 768px) { /*ウィンドウ幅が最大767pxまでの場合に適用*/
   .display_point{
-    width: 70%;
+    width: 70%!important;
     margin-right: 20px;
     font-size: 18px;
   }
@@ -381,4 +381,42 @@ table#time_table .name_size {
 .small-number-field {
   height: 30px;
   width: 50px;
+}
+
+
+.reservation_list_accordion {
+  position: relative;
+}
+
+.reservation_list_accordion > div {
+  position: absolute;
+  z-index: 2;
+  white-space: nowrap;
+  top: 2em;
+  left: 0;
+
+}
+.past.table-bordered tr td {
+  border-color: white;
+}
+
+#ticket_display_accordion {
+  position: relative;
+  z-index: 2;
+  float: right;
+ 
+}
+
+.reservation_list_for_user {
+  box-shadow: 0px 0px 5px #ccc;
+}
+
+.btn-danger.user_cancel_button {
+  color: #dc3545;
+  background-color: transparent;
+}
+
+.card.past_reservation_list_for_user {
+  background-color: rgb(200, 194, 194);
+  opacity: 0.6;
 }

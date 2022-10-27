@@ -177,6 +177,8 @@ en:
         privious_timeframe: Previous Timeframe
         booked_timeframe: Your reservations
         previous_booked_timeframe: Your previous reservations
+        reserved_user: Reserved user
+        reserved_user_check: Check
 
       reservation:
         title: Reservation
@@ -193,7 +195,7 @@ en:
         title: Ticket
         expired_at: Expiration date
         management: Ticket manage
-        create: Create this ticket
+        create: Create ticket
         delete: Delete this ticket
         currently_owned: Ticket currently owned
         number_to_create: Number to create
