@@ -105,7 +105,7 @@ div.row
 
                     - skip_counter[wday][index] = timeframe_length-1
 
-                  div class="modal fade" id="duplicateModal#{available_timeframe.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
+                  div class="modal fade in" id="duplicateModal#{available_timeframe.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
                     div class="modal-dialog" role="document"
                       div class="modal-content" 
                         div class="modal-header"
@@ -131,4 +131,3 @@ div.row
                                 = submit_tag "複製する", class:"btn btn-success btn-lg button-margin", id:"lesson_reservation_button"
                 - else
                   td
-
