@@ -27,7 +27,7 @@ class Timeframe < ApplicationRecord
   def timeframe_duplicate
     if self.branch.present? && Timeframe.where(target_date: target_date).where("room_id = ?", room_id)
       .where("start_time < ?", end_time).where("end_time > ?", start_time).where.not(id: self.id).where(branch_id: self.branch_id).present?
-      errors.add(:start_time, ": ご入力いただいた時間帯にすでにレッスンが存在します。")
+      errors.add(:start_time, ": ご入力いただいた時間帯にすでに時間枠が存在します。")
     end
   end
 

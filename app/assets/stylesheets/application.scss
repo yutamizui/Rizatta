@@ -59,6 +59,10 @@ body {
 .button-margin {
   margin: 10px;
 }
+
+.modal-margin {
+  margin: 10px 0 10px 0;
+}
  
 .user-title-color {
   background-color: rgb(28, 160, 241)!important;
@@ -423,4 +427,13 @@ table#time_table .name_size {
 
 .modal-header {
   display: flow-root!important;
+}
+
+.week_checkbox_position {
+  margin: 0 2px 0 20px!important;
+}
+
+.close {
+  text-align: right!important;
+  margin: 5px 5px 0 0;
 }

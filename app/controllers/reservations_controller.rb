@@ -17,7 +17,7 @@ class ReservationsController < ApplicationController
     else
       @branch = current_user.branch
     end
-    @timeframes = Timeframe.where(branch_id: @branch.id).order(target_date: :asc)
+    @timeframes = Timeframe.where(branch_id: @branch.id).where("target_date >= ?", Time.zone.now).order(target_date: :ASC)
     @rooms = Room.where(branch_id: @branch.id)
     @room = Room.find_by(name: params[:room])
     @reservation = Reservation.new

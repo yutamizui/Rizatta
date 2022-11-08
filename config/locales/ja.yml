@@ -204,6 +204,8 @@ ja:
         previous_booked_timeframe: 以前のご予約枠
         reserved_user: 予約者
         reserved_user_check: 確認
+        created_weekly: 週分の予定を作成しました
+        user_number: 名
 
 
       reservation:

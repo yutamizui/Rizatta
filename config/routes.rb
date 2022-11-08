@@ -30,6 +30,7 @@ Rails.application.routes.draw do
     collection do
       post :single_duplicate
       post :multiple_duplicate
+      post :time_based_multiple_duplicate
     end
   end
   resources :users

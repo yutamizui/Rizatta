@@ -179,6 +179,8 @@ en:
         previous_booked_timeframe: Your previous reservations
         reserved_user: Reserved user
         reserved_user_check: Check
+        created_weekly: You've succesfully made a schedule for
+        user_number: users
 
       reservation:
         title: Reservation
