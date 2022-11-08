@@ -81,6 +81,7 @@ en:
         are_you_sure: Are you sure to delete?
         are_you_sure_to_cancel: Are you sure to cancel?
         are_you_sure_to_purchase: Are you sure to purchase?
+        are_you_sure_to_create_ticket: Are you sure to create tickets?
         add: Add
         send: Send
         delete: Delete

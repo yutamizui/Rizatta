@@ -6,6 +6,6 @@ div.col-md-12
       == render 'shared/errors', obj: @ticket
       = form_for @ticket do |f|
         == render 'tickets/form', f: f
-        = f.submit t('activerecord.attributes.ticket.create'), class:"btn btn-primary button-margin"
+        = f.submit t('activerecord.attributes.ticket.create'),  data: {confirm: t('activerecord.attributes.link.are_you_sure_to_create_ticket')}, class:"btn btn-primary button-margin"
 = link_to :back do 
   button class="btn btn-secondary button-margin" = t("activerecord.attributes.link.back")
