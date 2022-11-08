@@ -40,9 +40,9 @@ div.row.nondisplay-print
             = "名"
           td
            - unless Reservation.where(timeframe_id: t.id).present?
-             = link_to t('activerecord.attributes.link.cancel'), timeframe_path(id: t.id, style: params[:style], week: params[:week]), method: :delete, data: {confirm: t('activerecord.attributes.link.are_you_sure')}, class:"btn btn-danger btn-sm button-margin"
+             = link_to t('activerecord.attributes.link.delete'), timeframe_path(id: t.id, style: params[:style], week: params[:week]), method: :delete, data: {confirm: t('activerecord.attributes.link.are_you_sure')}, class:"btn btn-danger btn-sm button-margin"
            - else 
-             = link_to t('activerecord.attributes.link.no_cancel'), timeframe_path(id: t.id), class:"btn btn-secondary button-margin disabled"
+             = link_to t('activerecord.attributes.link.no_delete'), timeframe_path(id: t.id), class:"btn btn-secondary button-margin disabled"
 - else
   div.col-md-12.hidden-xs
     ul.nav.nav-tabs

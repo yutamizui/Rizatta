@@ -84,6 +84,7 @@ en:
         add: Add
         send: Send
         delete: Delete
+        no_delete: No Delete
         account: Account
         close: Close
         cancel: Cancel

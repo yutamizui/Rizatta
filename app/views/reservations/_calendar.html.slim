@@ -132,7 +132,7 @@ div.row
                             br
                             = form_tag({controller: :timeframes, action: :time_based_multiple_duplicate}, { method: :post}) do
                               - for num in 0..6 do
-                                = check_box_tag 'target_day[]', num, false, :id => "#{num}", class:"week_checkbox_position"
+                                = check_box_tag 'target_day[]', num, false, id:"#{num} checkbox", class:"week_checkbox_position"
                                 - if num == 0
                                   = "日"
                                 - elsif num == 1
@@ -155,8 +155,17 @@ div.row
                               = hidden_field_tag :timeframe_id, available_timeframe.id
                               br
                               div class="actions"
-                                = submit_tag t('activerecord.attributes.timeframe.duplicate'), class:"btn btn-success btn-lg button-margin", id:"lesson_reservation_button"
+                                = submit_tag t('activerecord.attributes.timeframe.duplicate'), class:"btn btn-success btn-lg button-margin", id:"lesson_reservation_button time_based_submit"
                               button type="button" class="close" data-dismiss="modal" aria-label="Close"
                                 span aria-hidden="true" &times;
                 - else
                   td
+
+button id="output"
+
+
+javascript:
+  var btn = document.getElementById('time_based_submit');
+  var btn2 = document.getElementById('output');
+  btn.disabled = true;
+  btn2.disabled = true;
