@@ -154,18 +154,26 @@ div.row
                               = " 週先まで"
                               = hidden_field_tag :timeframe_id, available_timeframe.id
                               br
-                              div class="actions"
+                              div class="actions" 
                                 = submit_tag t('activerecord.attributes.timeframe.duplicate'), class:"btn btn-success btn-lg button-margin", id:"lesson_reservation_button time_based_submit"
                               button type="button" class="close" data-dismiss="modal" aria-label="Close"
                                 span aria-hidden="true" &times;
+                              
                 - else
                   td
 
-button id="output"
 
 
-javascript:
-  var btn = document.getElementById('time_based_submit');
-  var btn2 = document.getElementById('output');
-  btn.disabled = true;
-  btn2.disabled = true;
+
+/ javascript:
+/   $(document).ready(function(){
+/     $('.modal').on('show.bs.modal', function () {
+/       const button = document.querySelector(".time_based_submit");
+/       button.disabled = true;
+/       if (button != null) {
+/         button.disabled = false;
+/       } else {
+/         button.disabled = true;
+/       };
+/     });
+/   });
