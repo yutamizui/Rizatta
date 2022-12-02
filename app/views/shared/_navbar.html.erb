@@ -1,50 +1,52 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-success d-flex justify-content-center py-3"> 
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
     <% if current_company.present? %>
       <%= link_to t('app_name'), branches_path, class:"navbar-brand button-color app-title" %>
     <% else %>
       <%= link_to t('app_name'), root_path, class:"navbar-brand button-color app-title"%>
     <% end %>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <div class="navbar-left">
-        <ul class="navbar-nav">
-          <!-- 企業がログインしている時　-->
-          <% if current_company.present? %>
-           <li class="nav-item"><%= link_to t('activerecord.attributes.link.logout'),destroy_company_session_path, method: :delete, class:"nav-link" %></li>
+    <div class="d-none d-lg-block">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    
+    
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="ms-auto">
+          <ul class="navbar-nav">
+            <!-- 企業がログインしている時　-->
+            <% if current_company.present? %>
+              <li class="nav-item"><%= link_to t('activerecord.attributes.link.logout'),destroy_company_session_path, method: :delete, class:"nav-link" %></li>
 
-          <!-- スタッフがログインしている時　-->
-          <% elsif current_staff.present? %>
-            <li class="nav-item"> <%= link_to t('activerecord.attributes.link.logout'),destroy_staff_session_path, method: :delete, class:"nav-link" %></li>
-            
-         <!-- ユーザーがログインしている時　-->
-          <% elsif current_user.present? %>
-            <li class="nav-item"><%= link_to t('activerecord.attributes.reservation.title'), reservations_path(branch_id: current_user.branch.id, style: "calendar_view"), class:"nav-link" %></li>
-            <li class="nav-item"><%= link_to t('activerecord.attributes.reservation.confirmation'), list_reservations_path(branch_id: current_user.branch.id, style: "calendar_view"), class:"nav-link" %></li>
-            <li class="nav-item"><%= link_to t('activerecord.attributes.ticket.purchase'), list_sales_items_path(branch_id: current_user.branch.id), class:"nav-link" %></li>
-            <li class="nav-item"> <%= link_to t('activerecord.attributes.link.logout'),destroy_user_session_path, method: :delete, class:"nav-link" %></li>
-          <% end %>
-        </ul>
-      </div>
+            <!-- スタッフがログインしている時　-->
+            <% elsif current_staff.present? %>
+              <li class="nav-item"> <%= link_to t('activerecord.attributes.link.logout'),destroy_staff_session_path, method: :delete, class:"nav-link" %></li>
 
-      <!-- ログイン・アカウント -->
-      <div class="navbar-right">　
-        <ul class="navbar-nav">
-          <!-- 言語設定-->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <%= t('activerecord.attributes.language.setting') %>
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <%= link_to t('activerecord.attributes.language.japanese'), locale_path(locale: "ja"), class:"dropdown-item" %>
-              <%= link_to t('activerecord.attributes.language.english'), locale_path(locale: "en"), class:"dropdown-item" %>
+          <!-- ユーザーがログインしている時　-->
+            <% elsif current_user.present? %>
+              <li class="nav-item"><%= link_to t('activerecord.attributes.reservation.title'), reservations_path(branch_id: current_user.branch.id, style: "calendar_view"), class:"nav-link" %></li>
+              <li class="nav-item"><%= link_to t('activerecord.attributes.reservation.confirmation'), list_reservations_path(branch_id: current_user.branch.id, style: "calendar_view"), class:"nav-link" %></li>
+              <li class="nav-item"><%= link_to t('activerecord.attributes.ticket.purchase'), list_sales_items_path(branch_id: current_user.branch.id), class:"nav-link" %></li>
+              <li class="nav-item"> <%= link_to t('activerecord.attributes.link.logout'),destroy_user_session_path, method: :delete, class:"nav-link" %></li>
+            <% end %>
+            <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+              <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <%= t('activerecord.attributes.language.setting') %>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                    <li><%= link_to t('activerecord.attributes.language.japanese'), locale_path(locale: "ja"), class:"dropdown-item" %></li>
+                    <li><%= link_to t('activerecord.attributes.language.english'), locale_path(locale: "en"), class:"dropdown-item" %></li>
+                  </ul>
+                </li>
+              </ul>
             </div>
-          </li>
-        </ul>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
 </nav>
+
 

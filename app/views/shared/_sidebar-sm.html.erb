@@ -1,0 +1,97 @@
+<input type="checkbox" class="openSidebarMenu" id="openSidebarMenu">
+<label for="openSidebarMenu" class="sidebarIconToggle">
+  <div class="spinner diagonal part-1"></div>
+  <div class="spinner horizontal"></div>
+  <div class="spinner diagonal part-2"></div>
+</label>
+<div id="sidebarMenu">
+  <ul class="sidebarMenuInner">
+    <% if company_admin.present? && company_admin.branches.count > 0 %>
+      <li class="<%= 'active' if controller_name == "branches" && action_name == "index" %>">
+        <%= link_to t('activerecord.attributes.branch.title'), branches_path, class:"text" %>
+      </li>
+      <li class="<%= 'active' if controller_name == "users" && action_name == "index" %>">
+        <%= link_to t('activerecord.attributes.user.title'), users_path(branch_id: company_admin.branches.first.id), class:"text" %>
+      </li>
+      <li class="<%= 'active' if controller_name == "staffs" && action_name == "index" %>">
+        <%= link_to t('activerecord.attributes.staff.title'), staffs_path(branch_id: company_admin.branches.first.id), class:"text"%>
+      </li>
+      <li class="<%= 'active' if controller_name == "reservations" && action_name == "index" %>">
+        <%= link_to t('activerecord.attributes.reservation.calendar'), reservations_path(branch_id: company_admin.branches.first.id), class:"text"%>
+      </li>
+      <li class="<%= 'active' if controller_name == "reservations" && action_name == "list" %>">
+        <%= link_to t('activerecord.attributes.reservation.list'), list_reservations_path(branch_id: company_admin.branches.first.id), class:"text"%>
+      </li>
+      <li class="<%= 'active' if controller_name == "sales_items" && action_name == "index" %>">
+        <%= link_to t('activerecord.attributes.sales_item.title'), sales_items_path(branch_id: company_admin.branches.first.id), class:"text"%>
+      </li>
+      <li class="<%= 'active' if controller_name == "payments" && action_name == "index" %>">
+        <%= link_to t('activerecord.attributes.payments.sales_management'), payments_path(branch_id: company_admin.branches.first.id), class:"text"%>
+      </li>
+    <% end %>
+    <% if current_company.present? %>
+      <li class="<%= 'active' if controller_name == "registrations" && action_name == "edit" %>">
+        <%= link_to t('activerecord.attributes.company.edit_registration'), edit_company_registration_path, class:"text" %></li>
+      </li>
+    <% end %>
+    <% if current_company.present? && current_company == Company.first %>
+      <li class="<%= 'active' if controller_name == "payments" && action_name == "sml" %>">
+        <%= link_to t('activerecord.attributes.payments.sml'), sml_path, class:"text" %></li>
+      </li>
+    <% end %>
+    <% if current_company.present? %>
+      <li class="nav-item"><%= link_to t('activerecord.attributes.link.logout'),destroy_company_session_path, method: :delete, class:"nav-link" %></li>
+
+    <!-- スタッフがログインしている時　-->
+    <% elsif current_staff.present? %>
+      <li class="nav-item"> <%= link_to t('activerecord.attributes.link.logout'),destroy_staff_session_path, method: :delete, class:"nav-link" %></li>
+
+  <!-- ユーザーがログインしている時　-->
+    <% elsif current_user.present? %>
+      <li class="nav-item"><%= link_to t('activerecord.attributes.reservation.title'), reservations_path(branch_id: current_user.branch.id, style: "calendar_view"), class:"nav-link" %></li>
+      <li class="nav-item"><%= link_to t('activerecord.attributes.reservation.confirmation'), list_reservations_path(branch_id: current_user.branch.id, style: "calendar_view"), class:"nav-link" %></li>
+      <li class="nav-item"><%= link_to t('activerecord.attributes.ticket.purchase'), list_sales_items_path(branch_id: current_user.branch.id), class:"nav-link" %></li>
+      <li class="nav-item"> <%= link_to t('activerecord.attributes.link.logout'),destroy_user_session_path, method: :delete, class:"nav-link" %></li>
+    <% end %>
+    <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <%= t('activerecord.attributes.language.setting') %>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+            <li><%= link_to t('activerecord.attributes.language.japanese'), locale_path(locale: "ja"), class:"dropdown-item" %></li>
+            <li><%= link_to t('activerecord.attributes.language.english'), locale_path(locale: "en"), class:"dropdown-item" %></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </ul>
+</div>
+
+<script>
+  $(document).ready(function () {
+    // $('.navbar-collapse').addClass('show')
+  });
+
+  var judge = document.getElementById("judge-collape");
+  function addAnswer() {
+    if( !judge.classList.contains("show") ) {
+      judge.classList.add('show');
+    } else {
+      judge.classList.remove('show');
+      judge.classList.add('hide');
+    }
+  }
+  
+  var trigger = document.querySelectorAll(".text");
+
+  trigger.forEach(function(target) {
+
+    target.addEventListener('click', function() {
+      judge.classList.remove('show');
+      judge.classList.add('hide');
+    });
+  });
+
+</script>

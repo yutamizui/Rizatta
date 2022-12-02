@@ -1,0 +1,31 @@
+div.row
+  div.col-12.text-center
+    - if @target_date.end_of_month < Date.today.end_of_month
+    = link_to "<", sml_path(target_date: @target_date.next_month)
+    = link_to "#{@target_date.year}年#{@target_date.month}月 #{t('activerecord.attributes.payments.list')}", payments_path(target_date: @target_date), class:"btn btn-secondary button-margin"
+    - if @target_date.end_of_month > Date.today.ago(11.month).end_of_month
+    = link_to ">", sml_path(target_date: @target_date.prev_month)
+
+div.row
+  div.col-12
+    table class="table table-bordered"  
+      thead class="thead-dark table-active"
+        tr
+          th = t('activerecord.attributes.company.name')
+          th = t('activerecord.attributes.payments.amount')
+          th = t('activerecord.attributes.payments.bank_account')
+          th = t('activerecord.attributes.payments.status')
+      tbody
+        - @branches.each_with_index do |b,i|
+          - i = []
+          - Payment.where("payday >= ?", @target_date.beginning_of_month).where("payday <= ? ", @target_date.end_of_day).where(branch_id: b.id).each do |p|
+            - i << p.amount
+          end
+          - i = i.sum
+          tr
+            td = b.name
+            td
+              = i
+              = t('activerecord.attributes.sales_item.yen')
+            td
+            td

@@ -1,7 +1,7 @@
 - skip_counter = Array.new(Room.count,0)
 - display_rooms = @rooms
 
-div.row
+div.row.d-lg-none
   .col-md-12#table-container
     table#time_table[style="font-size: 70%;"]
       tr#classroom_name
@@ -63,37 +63,66 @@ div.row
                       - if capacity > 0
                         p = link_to t("activerecord.attributes.reservation.creation"), new_reservation_path(timeframe_id: available_timeframe.id), class:"no-underline"
                       - unless Timeframe.where(target_date: available_timeframe.target_date.since(1.weeks)).where(branch_id: available_timeframe.branch_id).where(room_id: available_timeframe.room_id).present?
-                        p = link_to '複製', "#", data: {toggle: "modal", target: "#duplicateModalsm#{available_timeframe.id}"}, class:"no-underline"
+                        a href="#" data-bs-toggle="modal" data-bs-target="#duplicateModalsm#{available_timeframe.id}" class="no-underline"
+                          = "複製"
                       - unless Reservation.where(timeframe_id: available_timeframe.id).present?
                         p = link_to t("activerecord.attributes.timeframe.delete"), timeframe_path(id: available_timeframe.id, style: params[:style]), method: :delete, data: {confirm: t('activerecord.attributes.link.are_you_sure')}, class:"no-underline"
 
                   - skip_counter[index] = timeframe_length-1
 
 
-                div class="modal fade in" id="duplicateModalsm#{available_timeframe.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
+                div class="modal fade" id="duplicateModalsm#{available_timeframe.id}" tabindex="-1" aria-hidden="true"
                   div class="modal-dialog" role="document"
                     div class="modal-content" 
-                      div class="modal-header"
-                        button type="button" class="close" data-dismiss="modal" aria-label="Close"
-                          span aria-hidden="true" &times;
                       div class="modal-body"
-                        h2 = available_timeframe.name + "の枠を"
+                        h2 class="modal-margin" = available_timeframe.name + "の枠を"
                         = form_tag({controller: :timeframes, action: :single_duplicate}, { method: :post}) do
                           = number_field_tag :how_many_week, "1", min:"1", class:"small-number-field"
                           = " 週先まで"
                           = hidden_field_tag :timeframe_id, available_timeframe.id
                           div class="actions"
-                            = submit_tag t('activerecord.attributes.timeframe.duplicate'), class:"btn btn-primary btn-lg button-margin", id:"lesson_reservation_button"
+                            = submit_tag t('activerecord.attributes.timeframe.duplicate'), class:"btn btn-primary btn-lg button-margin"
                       - unless Timeframe.where(target_date: available_timeframe.target_date.since(1.weeks)).where(branch_id: available_timeframe.branch_id).present?
                         hr
                         div class="modal-body"
-                          h2 = available_timeframe.target_date.strftime("%m/%d (#{%w(日 月 火 水 木 金 土)[available_timeframe.target_date.wday]})") + "すべての未来予約枠を"
+                          h2 class="modal-margin" = available_timeframe.target_date.strftime("%m/%d (#{%w(日 月 火 水 木 金 土)[available_timeframe.target_date.wday]})") + "のすべての枠を"
                           = form_tag({controller: :timeframes, action: :multiple_duplicate}, { method: :post}) do
                             = number_field_tag :how_many_week, "1", min:"1", class:"small-number-field"
-                            = " 週分"
+                            = " 週先まで"
                             = hidden_field_tag :timeframe_id, available_timeframe.id
                             div class="actions"
-                              = submit_tag "複製する", class:"btn btn-success btn-lg button-margin", id:"lesson_reservation_button"
+                              = submit_tag t('activerecord.attributes.timeframe.duplicate'), class:"btn btn-success btn-lg button-margin"
+                        hr
+                        div class="modal-body"
+                          h2 = available_timeframe.start_time.strftime("%H:00") +  "~" + (available_timeframe.start_time + 1.hour).strftime("%H:00") + "の時間帯に開始時間のある枠を"
+                          br
+                          = form_tag({controller: :timeframes, action: :time_based_multiple_duplicate}, { method: :post}) do
+                            - for num in 0..6 do
+                              = check_box_tag 'target_day[]', num, false, id:"#{num} checkbox", class:"week_checkbox_position"
+                              - if num == 0
+                                = "日"
+                              - elsif num == 1
+                                = "月"
+                              - elsif num == 2
+                                = "火"
+                              - elsif num == 3
+                                = "水"
+                              - elsif num == 4
+                                = "木"
+                              - elsif num == 5
+                                = "金"
+                              - elsif num == 6
+                                = "土"
+                            br
+                            br
+                            = "を対象に"
+                            = number_field_tag :how_many_week, "1", min:"1", class:"small-number-field"
+                            = " 週先まで"
+                            = hidden_field_tag :timeframe_id, available_timeframe.id
+                            br
+                            div class="actions"
+                              = submit_tag t('activerecord.attributes.timeframe.duplicate'), class:"btn btn-success btn-lg button-margin time_based_submit"
+
 
               - else
                 td

@@ -16,8 +16,6 @@ gem 'net-pop', '~> 0.1'
 gem 'net-smtp', '~> 0.3'
 
 gem 'puma', '~> 3.0'
-# Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'terser'
 # Use CoffeeScript for .coffee assets and views
@@ -31,8 +29,7 @@ gem 'jquery-rails'
 gem 'turbolinks', '~> 5'
 gem 'bcrypt', '~> 3.1.7'
 gem 'jbuilder', '~> 2.5'
-gem 'bootstrap'
-gem 'bootstrap-sass'
+gem 'sass-rails', '>= 3.2'
 gem 'devise'
 gem 'toastr-rails'
 gem "omniauth-rails_csrf_protection"

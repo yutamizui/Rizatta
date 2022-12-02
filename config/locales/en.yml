@@ -234,6 +234,9 @@ en:
          ※The transfer fee will be deducted from the sales proceeds.
        payment_cycle: Payment Cycle
        payment_description: Closing at the end of the month, payment on the 10th of the following month
+       sml: Sales Management List
+       bank_account: Bank Account
+       status: Status
 
       language:
         setting: Language Setting

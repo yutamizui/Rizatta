@@ -135,6 +135,7 @@ ja:
         user_page: ユーザーページ
         staff_page: スタッフページ
         ticket_price: １枚のチケット料金
+       
 
       user:
         title: ユーザー
@@ -162,7 +163,7 @@ ja:
         go_to_registration_page: スタッフ登録ページに移動する
       
       branch:
-       title: 店舗
+       title: 店舗一覧
        name: 店舗名
        address: 住所
        phone: 電話番号
@@ -259,6 +260,9 @@ ja:
          ※振込手数料は、売上金から差し引かせていただきます。
        payment_cycle: 入金サイクル
        payment_description: 末締め/ 翌月１０日払い
+       sml: 売上管理一覧
+       bank_account: 口座情報
+       status: 状況
 
 
       language:

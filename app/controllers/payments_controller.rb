@@ -10,6 +10,15 @@ class PaymentsController < ApplicationController
     @payments = Payment.where("payday >= ?", @target_date.beginning_of_month).where("payday <= ? ", @target_date.end_of_day).where(branch_id: params[:branch_id])
   end
 
+  def sml ## sales_management_list
+    if params[:target_date].present?
+      @target_date = params[:target_date].to_datetime.in_time_zone
+    else
+      @target_date = Date.today
+    end
+    @branches = Branch.all
+  end
+
   def customer_registration
     if current_user.present?
       @user = current_user

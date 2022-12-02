@@ -47,6 +47,7 @@ Rails.application.routes.draw do
   post "payments/customer_registration"
   post "payments/payjpcard_update"
   get 'payments/index'
+  get "sml" => "payments#sml", as: "sml"
   post "payments/payjp_webhook"
   post "payments/charge"
   post "payments/subscribe"
