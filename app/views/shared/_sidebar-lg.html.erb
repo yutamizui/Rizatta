@@ -1,0 +1,78 @@
+<% if company_admin %>
+  <ul class="list-group">
+    <li class="<%= 'active' if controller_name == "branches" && action_name == "index" %> list-group-item">
+      <%= link_to t('activerecord.attributes.branch.title'), branches_path, class:"text" %>
+    </li>
+    <% if company_admin.branches.count > 0 %>
+      <li class="<%= 'active' if controller_name == "users" && action_name == "index" %> list-group-item">
+        <%= link_to t('activerecord.attributes.user.title'), users_path(branch_id: company_admin.branches.first.id), class:"text" %>
+      </li>
+      <li class="<%= 'active' if controller_name == "staffs" && action_name == "index" %> list-group-item">
+        <%= link_to t('activerecord.attributes.staff.title'), staffs_path(branch_id: company_admin.branches.first.id), class:"text"%>
+      </li>
+      <li class="<%= 'active' if controller_name == "reservations" && action_name == "index" %> list-group-item">
+        <%= link_to t('activerecord.attributes.reservation.calendar'), reservations_path(branch_id: company_admin.branches.first.id), class:"text"%>
+      </li>
+      <li class="<%= 'active' if controller_name == "reservations" && action_name == "list" %> list-group-item">
+        <%= link_to t('activerecord.attributes.reservation.list'), list_reservations_path(branch_id: company_admin.branches.first.id), class:"text"%>
+      </li>
+      <li class="<%= 'active' if controller_name == "sales_items" && action_name == "index" %> list-group-item">
+        <%= link_to t('activerecord.attributes.sales_item.title'), sales_items_path(branch_id: company_admin.branches.first.id), class:"text"%>
+      </li>
+      <li class="<%= 'active' if controller_name == "payments" && action_name == "index" %> list-group-item">
+        <%= link_to t('activerecord.attributes.payments.sales_management'), payments_path(branch_id: company_admin.branches.first.id), class:"text"%>
+      </li>
+    <% end %>
+    <% if current_company.present? %>
+      <li class="<%= 'active' if controller_name == "registrations" && action_name == "edit" %> list-group-item">
+        <%= link_to t('activerecord.attributes.company.edit_registration'), edit_company_registration_path, class:"text" %></li>
+      </li>
+    <% end %>
+    <% if current_company.present? && current_company == Company.first %>
+      <li class="<%= 'active' if controller_name == "payments" && action_name == "sml" %> list-group-item">
+        <%= link_to t('activerecord.attributes.payments.sml'), sml_path, class:"text" %></li>
+      </li>
+    <% end %>
+  </ul>
+
+<% elsif current_staff.present? && current_staff.status == "general" %>
+  <ul class="list-group">
+    <li class="<%= 'active' if controller_name == "reservations" && action_name == "index" %> list-group-item">
+      <%= link_to t('activerecord.attributes.reservation.calendar'), reservations_path(branch_id: current_staff.company.branches.first.id), class:"text"%>
+    </li>
+    <li class="<%= 'active' if controller_name == "reservations" && action_name == "list" %> list-group-item">
+        <%= link_to t('activerecord.attributes.reservation.list'), list_reservations_path(branch_id: current_staff.company.branches.first.id), class:"text"%>
+      </li>
+  </ul>
+<% elsif current_user.present? %>
+  <li class="<%= 'active' if controller_name == "reservations" && action_name == "index" %> list-group-item">
+    <%= link_to t('activerecord.attributes.reservation.title'), reservations_path, class:"text"%>
+  </li>
+<% end %>
+
+<script>
+  $(document).ready(function () {
+    // $('.navbar-collapse').addClass('show')
+  });
+
+  var judge = document.getElementById("judge-collape");
+  function addAnswer() {
+    if( !judge.classList.contains("show") ) {
+      judge.classList.add('show');
+    } else {
+      judge.classList.remove('show');
+      judge.classList.add('hide');
+    }
+  }
+  
+  var trigger = document.querySelectorAll(".text");
+
+  trigger.forEach(function(target) {
+
+    target.addEventListener('click', function() {
+      judge.classList.remove('show');
+      judge.classList.add('hide');
+    });
+  });
+
+</script>

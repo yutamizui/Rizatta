@@ -36,13 +36,16 @@
             td
               - if User.where(id: t.reservations.pluck(:user_id)).present?
                 div class="reservation_list_accordion"
-                  span class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse#{i}" aria-expanded="true" aria-controls="collapse#{i}"
+                  span class="btn btn-link" data-bs-toggle="collapse" href="#collapse#{i}" role="button" aria-expanded="false" aria-controls="collapse#{i}"
                     = t('activerecord.attributes.timeframe.reserved_user_check')
-                  div id="collapse#{i}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion#{i}"
+                  div id="collapse#{i}" class="collapse"
                     div class="card border-success mb-3" style="max-width: 25rem;"
                       div class="card-body bg-light border-dark"
                         - User.where(id: t.reservations.pluck(:user_id)).each do |u|
                           p = u.name
+
+                    
+              
   
   // 以前の予約リスト
   - if @past_timeframes.count > 0
@@ -77,9 +80,9 @@
             td
               - if User.where(id: t.reservations.pluck(:user_id)).present?
                 div class="reservation_list_accordion"
-                  span class="btn btn-link" type="button" data-toggle="collapse" data-target="#past_collapse#{n}" aria-expanded="true" aria-controls="past_accordion#{n}"
+                  span class="btn btn-link" data-bs-toggle="collapse" href="#past_collapse#{n}" role="button" aria-expanded="false" aria-controls="past_collapse#{n}"
                     = t('activerecord.attributes.timeframe.reserved_user_check')
-                  div id="past_collapse#{n}" class="collapse" aria-labelledby="headingOne" data-parent="#past_accordion#{n}"
+                  div id="past_collapse#{n}" class="collapse"
                     div class="card border-success mb-3" style="max-width: 25rem;"
                       div class="card-body bg-light border-dark"
                         - User.where(id: t.reservations.pluck(:user_id)).each do |u|

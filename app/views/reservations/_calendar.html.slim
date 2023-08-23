@@ -1,7 +1,7 @@
 - skip_counter = Array.new(7){Array.new(Room.count,0)}
 - display_rooms = @room ? [@room] : @rooms
 
-div.row
+div.row.d-none.d-lg-block
   .col-md-12#table-container
     table#time_table
       tr#lesson_day
@@ -50,7 +50,7 @@ div.row
                         p
                         span.reserved-box = t("activerecord.attributes.timeframe.reserved")
                       - elsif current_user.present?
-                        br  
+                        br
                         - if capacity == 0
                           = available_timeframe.name
                           p = "満席"
@@ -78,11 +78,13 @@ div.row
                         - if capacity > 0
                           p = link_to t("activerecord.attributes.reservation.creation"), new_reservation_path(timeframe_id: available_timeframe.id), class:"no-underline"
                         - unless Timeframe.where(target_date: available_timeframe.target_date.since(1.weeks)).where(branch_id: available_timeframe.branch_id).where(room_id: available_timeframe.room_id).present?
-                          p = link_to t('activerecord.attributes.timeframe.duplicate'), "#", data: {toggle: "modal", target: "#duplicateModal#{available_timeframe.id}"}, class:"no-underline"
-
+                          / p = link_to t('activerecord.attributes.timeframe.duplicate'), "#", data: {data-bs-toggle: "modal", target: "#duplicateModal#{available_timeframe.id}"}, class:"no-underline"
+                          / button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#duplicateModal#{available_timeframe.id}"
+                          a href="#" data-bs-toggle="modal" data-bs-target="#duplicateModal#{available_timeframe.id}" class="no-underline"
+                            = "複製"
                         - unless Reservation.where(timeframe_id: available_timeframe.id).present?
                           p = link_to t('activerecord.attributes.timeframe.delete'), timeframe_path(id: available_timeframe.id, style: params[:style], week: @week), method: :delete, data: {confirm: t('activerecord.attributes.link.are_you_sure')}, class:"no-underline"
-                      
+
                       // general staffが存在しているとき
                       - else
                         p = available_timeframe.name
@@ -96,16 +98,17 @@ div.row
                             - users = User.where(id: Reservation.where(timeframe_id: available_timeframe.id).pluck(:user_id))
                             - users.each do |u|
                               p style="color: black;" = u.name
-                        
-                        - if Timeframe.where(target_date: available_timeframe.target_date.since(1.weeks)).where(branch_id: available_timeframe.branch_id).where(room_id: available_timeframe.room_id).blank?  && available_timeframe.staff_id == current_staff.id
-                          p = link_to t('activerecord.attributes.timeframe.duplicate'), "#", data: {toggle: "modal", target: "#duplicateModal#{available_timeframe.id}"}, class:"no-underline"
 
+                        - if Timeframe.where(target_date: available_timeframe.target_date.since(1.weeks)).where(branch_id: available_timeframe.branch_id).where(room_id: available_timeframe.room_id).blank?  && available_timeframe.staff_id == current_staff.id
+                          /p = link_to t('activerecord.attributes.timeframe.duplicate'), "#", data: {toggle: "modal", target: "#duplicateModal#{available_timeframe.id}"}, class:"no-underline"
+                          a href="#" data-bs-toggle="modal" data-bs-target="#duplicateModal#{available_timeframe.id}" class="no-underline"
+                            = "複製"
                         - if Reservation.where(timeframe_id: available_timeframe.id).blank? && available_timeframe.staff_id == current_staff.id
                           p = link_to t("activerecord.attributes.timeframe.delete"), timeframe_path(id: available_timeframe.id, style: params[:style], week: @week), method: :delete, data: {confirm: t('activerecord.attributes.link.are_you_sure')}, class:"no-underline"
 
                     - skip_counter[wday][index] = timeframe_length-1
 
-                  div class="modal fade in" id="duplicateModal#{available_timeframe.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
+                  div class="modal fade" id="duplicateModal#{available_timeframe.id}" tabindex="-1" aria-hidden="true"
                     div class="modal-dialog" role="document"
                       div class="modal-content" 
                         div class="modal-body"
@@ -115,7 +118,7 @@ div.row
                             = " 週先まで"
                             = hidden_field_tag :timeframe_id, available_timeframe.id
                             div class="actions"
-                              = submit_tag t('activerecord.attributes.timeframe.duplicate'), class:"btn btn-primary btn-lg button-margin", id:"lesson_reservation_button"
+                              = submit_tag t('activerecord.attributes.timeframe.duplicate'), class:"btn btn-primary btn-lg button-margin"
                         - unless Timeframe.where(target_date: available_timeframe.target_date.since(1.weeks)).where(branch_id: available_timeframe.branch_id).present?
                           hr
                           div class="modal-body"
@@ -125,7 +128,7 @@ div.row
                               = " 週先まで"
                               = hidden_field_tag :timeframe_id, available_timeframe.id
                               div class="actions"
-                                = submit_tag t('activerecord.attributes.timeframe.duplicate'), class:"btn btn-success btn-lg button-margin", id:"lesson_reservation_button"
+                                = submit_tag t('activerecord.attributes.timeframe.duplicate'), class:"btn btn-success btn-lg button-margin"
                           hr
                           div class="modal-body"
                             h2 = available_timeframe.start_time.strftime("%H:00") +  "~" + (available_timeframe.start_time + 1.hour).strftime("%H:00") + "の時間帯に開始時間のある枠を"
@@ -154,26 +157,29 @@ div.row
                               = " 週先まで"
                               = hidden_field_tag :timeframe_id, available_timeframe.id
                               br
-                              div class="actions" 
-                                = submit_tag t('activerecord.attributes.timeframe.duplicate'), class:"btn btn-success btn-lg button-margin", id:"lesson_reservation_button time_based_submit"
-                              button type="button" class="close" data-dismiss="modal" aria-label="Close"
-                                span aria-hidden="true" &times;
-                              
+                              div class="actions"
+                                = submit_tag t('activerecord.attributes.timeframe.duplicate'), class:"btn btn-success btn-lg button-margin time_based_submit"
+
                 - else
                   td
 
+javascript:
 
+  $(document).ready(function(){
+    $('.modal').on('show.bs.modal', function () {
+      const button = $(".time_based_submit");
+      if ($('input[name="target_day[]"]:checked').length > 0) {
+          button.prop('disabled', false);
+      } else {
+        button.prop('disabled', true);
+      }
 
-
-/ javascript:
-/   $(document).ready(function(){
-/     $('.modal').on('show.bs.modal', function () {
-/       const button = document.querySelector(".time_based_submit");
-/       button.disabled = true;
-/       if (button != null) {
-/         button.disabled = false;
-/       } else {
-/         button.disabled = true;
-/       };
-/     });
-/   });
+      $('input[name="target_day[]"]').change(function(){
+        if ($('input[name="target_day[]"]:checked').length > 0) {
+          button.prop('disabled', false);
+        } else {
+          button.prop('disabled', true);
+        }
+      })
+    });
+  });
